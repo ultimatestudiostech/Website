@@ -38,7 +38,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
+      { "@type": "ListItem", position: 2, name: "Halloween Blog", item: `${siteUrl}/blog` },
       { "@type": "ListItem", position: 3, name: post.title, item: postUrl }
     ]
   };
@@ -163,7 +163,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
           <span className={styles.backArrow} aria-hidden="true">
             ←
           </span>
-          Back to Blogs
+          Back to Halloween Blog
         </Link>
 
         {(() => {
@@ -194,7 +194,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                   /
                 </li>
                 <li>
-                  <Link href="/blog">Blogs</Link>
+                  <Link href="/blog">Halloween Blog</Link>
                 </li>
                 <li className={styles.crumbSep} aria-hidden="true">
                   /
@@ -206,7 +206,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
             <header className={styles.articleHeader}>
               <div className={styles.eyebrowRow}>
                 <span className={styles.redTick} aria-hidden="true" />
-                <p className={styles.eyebrow}>Blog</p>
+                <p className={styles.eyebrow}>Halloween read</p>
               </div>
               <ul className={styles.entryTags} aria-label="Topics">
                 {post.tags.map((tag) => (
@@ -339,7 +339,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
 
             <section className={styles.related} aria-labelledby="related-heading">
               <h2 id="related-heading" className={styles.relatedTitle}>
-                More stories
+                More Halloween reads
               </h2>
               <ul className={styles.relatedList}>
                 {related.map((item, i) => (

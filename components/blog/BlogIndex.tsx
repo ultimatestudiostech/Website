@@ -17,8 +17,9 @@ function yearOf(iso: string) {
 function posterTone(slug: string) {
   let h = 0;
   for (let i = 0; i < slug.length; i++) h = (h + slug.charCodeAt(i) * (i + 1)) % 360;
-  const hue = [8, 18, 28, 195, 205, 215, 0][h % 7];
-  return `linear-gradient(145deg, hsl(${hue} 42% 22%) 0%, hsl(${hue} 28% 8%) 55%, #050505 100%)`;
+  // Halloween palette: pumpkin, amber, ember, blood orange, charcoal ember
+  const hue = [18, 28, 32, 12, 8, 24, 15][h % 7];
+  return `linear-gradient(145deg, hsl(${hue} 62% 28%) 0%, hsl(${hue} 40% 10%) 55%, #07060a 100%)`;
 }
 
 function uniqueTags(posts: BlogPost[]) {
@@ -60,7 +61,7 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
       </div>
       <div className={styles.featureCopy}>
         <p className={styles.featureEyebrow}>
-          {post.tags[0] || "Blogs"} · {minutes} min
+          {post.tags[0] || "Halloween"} · {minutes} min
         </p>
         <h2 className={styles.featureTitle}>{post.title}</h2>
         <p className={styles.featureDesc}>{post.description}</p>
@@ -68,7 +69,7 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
           <span className={styles.playIcon} aria-hidden="true">
             ▶
           </span>
-          Read article
+          Open story
         </span>
       </div>
     </Link>
@@ -147,7 +148,7 @@ export function BlogIndex({
 
   const featured = filtered.slice(0, 2);
   const gridPosts = filtered.length > 2 ? filtered.slice(2) : filtered;
-  const blogLabel = posts.length === 1 ? "total blog" : "total blogs";
+  const blogLabel = posts.length === 1 ? "Halloween read" : "Halloween reads";
 
   return (
     <div className={styles.page}>
@@ -165,13 +166,13 @@ export function BlogIndex({
                 priority
               />
               <div>
-                <p className={styles.brandKicker}>Entertainment news</p>
-                <h1 className={styles.pageTitle}>Blogs</h1>
+                <p className={styles.brandKicker}>Halloween 2026</p>
+                <h1 className={styles.pageTitle}>Halloween Blog</h1>
               </div>
             </div>
           </div>
 
-          <nav className={styles.capsuleNav} aria-label="Blog sections">
+          <nav className={styles.capsuleNav} aria-label="Halloween blog sections">
             <a href="#featured" className={styles.capsuleLink}>
               <span className={styles.capsuleIcon} aria-hidden="true">
                 ★
@@ -203,11 +204,19 @@ export function BlogIndex({
           </p>
         </header>
 
+        <aside className={styles.seasonBanner} aria-label="Halloween season">
+          <span className={styles.seasonBadge}>Spooky season</span>
+          <p className={styles.seasonCopy}>
+            <strong>Halloween entertainment hub</strong> — horror movie guides, streaming picks,
+            spooky-season reviews, and culture deep-dives for October.
+          </p>
+        </aside>
+
         <div className={styles.introLead}>
           <p>
-            Explore in-depth film reviews, streaming guides, box office insights, and culture breakdowns.
-            From theatrical releases to streaming premieres, our reviews provide critical analysis of storytelling,
-            cinematography, and cast performances.
+            Browse Halloween movie reviews, horror streaming guides, costume-culture stories, and
+            spooky-season entertainment analysis. From classic slashers to new theatrical releases,
+            find what to watch this Halloween — with clear takes on story, craft, and cast.
           </p>
         </div>
 
@@ -233,13 +242,13 @@ export function BlogIndex({
           </div>
         ) : (
           <>
-            <section id="featured" className={styles.featured} aria-label="Featured blogs">
+            <section id="featured" className={styles.featured} aria-label="Featured Halloween reads">
               {featured.map((post, i) => (
                 <FeaturedCard key={post.slug} post={post} accent={i === 1} />
               ))}
             </section>
 
-            <div id="topics" className={styles.filterRow} role="tablist" aria-label="Topics">
+            <div id="topics" className={styles.filterRow} role="tablist" aria-label="Halloween topics">
               <button
                 type="button"
                 role="tab"
@@ -247,7 +256,7 @@ export function BlogIndex({
                 className={`${styles.filterPill} ${filter === FILTER_ALL ? styles.filterPillActive : ""}`}
                 onClick={() => setFilter(FILTER_ALL)}
               >
-                <span aria-hidden="true">✦</span> All blogs
+                <span aria-hidden="true">✦</span> All Halloween posts
               </button>
               {tags.map((tag) => (
                 <button
@@ -266,7 +275,7 @@ export function BlogIndex({
             <section id="library" className={styles.library} aria-labelledby="library-heading">
               <div className={styles.libraryHead}>
                 <h2 id="library-heading" className={styles.libraryTitle}>
-                  {filter === FILTER_ALL ? "Latest blogs" : `Blogs in ${filter}`}
+                  {filter === FILTER_ALL ? "Latest Halloween reads" : `Halloween · ${filter}`}
                 </h2>
                 <p className={styles.libraryCount}>
                   {filtered.length} {filtered.length === 1 ? "post" : "posts"}
