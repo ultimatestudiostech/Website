@@ -9,13 +9,19 @@ const BLOG_DESCRIPTION =
   "Halloween movie guides, horror streaming picks, spooky-season reviews, and entertainment deep-dives. Fresh October reads from Ultimate Cineverse.";
 
 export async function generateMetadata() {
+  const seasonalImage = `${getSiteUrl()}/images/blog/halloween-after-dark.webp`;
   const meta = await buildMetadata({
     title: BLOG_TITLE,
     description: BLOG_DESCRIPTION,
-    pathname: "/blog"
+    pathname: "/blog",
+    openGraphImageUrl: seasonalImage
   });
   return {
     ...meta,
+    openGraph: {
+      ...meta.openGraph,
+      images: [{ url: seasonalImage, width: 1440, height: 960, alt: "A candlelit Halloween pumpkin outside a moonlit cinema" }]
+    },
     keywords: [
       "Halloween blog",
       "Halloween movies",

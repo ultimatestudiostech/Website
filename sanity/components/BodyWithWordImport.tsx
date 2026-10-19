@@ -2,9 +2,8 @@
 
 import { useCallback, useRef, useState } from "react";
 import { Stack, Button, Card, Text, Flex, Box } from "@sanity/ui";
-import { useClient } from "sanity";
-import type { ArrayOfObjectsInputProps } from "sanity";
-import { set } from "sanity";
+import { useClient, set } from "sanity";
+import type { ArrayOfObjectsInputProps, Path, PathSegment } from "sanity";
 import mammoth from "mammoth";
 
 type PtSpan = {
@@ -33,12 +32,29 @@ type PtImage = {
 
 type PtNode = PtBlock | PtImage;
 
+type FocusPayload = Parameters<ArrayOfObjectsInputProps["onPathFocus"]>[1];
+
 function key() {
   return Math.random().toString(36).slice(2, 10);
 }
 
 function textToSpans(text: string, marks: string[] = []): PtSpan[] {
   return [{ _type: "span", _key: key(), text, marks }];
+}
+
+function segmentKey(seg: PathSegment) {
+  return typeof seg === "object" && seg && "_key" in seg ? String(seg._key) : null;
+}
+
+function pathsEqual(a: Path, b: Path) {
+  if (a.length !== b.length) return false;
+  return a.every((seg, i) => {
+    const other = b[i];
+    const aKey = segmentKey(seg);
+    const bKey = segmentKey(other);
+    if (aKey !== null || bKey !== null) return aKey !== null && aKey === bKey;
+    return seg === other;
+  });
 }
 
 /** Minimal HTML → Portable Text (Word/mammoth output). */
@@ -180,11 +196,19 @@ function htmlToPortableText(html: string, imageRefBySrc: Map<string, string>): P
   return nodes;
 }
 
+/**
+ * Portable Text image dialogs on Sanity 3 collapse when the editor re-announces
+ * selection on the open item (e.g. after each alt-text keystroke). Re-open that
+ * item when focus lands exactly on it — same guard Sanity added upstream later.
+ */
 export function BodyWithWordImport(props: ArrayOfObjectsInputProps) {
   const client = useClient({ apiVersion: "2025-01-01" });
   const inputRef = useRef<HTMLInputElement>(null);
+  const openItemPathRef = useRef<Path | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+
+  const { onChange, onItemOpen, onItemClose, onPathFocus, renderDefault } = props;
 
   const onFile = useCallback(
     async (file: File) => {
@@ -220,7 +244,7 @@ export function BodyWithWordImport(props: ArrayOfObjectsInputProps) {
           setMessage("No content found in that Word file.");
           return;
         }
-        props.onChange(set(blocks));
+        onChange(set(blocks));
         setMessage(`Imported ${blocks.length} blocks. Review the body, then fill Google & Answers tabs.`);
       } catch (err) {
         console.error(err);
@@ -230,7 +254,32 @@ export function BodyWithWordImport(props: ArrayOfObjectsInputProps) {
         if (inputRef.current) inputRef.current.value = "";
       }
     },
-    [client, props]
+    [client, onChange]
+  );
+
+  const handleItemOpen = useCallback(
+    (path: Path) => {
+      openItemPathRef.current = path;
+      onItemOpen(path);
+    },
+    [onItemOpen]
+  );
+
+  const handleItemClose = useCallback(() => {
+    openItemPathRef.current = null;
+    onItemClose();
+  }, [onItemClose]);
+
+  const handlePathFocus = useCallback(
+    (path: Path, payload?: FocusPayload) => {
+      const open = openItemPathRef.current;
+      onPathFocus(path, payload);
+      // After Sanity collapses openPath when focus === open item, restore the dialog.
+      if (open && pathsEqual(path, open)) {
+        onItemOpen(open);
+      }
+    },
+    [onPathFocus, onItemOpen]
   );
 
   return (
@@ -263,7 +312,12 @@ export function BodyWithWordImport(props: ArrayOfObjectsInputProps) {
           </Box>
         ) : null}
       </Card>
-      {props.renderDefault(props)}
+      {renderDefault({
+        ...props,
+        onItemOpen: handleItemOpen,
+        onItemClose: handleItemClose,
+        onPathFocus: handlePathFocus
+      })}
     </Stack>
   );
 }

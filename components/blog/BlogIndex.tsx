@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { Cobweb, HalloweenFlight, PumpkinAccent } from "@/components/blog/HalloweenDetails";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
 import styles from "./blog.module.css";
@@ -52,12 +53,12 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
             fill
             sizes="(max-width: 900px) 100vw, 50vw"
             className={styles.featureImg}
-            priority
           />
         ) : (
           <div className={styles.featureFallback} style={{ background: posterTone(post.slug) }} />
         )}
         <div className={styles.featureScrim} />
+        <Cobweb className={styles.cardWeb} />
       </div>
       <div className={styles.featureCopy}>
         <p className={styles.featureEyebrow}>
@@ -67,9 +68,9 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
         <p className={styles.featureDesc}>{post.description}</p>
         <span className={styles.playBtn}>
           <span className={styles.playIcon} aria-hidden="true">
-            ▶
+            ↗
           </span>
-          Open story
+          Read story
         </span>
       </div>
     </Link>
@@ -91,6 +92,7 @@ function PosterCard({ post }: { post: BlogPost }) {
               alt=""
               fill
               aria-hidden="true"
+              sizes="(max-width: 640px) 45vw, (max-width: 1100px) 30vw, 220px"
               className={styles.posterImgBackdrop}
             />
             <Image
@@ -131,7 +133,7 @@ export function BlogIndex({
   posts: BlogPost[];
   initialQuery?: string;
 }) {
-  const tags = useMemo(() => uniqueTags(posts), [posts]);
+  const tags = useMemo(() => uniqueTags(posts).filter((tag) => tag.toLowerCase() !== FILTER_ALL.toLowerCase()), [posts]);
   const [filter, setFilter] = useState(FILTER_ALL);
   const [query, setQuery] = useState(initialQuery);
 
@@ -146,78 +148,77 @@ export function BlogIndex({
     });
   }, [posts, filter, query]);
 
-  const featured = filtered.slice(0, 2);
-  const gridPosts = filtered.length > 2 ? filtered.slice(2) : filtered;
-  const blogLabel = posts.length === 1 ? "Halloween read" : "Halloween reads";
+  const featured = filtered.length > 2 ? filtered.slice(0, 2) : [];
+  const gridPosts = filtered.slice(featured.length);
+  const blogLabel = posts.length === 1 ? "story to explore" : "stories to explore";
 
   return (
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
       <main className={styles.shell}>
-        <header className={styles.topBar}>
-          <div className={styles.brandBlock}>
-            <div className={styles.brandRow}>
-              <Image
-                src="/logo.png"
-                alt=""
-                width={36}
-                height={36}
-                className={styles.brandLogo}
-                priority
-              />
-              <div>
-                <p className={styles.brandKicker}>Halloween 2026</p>
-                <h1 className={styles.pageTitle}>Halloween Blog</h1>
-              </div>
-            </div>
+        <header className={styles.seasonHero}>
+          <Image
+            src="/images/blog/halloween-after-dark.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1240px"
+            className={styles.seasonArt}
+          />
+          <div className={styles.seasonVeil} aria-hidden="true" />
+          <HalloweenFlight />
+          <Cobweb className={styles.heroWeb} />
+          <div className={styles.seasonMasthead}>
+            <p className={styles.brandKicker}>Ultimate Cineverse / The Halloween edit</p>
+            <span className={styles.seasonIssue} aria-hidden="true">Oct. 31</span>
           </div>
-
-          <nav className={styles.capsuleNav} aria-label="Halloween blog sections">
-            <a href="#featured" className={styles.capsuleLink}>
-              <span className={styles.capsuleIcon} aria-hidden="true">
-                ★
-              </span>
-              Featured
+          <div className={styles.seasonIntro}>
+            <p className={styles.seasonOverline}><span aria-hidden="true">✦</span> For the love of a good scare</p>
+            <h1 className={styles.seasonTitle}>Halloween<br /><span>After dark.</span></h1>
+            <p className={styles.seasonDescription}>
+              Films that haunt you. Stories that stay with you. Explore horror movie guides,
+              streaming picks, and the craft behind the chills.
+            </p>
+            <a href="#library" className={styles.seasonCta}>
+              Find your next read <span aria-hidden="true">↗</span>
             </a>
-            <a href="#topics" className={styles.capsuleLink}>
-              <span className={styles.capsuleIcon} aria-hidden="true">
-                ◆
-              </span>
-              Topics
-            </a>
-            <a href="#library" className={styles.capsuleLink}>
-              <span className={styles.capsuleIcon} aria-hidden="true">
-                ▦
-              </span>
-              Library
-            </a>
-            <Link href="/about" className={styles.capsuleLink}>
-              About
-            </Link>
-            <Link href="/contact" className={`${styles.capsuleLink} ${styles.capsuleLinkAccent}`}>
-              Contact
-            </Link>
-          </nav>
-
-          <p className={styles.topMeta}>
-            <strong>{posts.length}</strong> {blogLabel}
-          </p>
+          </div>
+          <div className={styles.seasonFoot}>
+            <span>Horror. Cinema. A little darkness.</span>
+            <span>{posts.length} {blogLabel}</span>
+          </div>
         </header>
 
-        <aside className={styles.seasonBanner} aria-label="Halloween season">
-          <span className={styles.seasonBadge}>Spooky season</span>
-          <p className={styles.seasonCopy}>
-            <strong>Halloween entertainment hub</strong> — horror movie guides, streaming picks,
-            spooky-season reviews, and culture deep-dives for October.
-          </p>
-        </aside>
+        <div className={styles.browseBar}>
+          <div>
+            <p className={styles.brandKicker}>The reading room</p>
+            <h2 className={styles.browseTitle}>Good stories. Dark corners.</h2>
+          </div>
+          <label className={styles.blogSearch}>
+            <span>Search the stories</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="A film, a mood, a story…"
+              aria-controls="library"
+            />
+          </label>
+        </div>
 
-        <div className={styles.introLead}>
-          <p>
-            Browse Halloween movie reviews, horror streaming guides, costume-culture stories, and
-            spooky-season entertainment analysis. From classic slashers to new theatrical releases,
-            find what to watch this Halloween — with clear takes on story, craft, and cast.
-          </p>
+        <div id="topics" className={styles.filterRow} role="group" aria-label="Filter stories by topic">
+          {[FILTER_ALL, ...tags].map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              aria-pressed={filter === tag}
+              aria-controls="library"
+              className={`${styles.filterPill} ${filter === tag ? styles.filterPillActive : ""}`}
+              onClick={() => setFilter(tag)}
+            >
+              {tag === FILTER_ALL ? "All stories" : tag}
+            </button>
+          ))}
         </div>
 
         {query ? (
@@ -230,77 +231,72 @@ export function BlogIndex({
           </p>
         ) : null}
 
-        {posts.length === 0 ? (
-          <div className={styles.empty}>
-            <h2>No blogs yet</h2>
-            <p>Publish a Blog Post in Sanity Studio (Draft off) to fill this section.</p>
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className={styles.empty}>
-            <h2>No matches</h2>
-            <p>Try another search or clear the filter.</p>
-          </div>
-        ) : (
-          <>
-            <section id="featured" className={styles.featured} aria-label="Featured Halloween reads">
-              {featured.map((post, i) => (
-                <FeaturedCard key={post.slug} post={post} accent={i === 1} />
-              ))}
-            </section>
-
-            <div id="topics" className={styles.filterRow} role="tablist" aria-label="Halloween topics">
+        <div id="library" className={styles.storyResults}>
+          {posts.length === 0 ? (
+            <div className={styles.empty} role="status">
+              <h2>The next story is in the shadows</h2>
+              <p>Check back for new film stories and Halloween reads.</p>
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className={styles.empty} role="status">
+              <h2>No matches</h2>
+              <p>Try another search or clear the filter.</p>
               <button
                 type="button"
-                role="tab"
-                aria-selected={filter === FILTER_ALL}
-                className={`${styles.filterPill} ${filter === FILTER_ALL ? styles.filterPillActive : ""}`}
-                onClick={() => setFilter(FILTER_ALL)}
+                className={styles.resetSearch}
+                onClick={() => {
+                  setQuery("");
+                  setFilter(FILTER_ALL);
+                }}
               >
-                <span aria-hidden="true">✦</span> All Halloween posts
+                Show all stories
               </button>
-              {tags.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  role="tab"
-                  aria-selected={filter === tag}
-                  className={`${styles.filterPill} ${filter === tag ? styles.filterPillActive : ""}`}
-                  onClick={() => setFilter(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
             </div>
+          ) : (
+            <>
+              {featured.length > 0 ? (
+                <section id="featured" className={styles.featured} aria-label="Featured Halloween reads">
+                  {featured.map((post, i) => (
+                    <FeaturedCard key={post.slug} post={post} accent={i === 1} />
+                  ))}
+                </section>
+              ) : null}
 
-            <section id="library" className={styles.library} aria-labelledby="library-heading">
-              <div className={styles.libraryHead}>
-                <h2 id="library-heading" className={styles.libraryTitle}>
-                  {filter === FILTER_ALL ? "Latest Halloween reads" : `Halloween · ${filter}`}
-                </h2>
-                <p className={styles.libraryCount}>
-                  {filtered.length} {filtered.length === 1 ? "post" : "posts"}
-                </p>
-              </div>
+              <section className={styles.library} aria-labelledby="library-heading">
+                <div className={styles.libraryHead}>
+                  <h2 id="library-heading" className={styles.libraryTitle}>
+                    {filter === FILTER_ALL ? "Latest Halloween reads" : `Halloween · ${filter}`}
+                  </h2>
+                  <p className={styles.libraryCount} role="status">
+                    {filtered.length} {filtered.length === 1 ? "post" : "posts"}
+                  </p>
+                </div>
 
-              <ul className={styles.posterGrid}>
-                {gridPosts.map((post, idx) => {
-                  const shouldInsertAd = (idx + 1) % 6 === 0;
-                  return (
-                    <li key={post.slug} className={styles.posterCell}>
-                      <PosterCard post={post} />
-                      {shouldInsertAd ? (
-                        <div className={styles.adSlot}>
-                          <p className={styles.adLabel}>Sponsor</p>
-                          <AdUnit slot="1234567890" minHeight={220} />
-                        </div>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          </>
-        )}
+                <ul className={styles.posterGrid}>
+                  {gridPosts.map((post, idx) => {
+                    const shouldInsertAd = (idx + 1) % 6 === 0;
+                    return (
+                      <li key={post.slug} className={styles.posterCell}>
+                        <PosterCard post={post} />
+                        {shouldInsertAd ? (
+                          <div className={styles.adSlot}>
+                            <p className={styles.adLabel}>Sponsor</p>
+                            <AdUnit slot="1234567890" minHeight={220} />
+                          </div>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            </>
+          )}
+        </div>
+        <footer className={styles.journalFooter}>
+          <PumpkinAccent />
+          <p>Keep the lights low. <span>Keep the curiosity alive.</span></p>
+          <Link href="/">Back to Ultimate Cineverse <span aria-hidden="true">↗</span></Link>
+        </footer>
       </main>
     </div>
   );
