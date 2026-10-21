@@ -9,6 +9,14 @@ import styles from "./blog.module.css";
 function getComponents(hasH2: boolean): PortableTextComponents {
   return {
     block: {
+      // Post title is the page's only H1; body headings start at H2 and never skip levels.
+      h1: ({ children }) => <h2 className={styles.proseH2}>{children}</h2>,
+      h4: ({ children }) =>
+        hasH2 ? <h3 className={styles.proseH3}>{children}</h3> : <h2 className={styles.proseH2}>{children}</h2>,
+      h5: ({ children }) =>
+        hasH2 ? <h3 className={styles.proseH3}>{children}</h3> : <h2 className={styles.proseH2}>{children}</h2>,
+      h6: ({ children }) =>
+        hasH2 ? <h3 className={styles.proseH3}>{children}</h3> : <h2 className={styles.proseH2}>{children}</h2>,
       h2: ({ children }) => <h2 className={styles.proseH2}>{children}</h2>,
       h3: ({ children }) =>
         hasH2 ? (
@@ -68,7 +76,7 @@ export function PostBody({
 }) {
   if (body?.length) {
     const hasH2 = body.some(
-      (b) => b._type === "block" && (b as { style?: string }).style === "h2"
+      (b) => b._type === "block" && ["h1", "h2"].includes((b as { style?: string }).style ?? "")
     );
 
     return (

@@ -38,14 +38,14 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "Halloween Blog", item: `${siteUrl}/blog` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
       { "@type": "ListItem", position: 3, name: post.title, item: postUrl }
     ]
   };
 
   const blogPosting: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": ["NewsArticle", "BlogPosting"],
+    "@type": ["Article", "BlogPosting"],
     headline: post.seoTitle || post.title,
     description: post.description,
     datePublished: post.datePublished,
@@ -58,7 +58,8 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     publisher: {
       "@type": "Organization",
       name: brandName,
-      url: siteUrl
+      url: siteUrl,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` }
     },
     mainEntityOfPage: postUrl,
     url: postUrl,
@@ -123,12 +124,6 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
             ? { image: post.coverImage || post.ogImage }
             : {})
         },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: "8.5",
-          bestRating: "10",
-          worstRating: "1"
-        },
         author: {
           "@type": post.authorRole ? "Person" : "Organization",
           name: post.author
@@ -136,7 +131,8 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
         publisher: {
           "@type": "Organization",
           name: brandName,
-          url: siteUrl
+          url: siteUrl,
+          logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` }
         },
         headline: post.seoTitle || post.title,
         reviewBody: post.keyTakeaway || post.description,
@@ -163,7 +159,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
           <span className={styles.backArrow} aria-hidden="true">
             ←
           </span>
-          Back to Halloween Blog
+          Back to the Blog
         </Link>
 
         {(() => {
@@ -194,19 +190,19 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                   /
                 </li>
                 <li>
-                  <Link href="/blog">Halloween Blog</Link>
+                  <Link href="/blog">Blog</Link>
                 </li>
                 <li className={styles.crumbSep} aria-hidden="true">
                   /
                 </li>
-                <li aria-current="page">Article</li>
+                <li aria-current="page">{post.primaryEntity || post.title}</li>
               </ol>
             </nav>
 
             <header className={styles.articleHeader}>
               <div className={styles.eyebrowRow}>
                 <span className={styles.redTick} aria-hidden="true" />
-                <p className={styles.eyebrow}>Halloween read</p>
+                <p className={styles.eyebrow}>{post.tags[0] || "Film"}</p>
               </div>
               <ul className={styles.entryTags} aria-label="Topics">
                 {post.tags.map((tag) => (
@@ -339,7 +335,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
 
             <section className={styles.related} aria-labelledby="related-heading">
               <h2 id="related-heading" className={styles.relatedTitle}>
-                More Halloween reads
+                More reads like this
               </h2>
               <ul className={styles.relatedList}>
                 {related.map((item, i) => (
