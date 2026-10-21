@@ -7,6 +7,12 @@ import { urlForImage } from "./image";
 type SanityImage = {
   alt?: string;
   asset?: { _ref?: string };
+  caption?: string;
+  credit?: string;
+  sourceUrl?: string;
+  license?: string;
+  imageType?: string;
+  dims?: { width?: number; height?: number };
 };
 
 type SanityPost = {
@@ -39,6 +45,7 @@ type SanityPost = {
   experienceNote?: string;
   mainImage?: SanityImage;
   ogImage?: SanityImage;
+  studio?: string;
   reactionUseful?: number;
   reactionLove?: number;
   reactionFire?: number;
@@ -62,7 +69,10 @@ const postFields = `
   datePublished,
   dateModified,
   content,
-  body,
+  body[]{
+    ...,
+    _type == "image" => { ..., "dims": asset->metadata.dimensions{width, height} }
+  },
   draft,
   noIndex,
   focusKeyword,
@@ -75,8 +85,9 @@ const postFields = `
   geoFocus,
   updatedNote,
   experienceNote,
-  mainImage,
+  mainImage{ ..., "dims": asset->metadata.dimensions{width, height} },
   ogImage,
+  studio,
   reactionUseful,
   reactionLove,
   reactionFire,
@@ -158,6 +169,18 @@ function mapPost(doc: SanityPost): BlogPost {
     coverImage: naturalCover,
     ogImage: displayImage,
     coverAlt: doc.mainImage?.alt,
+    coverWidth: doc.mainImage?.dims?.width,
+    coverHeight: doc.mainImage?.dims?.height,
+    coverCaption: doc.mainImage?.caption,
+    coverCredit: doc.mainImage
+      ? {
+          credit: doc.mainImage.credit,
+          sourceUrl: doc.mainImage.sourceUrl,
+          license: doc.mainImage.license,
+          imageType: doc.mainImage.imageType
+        }
+      : undefined,
+    studio: doc.studio,
     focusKeyword,
     keyTakeaway: doc.keyTakeaway,
     keyPoints: doc.keyPoints,

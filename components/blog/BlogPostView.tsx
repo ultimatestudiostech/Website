@@ -3,6 +3,10 @@ import Link from "next/link";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PostBody } from "@/components/blog/PostBody";
+import { TableOfContents } from "@/components/blog/TableOfContents";
+import { ImageCreditLine } from "@/components/blog/ImageCreditLine";
+import { getTocEntries, stripWordToc } from "@/lib/blog-toc";
+import { POST_STUDIOS, resolveCredit } from "@/lib/imageCredits";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { ShareBar } from "@/components/blog/ShareBar";
 import { ReactionBar } from "@/components/blog/ReactionBar";
@@ -31,6 +35,10 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
   const paragraphs = splitPostParagraphs(post.content || plain);
   const minutes = getReadingMinutes(post);
   const postUrl = `${siteUrl}/blog/${post.slug}`;
+  const body = stripWordToc(post.body);
+  const toc = getTocEntries(body);
+  const studio = post.studio || POST_STUDIOS[post.slug];
+  const coverCredit = resolveCredit(post.coverCredit, { studio, isCover: true });
   const wordCount = plain.trim().split(/\s+/).filter(Boolean).length;
 
   const breadcrumb = {
@@ -165,17 +173,34 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
         {(() => {
           const coverSrc = post.coverImage || post.ogImage;
           if (!coverSrc) return null;
+          const w = post.coverWidth;
+          const h = post.coverHeight;
+          // Portrait posters / unknown shapes: show whole image over a blurred backdrop (no cropping).
+          const fits169 = Boolean(w && h && w / h >= 1.6 && w / h <= 1.95);
+          const caption = post.coverCaption;
           return (
-            <div className={styles.coverHero}>
-              <Image
-                src={coverSrc}
-                alt={post.coverAlt || ""}
-                fill
-                priority
-                sizes="(max-width: 1240px) 100vw, 1240px"
-                className={styles.coverHeroImg}
-              />
-            </div>
+            <figure className={styles.coverFigure}>
+              <div className={`${styles.coverHero} ${fits169 ? "" : styles.coverHeroContain}`}>
+                {fits169 ? null : (
+                  <Image src={coverSrc} alt="" aria-hidden="true" fill sizes="64px" quality={30} className={styles.coverBackdrop} />
+                )}
+                <Image
+                  src={coverSrc}
+                  alt={post.coverAlt || ""}
+                  fill
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 1240px) 100vw, 1240px"
+                  className={fits169 ? styles.coverHeroImg : styles.coverHeroImgContain}
+                />
+              </div>
+              {caption || coverCredit ? (
+                <figcaption className={styles.coverCaption}>
+                  {caption ? <span>{caption}</span> : null}
+                  <ImageCreditLine credit={coverCredit} />
+                </figcaption>
+              ) : null}
+            </figure>
           );
         })()}
 
@@ -242,9 +267,11 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
               </section>
             ) : null}
 
+            <TableOfContents entries={toc} variant="inline" />
+
             {post.body?.length ? (
               <>
-                <PostBody body={post.body} fallbackParagraphs={[]} />
+                <PostBody body={body} fallbackParagraphs={[]} studio={studio} />
                 <div className={styles.inlineAd}>
                   <p className={styles.adLabel}>Sponsor</p>
                   <AdUnit slot="1234567890" minHeight={300} />
@@ -352,10 +379,13 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
             </section>
           </article>
 
-          <aside className={styles.sidebar} aria-label="Sponsored">
+          <aside className={styles.sidebar} aria-label="Article sidebar">
+            <div className={styles.sidebarSticky}>
+              <TableOfContents entries={toc} variant="sidebar" />
             <div className={styles.sponsorPanel}>
               <p className={styles.sponsorEyebrow}>Sponsor</p>
               <AdUnit slot="1234567890" minHeight={250} />
+            </div>
             </div>
           </aside>
         </div>

@@ -37,6 +37,49 @@ const bodyBlock = defineArrayMember({
   }
 });
 
+const imageCreditFields = [
+  defineField({
+    name: "caption",
+    type: "string",
+    title: "Caption",
+    description: "Optional visible caption (falls back to alt text)."
+  }),
+  defineField({
+    name: "imageType",
+    type: "string",
+    title: "Image type",
+    options: {
+      list: [
+        { title: "Film still", value: "still" },
+        { title: "Poster / key art", value: "poster" },
+        { title: "Press / red-carpet photo", value: "press" },
+        { title: "Licensed stock", value: "stock" },
+        { title: "Our own image", value: "own" },
+        { title: "Other", value: "other" }
+      ]
+    }
+  }),
+  defineField({
+    name: "credit",
+    type: "string",
+    title: "Credit",
+    description: "e.g. “Courtesy of Netflix” or “Photo: Jane Doe / Unsplash”."
+  }),
+  defineField({
+    name: "sourceUrl",
+    type: "url",
+    title: "Source URL",
+    description: "Where the image came from (press kit, Unsplash page, etc.).",
+    validation: (Rule) => Rule.uri({ scheme: ["http", "https"] })
+  }),
+  defineField({
+    name: "license",
+    type: "string",
+    title: "License",
+    description: "e.g. “Press kit, editorial use”, “Unsplash License”, “CC BY 4.0”."
+  })
+];
+
 const bodyImage = defineArrayMember({
   type: "image",
   options: { hotspot: true },
@@ -47,7 +90,8 @@ const bodyImage = defineArrayMember({
       title: "Alt text",
       description: "Describe the image for accessibility and SEO.",
       validation: (Rule) => Rule.required()
-    })
+    }),
+    ...imageCreditFields
   ]
 });
 
@@ -100,7 +144,8 @@ export const post = defineType({
           type: "string",
           title: "Alt text",
           validation: (Rule) => Rule.required()
-        })
+        }),
+        ...imageCreditFields
       ],
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -110,6 +155,13 @@ export const post = defineType({
           }
           return true;
         })
+    }),
+    defineField({
+      name: "studio",
+      title: "Studio / distributor",
+      description: "Optional. Used for the “© Studio, used for review/commentary” image credit fallback.",
+      type: "string",
+      group: "write"
     }),
     defineField({
       name: "body",

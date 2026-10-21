@@ -31,6 +31,12 @@ export type BlogPost = {
   coverImage?: string;
   ogImage?: string;
   coverAlt?: string;
+  coverWidth?: number;
+  coverHeight?: number;
+  coverCaption?: string;
+  coverCredit?: import("@/lib/imageCredits").ImageCredit;
+  /** Studio / distributor (Sanity override for image credit fallback). */
+  studio?: string;
   keyTakeaway?: string;
   keyPoints?: string[];
   faqs?: BlogFaq[];
