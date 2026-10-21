@@ -4,8 +4,9 @@
   "seo": {
     "defaultTitle": "Ultimate Cineverse",
     "titleTemplate": "%s | Ultimate Cineverse",
-    "defaultDescription": "Entertainment news and culture coverage — trending stories across film, TV, music, and digital media.",
-    "ogImagePath": "/logo.png"
+    "defaultDescription": "Film reviews, ending explainers, horror picks and streaming guides for Netflix, Prime Video and Hulu — from the Ultimate Cineverse newsroom.",
+    "ogImagePath": "/og-default.png",
+    "homeDescription": "Honest film reviews, ending explainers and streaming guides — the best horror, Netflix, Prime Video and Hulu picks, updated every month."
   },
   "contact": {
     "phone": "",
@@ -19,7 +20,6 @@
       "href": "https://www.youtube.com/channel/UCc3qOMA8TN5b3PPRlGAFA0Q"
     }
   ],
-  "footerReelSrc": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
   "about": {
     "title": "About Ultimate Cineverse",
     "paragraphs": [
@@ -29,5 +29,37 @@
       "Alongside daily news coverage, Ultimate Cineverse operates dedicated studio production services, connecting entertainment coverage with creative media production, motion design, and audio post-production."
     ]
   },
-  "youtubeChannelId": "UCc3qOMA8TN5b3PPRlGAFA0Q"
+  "youtubeChannelId": "UCc3qOMA8TN5b3PPRlGAFA0Q",
+  "blogHub": {
+    "evergreen": {
+      "title": "Film Reviews & Streaming Guides",
+      "heading": "Film reviews & streaming guides",
+      "description": "Honest film reviews, ending explainers, horror picks and what to stream on Netflix, Prime Video and Hulu — fresh guides from Ultimate Cineverse.",
+      "about": [
+        "Film reviews",
+        "Horror films",
+        "Streaming guides",
+        "Movies explained"
+      ]
+    },
+    "seasonal": [
+      {
+        "from": "10-01",
+        "until": "11-01",
+        "title": "Halloween Horror Movie Guides & Reviews",
+        "heading": "Halloween horror movie guides & reviews",
+        "description": "Best Halloween movies, horror streaming picks for Netflix, Prime Video and Hulu, plus spoiler-light reviews. Your spooky-season watchlist, updated.",
+        "about": [
+          "Halloween",
+          "Horror films",
+          "Halloween movies streaming",
+          "Film reviews"
+        ],
+        "ogImagePath": "/images/blog/halloween-after-dark.webp",
+        "ogImageWidth": 1440,
+        "ogImageHeight": 960,
+        "ogImageAlt": "A candlelit Halloween pumpkin outside a moonlit cinema"
+      }
+    ]
+  }
 }

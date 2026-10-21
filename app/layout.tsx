@@ -1,4 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Anton, Barlow_Condensed } from "next/font/google";
@@ -22,7 +21,7 @@ const anton = Anton({
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   adjustFontFallback: true,
   variable: "--font-ui"
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
     template: "%s | Ultimate Cineverse"
   },
   description:
-    "Ultimate Cineverse — films, worlds, and audiences. Creative production from concept to cut.",
+    "Film reviews, ending explainers, horror picks and streaming guides for Netflix, Prime Video and Hulu — from the Ultimate Cineverse newsroom.",
   alternates: {
     types: {
       "application/rss+xml": `${siteUrl}/feed.xml`
@@ -74,7 +73,7 @@ export const metadata: Metadata = {
     "msapplication-TileImage": "/android-chrome-192x192.png"
   },
   openGraph: {
-    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Ultimate Cineverse" }]
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "Ultimate Cineverse — film reviews, horror picks and streaming guides" }]
   }
 };
 
@@ -88,10 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ConsentDefaults />
       </head>
       <body className={barlowCondensed.className}>
-        <SiteChrome
-          email={site.contact.email}
-          speedInsights={process.env.VERCEL ? <SpeedInsights /> : null}
-        >
+        <SiteChrome email={site.contact.email}>
           {children}
         </SiteChrome>
       </body>

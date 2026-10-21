@@ -6,6 +6,17 @@ export type SocialLink = {
   href: string;
 };
 
+export type BlogHubCopy = {
+  title: string;
+  heading: string;
+  description: string;
+  about: string[];
+  ogImagePath?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  ogImageAlt?: string;
+};
+
 export type SiteContent = {
   brandName: string;
   tagline: string;
@@ -14,6 +25,7 @@ export type SiteContent = {
     titleTemplate: string;
     defaultDescription: string;
     ogImagePath: string;
+    homeDescription?: string;
   };
   contact: {
     phone: string;
@@ -21,7 +33,10 @@ export type SiteContent = {
     addressLines: string[];
   };
   socials: SocialLink[];
-  footerReelSrc: string;
+  blogHub: {
+    evergreen: BlogHubCopy;
+    seasonal?: Array<BlogHubCopy & { from: string; until: string }>;
+  };
   about: {
     title: string;
     paragraphs: string[];
@@ -47,4 +62,11 @@ export function getSiteUrl() {
   }
 
   return "https://ultimatecineverse.com";
+}
+
+/** Blog hub copy: a seasonal window (MM-DD, `until` exclusive) wins, else evergreen. */
+export function getBlogHubCopy(site: SiteContent, now = new Date()): BlogHubCopy & { seasonal: boolean } {
+  const md = now.toISOString().slice(5, 10);
+  const hit = site.blogHub.seasonal?.find((s) => md >= s.from && md < s.until);
+  return hit ? { ...hit, seasonal: true } : { ...site.blogHub.evergreen, seasonal: false };
 }

@@ -128,10 +128,13 @@ function PosterCard({ post }: { post: BlogPost }) {
 
 export function BlogIndex({
   posts,
-  initialQuery = ""
+  initialQuery = "",
+  heading = "Film reviews & streaming guides"
 }: {
   posts: BlogPost[];
   initialQuery?: string;
+  /** Keyword H1 for the hub (from content/site.json blogHub). */
+  heading?: string;
 }) {
   const tags = useMemo(() => uniqueTags(posts).filter((tag) => tag.toLowerCase() !== FILTER_ALL.toLowerCase()), [posts]);
   const [filter, setFilter] = useState(FILTER_ALL);
@@ -173,8 +176,8 @@ export function BlogIndex({
             <span className={styles.seasonIssue} aria-hidden="true">Oct. 31</span>
           </div>
           <div className={styles.seasonIntro}>
-            <p className={styles.seasonOverline}><span aria-hidden="true">✦</span> For the love of a good scare</p>
-            <h1 className={styles.seasonTitle}>Halloween<br /><span>After dark.</span></h1>
+            <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
+            <p className={styles.seasonTitle} aria-hidden="true">Halloween<br /><span>After dark.</span></p>
             <p className={styles.seasonDescription}>
               Films that haunt you. Stories that stay with you. Explore horror movie guides,
               streaming picks, and the craft behind the chills.
