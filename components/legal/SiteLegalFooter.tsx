@@ -48,6 +48,7 @@ export function SiteLegalFooter({ email }: Props) {
           <button type="button" className={styles.button} onClick={() => openCookiePreferences()}>
             Manage cookies
           </button>
+          <Link href="/studio-services">Studio services</Link>
           <Link href="/contact">Contact</Link>
           <a href={`mailto:${email}`}>{email}</a>
         </nav>

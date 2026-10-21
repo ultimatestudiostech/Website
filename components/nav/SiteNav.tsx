@@ -17,6 +17,7 @@ const links = [
   { href: "/#work", label: "Latest" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
+  { href: "/studio-services", label: "Studio" },
   { href: "/contact", label: "Contact" }
 ] as const;
 
