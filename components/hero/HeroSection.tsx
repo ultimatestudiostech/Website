@@ -204,7 +204,6 @@ export function HeroSection() {
   return (
     <div className={styles.pageWrap}>
       <main className={styles.heroPage}>
-        <h1 className={styles.srOnly}>Ultimate Cineverse</h1>
 
         <section
           className={`${styles.hero}${ready ? ` ${styles.revealed}` : ""}`}

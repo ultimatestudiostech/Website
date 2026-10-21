@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { DeferredSection } from "@/components/common/DeferredSection";
 import { StudioCtaSection } from "@/components/cta/StudioCtaSection";
@@ -32,24 +33,26 @@ type StudioProps = {
     addressLines: string[];
   };
   socials: Array<{ id: string; label: string; href: string }>;
-  footerReelSrc: string;
 };
 
 type Props = {
   posts: BlogPost[];
+  /** Server-rendered visible intro (H1 + keyword copy). */
+  intro?: ReactNode;
 } & StudioProps;
 
-export function HomeExperience({ posts, contact, socials, footerReelSrc }: Props) {
+export function HomeExperience({ posts, contact, socials, intro }: Props) {
   return (
     <>
       <HeroSection />
+      {intro}
       <StudioCtaSection />
       <DeferredSection minHeight="140vh" rootMargin="80% 0px">
         <DominationSection />
       </DeferredSection>
       <PortfolioSection posts={posts} />
       <DeferredSection minHeight="100vh" rootMargin="40% 0px">
-        <StudioFooter contact={contact} socials={socials} footerReelSrc={footerReelSrc} />
+        <StudioFooter contact={contact} socials={socials} />
       </DeferredSection>
     </>
   );
