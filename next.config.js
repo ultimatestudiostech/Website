@@ -6,8 +6,7 @@ const nextConfig = {
   transpilePackages: ["next-sanity", "sanity", "@sanity/vision", "styled-components"],
   experimental: {
     optimizePackageImports: ["gsap", "swiper", "next-sanity"],
-    optimizeCss: true,
-    cssChunking: "strict"
+    optimizeCss: true
   },
   images: {
     formats: ["image/avif", "image/webp"],
