@@ -1,5 +1,25 @@
 /** @type {import('next').NextConfig} */
+/** Retired studio-equipment posts (still indexed in GSC) → closest live page. */
+const retiredStudioPosts = [
+  "studio-equipment-care-and-daily-maintenance",
+  "studio-gear-setup-checklist-and-mistakes-to-avoid",
+  "lighting-design-basics-for-quick-setups",
+  "equipment-selection-for-real-world-productions",
+  "stage-ready-production-workflows",
+  "color-and-look-from-set-to-finish",
+  "facility-features-that-speed-up-shoots",
+  "planning-a-studio-session-from-call-time",
+  "sound-on-set-clean-audio-under-pressure",
+];
+
 const nextConfig = {
+  async redirects() {
+    return retiredStudioPosts.map((slug) => ({
+      source: `/blog/${slug}`,
+      destination: "/studio-services",
+      statusCode: 301
+    }));
+  },
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
