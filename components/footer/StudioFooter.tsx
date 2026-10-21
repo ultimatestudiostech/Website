@@ -16,7 +16,6 @@ type Props = {
     addressLines: string[];
   };
   socials: Array<{ id: string; label: string; href: string }>;
-  footerReelSrc?: string;
 };
 
 export function StudioFooter({ socials }: Props) {

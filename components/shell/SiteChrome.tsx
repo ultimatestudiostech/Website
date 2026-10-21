@@ -10,11 +10,10 @@ import { SiteNav } from "@/components/nav/SiteNav";
 type Props = {
   email: string;
   children: ReactNode;
-  speedInsights?: ReactNode;
 };
 
 /** Marketing chrome — skipped on /studio so the CMS is full-screen. */
-export function SiteChrome({ email, children, speedInsights }: Props) {
+export function SiteChrome({ email, children }: Props) {
   const pathname = usePathname();
   const isStudio = pathname?.startsWith("/studio");
 
@@ -29,7 +28,6 @@ export function SiteChrome({ email, children, speedInsights }: Props) {
       <SiteLegalFooter email={email} />
       <CookieConsent />
       <GoogleAnalytics />
-      {speedInsights}
     </>
   );
 }

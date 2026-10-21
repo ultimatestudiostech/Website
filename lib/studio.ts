@@ -9,8 +9,3 @@ export async function getStudioSocials() {
   const site = await getSite();
   return site.socials;
 }
-
-export async function getFooterReelSrc() {
-  const site = await getSite();
-  return site.footerReelSrc;
-}

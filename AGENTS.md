@@ -14,7 +14,7 @@ Production marketing site for **Ultimate Cineverse** (creative studio / producti
 | Carousel | Swiper `^14.1.0` (`swiper/react`) |
 | Utilities | `clsx` (via `lib/utils.ts` `cn()` — defined but rarely used), `class-variance-authority` installed but **not used in source** |
 | XML | `fast-xml-parser` for YouTube RSS |
-| Analytics | `@vercel/speed-insights` in root layout; GA4 client component (consent-gated) |
+| Analytics | GA4 client component (consent-gated) |
 | Fonts | `next/font/google` — Anton + Barlow Condensed in `app/layout.tsx` |
 
 ## Scripts
@@ -32,7 +32,7 @@ No test script exists. Run `npm run build` to verify TypeScript and production c
 
 ```text
 app/
-  layout.tsx              # Root: globals.css, fonts, SiteNav, GA, SpeedInsights
+  layout.tsx              # Root: globals.css, fonts, SiteNav, GA
   (marketing)/            # Homepage, /about, /contact — no Tailwind in root layout
   blog/                   # Blog index + [slug]; AdSense script + AdUnit slots
   privacy/, terms/        # Legal routes (placeholder copy)

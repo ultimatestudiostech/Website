@@ -20,7 +20,6 @@
     "@portabletext/react": "^8.0.1",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^3.99.0",
-    "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "critters": "^0.0.23",
