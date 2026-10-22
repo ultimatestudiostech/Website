@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { BlogPostView } from "@/components/blog/BlogPostView";
 import { buildMetadata } from "@/lib/seo";
+import { postSeoOverrides } from "@/lib/seo-overrides";
 import { getPostBySlug, getRelatedPosts, getBlogPosts } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { fetchApprovedComments } from "@/lib/sanity/posts";
@@ -19,8 +20,8 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return {};
   const meta = buildMetadata({
-    title: post.seoTitle || post.title,
-    description: post.description,
+    title: postSeoOverrides[post.slug]?.title || post.seoTitle || post.title,
+    description: postSeoOverrides[post.slug]?.description || post.description,
     pathname: `/blog/${post.slug}`,
     type: "article",
     publishedTime: post.datePublished,
