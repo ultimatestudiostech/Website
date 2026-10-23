@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return {
         url: `${siteUrl}/blog/${post.slug}`,
         lastModified: post.dateModified,
-        ...(image ? { images: [image.startsWith("http") ? image : `${siteUrl}${image}`] } : {})
+        ...(image ? { images: [(image.startsWith("http") ? image : `${siteUrl}${image}`).split("?")[0].replace(/&/g, "&amp;")] } : {})
       };
     });
 
