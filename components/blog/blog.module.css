@@ -1541,3 +1541,11 @@ details[open] > .tocSummary::after {
     transition: none;
   }
 }
+
+.relatedMore {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.relatedMore a {
+  text-decoration: underline;
+}

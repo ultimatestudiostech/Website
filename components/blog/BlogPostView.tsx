@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { categoriesFor } from "@/lib/categories";
 import { PostBody } from "@/components/blog/PostBody";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { ImageCreditLine } from "@/components/blog/ImageCreditLine";
@@ -31,6 +32,8 @@ type Props = {
 };
 
 export function BlogPostView({ post, related, comments, siteUrl, brandName }: Props) {
+  const cats = categoriesFor(post);
+  const primaryCat = cats[0];
   const plain = getPostPlainText(post);
   const paragraphs = splitPostParagraphs(post.content || plain);
   const minutes = getReadingMinutes(post);
@@ -47,7 +50,10 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
       { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
-      { "@type": "ListItem", position: 3, name: post.title, item: postUrl }
+      ...(primaryCat
+        ? [{ "@type": "ListItem", position: 3, name: primaryCat.name, item: `${siteUrl}/blog/category/${primaryCat.slug}` }]
+        : []),
+      { "@type": "ListItem", position: primaryCat ? 4 : 3, name: post.title, item: postUrl }
     ]
   };
 
@@ -220,6 +226,16 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                 <li className={styles.crumbSep} aria-hidden="true">
                   /
                 </li>
+                {primaryCat ? (
+                  <>
+                    <li>
+                      <Link href={`/blog/category/${primaryCat.slug}`}>{primaryCat.name}</Link>
+                    </li>
+                    <li className={styles.crumbSep} aria-hidden="true">
+                      /
+                    </li>
+                  </>
+                ) : null}
                 <li aria-current="page">{post.primaryEntity || post.title}</li>
               </ol>
             </nav>
@@ -376,6 +392,17 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                   </li>
                 ))}
               </ul>
+              {cats.length ? (
+                <p className={styles.relatedMore}>
+                  Browse more:{" "}
+                  {cats.map((c, i) => (
+                    <span key={c.slug}>
+                      {i > 0 ? " · " : ""}
+                      <Link href={`/blog/category/${c.slug}`}>{c.name}</Link>
+                    </span>
+                  ))}
+                </p>
+              ) : null}
             </section>
           </article>
 

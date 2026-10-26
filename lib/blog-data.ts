@@ -1,5 +1,6 @@
 import localPostsJson from "@/content/posts.json";
 import type { BlogPost } from "@/lib/blog";
+import { categoriesFor } from "@/lib/categories";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { fetchSanityPostBySlug, fetchSanityPosts } from "@/lib/sanity/posts";
 
@@ -59,7 +60,12 @@ export async function getRelatedPosts(slug: string, limit = 3) {
   const scored = posts
     .filter((p) => p.slug !== slug)
     .map((p) => {
-      const score = p.tags.reduce((acc, t) => acc + (current.tags.includes(t) ? 1 : 0), 0);
+      const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+      const cur = new Set(current.tags.map(norm));
+      const curCats = new Set(categoriesFor(current).map((c) => c.slug));
+      const score =
+        p.tags.reduce((acc, t) => acc + (cur.has(norm(t)) ? 2 : 0), 0) +
+        categoriesFor(p).reduce((acc, c) => acc + (curCats.has(c.slug) ? 1 : 0), 0);
       return { post: p, score };
     })
     .sort((a, b) => b.score - a.score || b.post.datePublished.localeCompare(a.post.datePublished));

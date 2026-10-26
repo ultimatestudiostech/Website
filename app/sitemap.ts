@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/blog-data";
 import { getSiteUrl } from "@/lib/cms/store";
+import { CATEGORIES } from "@/lib/categories";
 
 /** Update when the page content meaningfully changes (avoid `new Date()` on every request). */
 const STATIC_ROUTES: Array<{ path: string; lastModified: string }> = [
@@ -34,5 +35,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
-  return [...staticRoutes, ...blogRoutes];
+  const categoryRoutes = CATEGORIES.map((c) => ({
+    url: `${siteUrl}/blog/category/${c.slug}`,
+    lastModified: "2026-10-26"
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...blogRoutes];
 }
