@@ -6,6 +6,10 @@ import { getPostBySlug, getRelatedPosts, getBlogPosts } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { fetchApprovedComments } from "@/lib/sanity/posts";
 
+// Render on request so Sanity edits (links, fixes) show immediately; the build-time
+// prerender was serving stale post bodies from a restored fetch cache.
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const posts = await getBlogPosts(false);
   return posts.map((post) => ({ slug: post.slug }));
