@@ -57,6 +57,10 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     ]
   };
 
+  const authorSlug = post.authorRole ? post.author.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
+  const authorLd = post.authorRole
+    ? { "@type": "Person", name: post.author, jobTitle: post.authorRole, url: `${siteUrl}/blog/author/${authorSlug}` }
+    : { "@type": "Organization", name: post.author, url: siteUrl };
   const blogPosting: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": ["Article", "BlogPosting"],
@@ -64,11 +68,9 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     description: post.description,
     datePublished: post.datePublished,
     dateModified: post.dateModified,
-    author: {
-      "@type": post.authorRole ? "Person" : "Organization",
-      name: post.author,
-      ...(post.authorRole ? { jobTitle: post.authorRole } : {})
-    },
+    author: authorLd,
+    inLanguage: "en",
+    ...(post.tags.length ? { keywords: post.tags.join(", "), articleSection: post.tags[0] } : {}),
     publisher: {
       "@type": "Organization",
       name: brandName,
@@ -133,15 +135,19 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
         "@type": "Review",
         itemReviewed: {
           "@type": "Movie",
-          name: movieName,
+          name: post.movie?.name || movieName,
+          ...(post.movie?.year ? { dateCreated: String(post.movie.year) } : {}),
+          ...(post.movie?.directors?.length
+            ? { director: post.movie.directors.map((d) => ({ "@type": "Person", name: d })) }
+            : {}),
           ...(post.coverImage || post.ogImage
             ? { image: post.coverImage || post.ogImage }
             : {})
         },
-        author: {
-          "@type": post.authorRole ? "Person" : "Organization",
-          name: post.author
-        },
+        author: authorLd,
+        ...(post.rating?.value
+          ? { reviewRating: { "@type": "Rating", ratingValue: post.rating.value, bestRating: post.rating.best || 10, worstRating: 0 } }
+          : {}),
         publisher: {
           "@type": "Organization",
           name: brandName,
@@ -155,6 +161,30 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
       }
     : null;
 
+  const listItems = !isReview
+    ? (post.body || [])
+        .filter((b) => b._type === "block" && (b as unknown as { style?: string }).style === "h3")
+        .map((b) => ((b as unknown as { children?: { text?: string }[] }).children || []).map((c) => c.text || "").join("").trim())
+        .filter((t) => /\((19|20)\d{2}\)$/.test(t))
+    : [];
+  const itemListLd =
+    listItems.length >= 3
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: post.seoTitle || post.title,
+          numberOfItems: listItems.length,
+          itemListElement: listItems.map((t, i) => {
+            const m = t.match(/^(.*)\s\(((?:19|20)\d{2})\)$/);
+            return {
+              "@type": "ListItem",
+              position: i + 1,
+              item: { "@type": "Movie", name: m ? m[1] : t, ...(m ? { dateCreated: m[2] } : {}) }
+            };
+          })
+        }
+      : null;
+
   const midAdAfter = Math.min(2, Math.max(0, paragraphs.length - 1));
 
   return (
@@ -166,6 +196,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
       <JsonLd data={blogPosting} />
       {reviewLd ? <JsonLd data={reviewLd} /> : null}
       {faqLd ? <JsonLd data={faqLd} /> : null}
+      {itemListLd ? <JsonLd data={itemListLd} /> : null}
       {howToLd ? <JsonLd data={howToLd} /> : null}
 
       <div className={styles.shell}>
@@ -261,7 +292,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                 </li>
                 <li>{minutes} min read</li>
                 <li>
-                  {post.author}
+                  {authorSlug ? <Link href={`/blog/author/${authorSlug}`} rel="author">{post.author}</Link> : post.author}
                   {post.authorRole ? ` · ${post.authorRole}` : ""}
                 </li>
                 {post.geoFocus ? <li>{post.geoFocus}</li> : null}

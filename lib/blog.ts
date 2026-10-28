@@ -43,6 +43,9 @@ export type BlogPost = {
   howToSteps?: BlogHowToStep[];
   sources?: BlogSource[];
   primaryEntity?: string;
+  movie?: { name?: string; year?: number; directors?: string[] };
+  rating?: { value?: number; best?: number };
+  authorBio?: string;
   geoFocus?: string;
   updatedNote?: string;
   experienceNote?: string;

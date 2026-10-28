@@ -243,6 +243,29 @@ export const post = defineType({
     }),
 
     defineField({
+      name: "movie",
+      title: "Reviewed movie",
+      description: "For reviews: the film being reviewed (used in Review structured data).",
+      type: "object",
+      group: "aeo",
+      fields: [
+        defineField({ name: "name", title: "Title", type: "string" }),
+        defineField({ name: "year", title: "Release year", type: "number" }),
+        defineField({ name: "directors", title: "Director(s)", type: "array", of: [{ type: "string" }] })
+      ]
+    }),
+    defineField({
+      name: "rating",
+      title: "Review rating",
+      description: "The rating given in the review, e.g. 8 out of 10.",
+      type: "object",
+      group: "aeo",
+      fields: [
+        defineField({ name: "value", title: "Rating", type: "number" }),
+        defineField({ name: "best", title: "Out of", type: "number", initialValue: 10 })
+      ]
+    }),
+    defineField({
       name: "keyTakeaway",
       title: "One-sentence answer",
       description: "The direct answer readers (and AI) should take away. Shown under the headline.",

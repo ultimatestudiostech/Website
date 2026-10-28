@@ -1,0 +1,19 @@
+# Ultimate Cineverse
+
+> Movie reviews, horror movie guides and streaming picks by Ultimate Cineverse. Reviews state the director, release date, cast and a rating out of 10; streaming guides are for the US catalog and list when titles were added.
+
+## Sections
+- [Blog](https://ultimatecineverse.com/blog): all articles, newest first
+- [Movie reviews](https://ultimatecineverse.com/blog/category/reviews)
+- [Horror](https://ultimatecineverse.com/blog/category/horror)
+- [Streaming guides](https://ultimatecineverse.com/blog/category/streaming-guides)
+
+## Popular guides
+- [Best horror movies on Hulu](https://ultimatecineverse.com/blog/hulu-horror-movies)
+- [Best horror movies on Netflix](https://ultimatecineverse.com/blog/best-horror-movies-on-netflix)
+- [Best horror movies on Prime Video](https://ultimatecineverse.com/blog/prime-video-horror-movies)
+- [New horror movies streaming](https://ultimatecineverse.com/blog/new-horror-movies-streaming)
+
+## Other
+- [Sitemap](https://ultimatecineverse.com/sitemap.xml)
+- [RSS feed](https://ultimatecineverse.com/feed.xml)

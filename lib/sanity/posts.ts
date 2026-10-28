@@ -40,6 +40,9 @@ type SanityPost = {
   howToSteps?: { title: string; text: string }[];
   sources?: { title: string; url: string }[];
   primaryEntity?: string;
+  movie?: { name?: string; year?: number; directors?: string[] };
+  rating?: { value?: number; best?: number };
+  authorBio?: string;
   geoFocus?: string;
   updatedNote?: string;
   experienceNote?: string;
@@ -82,6 +85,9 @@ const postFields = `
   howToSteps,
   sources,
   primaryEntity,
+  movie,
+  rating,
+  "authorBio": authorRef->bio,
   geoFocus,
   updatedNote,
   experienceNote,
@@ -188,6 +194,9 @@ function mapPost(doc: SanityPost): BlogPost {
     howToSteps: doc.howToSteps,
     sources: doc.sources,
     primaryEntity,
+    movie: doc.movie,
+    rating: doc.rating,
+    authorBio: doc.authorBio,
     geoFocus: doc.geoFocus,
     updatedNote: doc.updatedNote,
     experienceNote: doc.experienceNote,
