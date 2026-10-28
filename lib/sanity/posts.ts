@@ -243,7 +243,7 @@ export async function fetchSanityPostBySlug(
     const doc = await sanityClient.fetch<SanityPost | null>(
       `*[${filter}][0]{ ${postFields} }`,
       { slug },
-      { next: { revalidate: 60, tags: ["sanity-posts", `post:${slug}`] } }
+      { cache: "no-store" }
     );
     return doc?.slug ? mapPost(doc) : null;
   } catch (err) {
