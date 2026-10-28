@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Cobweb, HalloweenFlight, PumpkinAccent } from "@/components/blog/HalloweenDetails";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
@@ -129,8 +129,10 @@ function PosterCard({ post }: { post: BlogPost }) {
 export function BlogIndex({
   posts,
   initialQuery = "",
-  heading = "Film reviews & streaming guides"
+  heading = "Film reviews & streaming guides",
+  intro
 }: {
+  intro?: ReactNode;
   posts: BlogPost[];
   initialQuery?: string;
   /** Keyword H1 for the hub (from content/site.json blogHub). */
@@ -191,6 +193,7 @@ export function BlogIndex({
             <span>{posts.length} {blogLabel}</span>
           </div>
         </header>
+        {intro}
 
         <div className={styles.browseBar}>
           <div>

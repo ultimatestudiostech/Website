@@ -92,6 +92,13 @@ export default async function ContactPage() {
         <div className="mt-4">
           <ContactForm email={email} />
         </div>
+        <p className="mt-8 text-uc-muted leading-relaxed">
+          Before you write, you may find your answer in our 
+          <Link className="uc-link" href="/about">about page</Link> (how we review films), the 
+          <Link className="uc-link" href="/studio-services">studio services overview</Link>, or the latest posts on the 
+          <Link className="uc-link" href="/blog">Ultimate Cineverse blog</Link>. Personal data you send is handled as described in our 
+          <Link className="uc-link" href="/privacy">privacy policy</Link>.
+        </p>
       </main>
     </>
   );

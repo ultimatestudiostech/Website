@@ -203,7 +203,7 @@ export function HeroSection() {
 
   return (
     <div className={styles.pageWrap}>
-      <main className={styles.heroPage}>
+      <section className={styles.heroPage}>
 
         <section
           className={`${styles.hero}${ready ? ` ${styles.revealed}` : ""}`}
@@ -235,7 +235,7 @@ export function HeroSection() {
             </div>
           </div>
         </section>
-      </main>
+      </section>
     </div>
   );
 }

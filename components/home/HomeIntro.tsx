@@ -17,9 +17,21 @@ export function HomeIntro() {
           found-footage scares to classic slashers and A24 favourites.
         </p>
         <p className={styles.copy}>
-          Not sure what to watch tonight? Our streaming guides track the best new movies on Netflix, Prime
-          Video and Hulu, and they are refreshed every month. Alongside the newsroom, our studio team
-          offers video production, motion design and audio post-production.
+          Not sure what to watch tonight? Start with the 
+          <Link href="/blog/best-horror-movies-on-netflix">best horror movies on Netflix</Link>, our 
+          <Link href="/blog/hulu-horror-movies">Hulu horror guide</Link> or the 
+          <Link href="/blog/prime-video-horror-movies">Prime Video horror picks</Link>, all refreshed every month.
+          Want something newer? Our <Link href="/blog/category/reviews">latest movie reviews</Link> cover films
+          like <Link href="/blog/project-hail-mary-2026-review-a-journey-beyond-the-stars">Project Hail Mary</Link> 
+          and <Link href="/blog/frankenstein-2025-review">Guillermo del Toro&apos;s Frankenstein</Link>.
+        </p>
+        <p className={styles.copy}>
+          Every review links its sources. We cross-check credits on 
+          <a href="https://www.imdb.com/" target="_blank" rel="noopener">IMDb</a>, critic consensus on 
+          <a href="https://www.rottentomatoes.com/" target="_blank" rel="noopener">Rotten Tomatoes</a> and grosses on 
+          <a href="https://www.boxofficemojo.com/" target="_blank" rel="noopener">Box Office Mojo</a>. Alongside the newsroom, our 
+          <Link href="/studio-services">studio team</Link> offers video production, motion design and audio
+          post-production.
         </p>
         <ul className={styles.links}>
           <li>

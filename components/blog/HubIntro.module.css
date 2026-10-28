@@ -1,0 +1,16 @@
+.intro {
+  max-width: 820px;
+  margin: 2.5rem auto 1rem;
+  padding: 0 1.25rem;
+  line-height: 1.75;
+  opacity: 0.92;
+}
+.intro p + p {
+  margin-top: 0.9rem;
+}
+.intro a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(220, 38, 38, 0.75);
+  text-underline-offset: 3px;
+}

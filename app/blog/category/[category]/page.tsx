@@ -1,3 +1,4 @@
+import { HubIntro } from "@/components/blog/HubIntro";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogIndex } from "@/components/blog/BlogIndex";
@@ -66,7 +67,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <>
       <JsonLd data={ld} />
-      <BlogIndex posts={posts} initialQuery="" heading={cat.title} />
+      <BlogIndex posts={posts} initialQuery="" heading={cat.title} intro={<HubIntro variant={cat.slug} />} />
       <nav aria-label="Other sections" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.25rem 3rem" }}>
         <p>{cat.intro}</p>
         <p>

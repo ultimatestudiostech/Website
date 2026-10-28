@@ -1,3 +1,4 @@
+import { HubIntro } from "@/components/blog/HubIntro";
 import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
@@ -76,7 +77,7 @@ export default async function BlogIndexPage({ searchParams }: Props) {
   return (
     <>
       <JsonLd data={collectionLd} />
-      <BlogIndex posts={posts} initialQuery={q?.trim() ?? ""} heading={hub.heading} />
+      <BlogIndex posts={posts} initialQuery={q?.trim() ?? ""} heading={hub.heading} intro={<HubIntro variant="blog" />} />
     </>
   );
 }

@@ -116,6 +116,21 @@ export default async function AboutPage() {
           ) : null}
           .
         </p>
+        <h2 className={h2}>Where to start</h2>
+        <p className={p}>
+          New here? Our <Link className="uc-link" href="/blog/category/reviews">movie reviews</Link> cover new theatrical and
+          streaming releases, the <Link className="uc-link" href="/blog/category/horror">horror hub</Link> collects every
+          scary-movie list we publish, and the <Link className="uc-link" href="/blog/category/streaming-guides">streaming guides</Link> 
+          track what is worth watching on each service. A good first read is our 
+          <Link className="uc-link" href="/blog/best-psychological-horror-movies">best psychological horror movies</Link> list.
+        </p>
+        <p className={p}>
+          We check cast, crew and release details against 
+          <a className="uc-link" href="https://www.imdb.com/" target="_blank" rel="noopener">IMDb</a>, box-office figures against 
+          <a className="uc-link" href="https://www.boxofficemojo.com/" target="_blank" rel="noopener">Box Office Mojo</a>, and age ratings against the 
+          <a className="uc-link" href="https://www.filmratings.com/" target="_blank" rel="noopener">MPA film ratings</a> database, then link the specific
+          sources inside each article.
+        </p>
       </main>
     </>
   );

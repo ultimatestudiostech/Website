@@ -1,3 +1,4 @@
+import { HubIntro } from "@/components/blog/HubIntro";
 import { notFound } from "next/navigation";
 import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -73,7 +74,7 @@ export default async function AuthorPage({ params }: Props) {
         {a.bio ? <p>{a.bio}</p> : null}
         <p>{a.posts.length} articles published.</p>
       </section>
-      <BlogIndex posts={a.posts} initialQuery="" heading={`Articles by ${a.name}`} />
+      <BlogIndex posts={a.posts} initialQuery="" heading={`Articles by ${a.name}`} intro={<HubIntro variant="author" />} />
     </>
   );
 }

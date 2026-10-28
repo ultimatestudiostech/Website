@@ -199,7 +199,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
       {itemListLd ? <JsonLd data={itemListLd} /> : null}
       {howToLd ? <JsonLd data={howToLd} /> : null}
 
-      <div className={styles.shell}>
+      <main className={styles.shell}>
         <Link href="/blog" className={styles.backLink}>
           <span className={styles.backArrow} aria-hidden="true">
             ←
@@ -380,7 +380,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
                 <ul className={styles.sourcesList}>
                   {post.sources.map((s) => (
                     <li key={s.url}>
-                      <a href={s.url} target="_blank" rel="noopener noreferrer">
+                      <a href={s.url} target="_blank" rel="noopener">
                         {s.title}
                       </a>
                     </li>
@@ -447,7 +447,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
             </div>
           </aside>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

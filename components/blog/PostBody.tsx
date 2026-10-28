@@ -57,7 +57,7 @@ function getComponents(ids: Map<string, { id: string; level: 2 | 3 }>, studio?: 
         const href = value?.href || "#";
         const external = href.startsWith("http");
         return (
-          <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+          <a href={href} {...(external ? { target: "_blank", rel: "noopener" } : {})}>
             {children}
           </a>
         );

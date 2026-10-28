@@ -44,6 +44,7 @@ type Props = {
 export function HomeExperience({ posts, contact, socials, intro }: Props) {
   return (
     <>
+      <main>
       <HeroSection />
       {intro}
       <StudioCtaSection />
@@ -51,6 +52,7 @@ export function HomeExperience({ posts, contact, socials, intro }: Props) {
         <DominationSection />
       </DeferredSection>
       <PortfolioSection posts={posts} />
+      </main>
       <DeferredSection minHeight="100vh" rootMargin="40% 0px">
         <StudioFooter contact={contact} socials={socials} />
       </DeferredSection>

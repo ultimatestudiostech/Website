@@ -181,6 +181,15 @@ export default async function StudioServicesPage() {
           </Link>{" "}
           with a short brief.
         </p>
+        <p className="mt-6 text-uc-muted leading-relaxed">
+          Want to see how we think about pictures before you hire us? Read our 
+          <Link className="uc-link" href="/blog/category/reviews">film reviews</Link>, learn 
+          <Link className="uc-link" href="/about">who we are and how we work</Link>, or browse the 
+          <Link className="uc-link" href="/blog">Ultimate Cineverse blog</Link>. Our audio mixes follow the 
+          <a className="uc-link" href="https://tech.ebu.ch/publications/r128" target="_blank" rel="noopener">EBU R 128 loudness recommendation</a>, and
+          deliverables can be matched to platform specs such as 
+          <a className="uc-link" href="https://support.google.com/youtube/answer/1722171" target="_blank" rel="noopener">YouTube&apos;s recommended upload settings</a>.
+        </p>
       </main>
     </>
   );

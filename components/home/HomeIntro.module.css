@@ -50,3 +50,10 @@
   text-decoration-color: #e10600;
   text-underline-offset: 0.25em;
 }
+
+.copy a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(220, 38, 38, 0.7);
+  text-underline-offset: 3px;
+}
