@@ -30,3 +30,12 @@ export function getSanityWriteClient() {
     perspective: "previewDrafts"
   });
 }
+
+/** Uncached reader for single post pages: apicdn responses were being held stale at some edges. */
+export const sanityLiveClient = createClient({
+  projectId: sanityProjectId,
+  dataset: sanityDataset,
+  apiVersion: sanityApiVersion,
+  useCdn: false,
+  perspective: "published"
+});

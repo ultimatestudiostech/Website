@@ -1,7 +1,7 @@
 import type { PortableTextBlock } from "@portabletext/types";
 import type { BlogComment, BlogPost } from "@/lib/blog";
 import { portableTextToPlain } from "@/lib/blog";
-import { isSanityConfigured, sanityClient } from "./client";
+import { isSanityConfigured, sanityClient, sanityLiveClient } from "./client";
 import { urlForImage } from "./image";
 
 type SanityImage = {
@@ -240,7 +240,7 @@ export async function fetchSanityPostBySlug(
     : `_type == "post" && slug.current == $slug && draft != true`;
 
   try {
-    const doc = await sanityClient.fetch<SanityPost | null>(
+    const doc = await sanityLiveClient.fetch<SanityPost | null>(
       `*[${filter}][0]{ ${postFields} }`,
       { slug },
       { cache: "no-store" }
