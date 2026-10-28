@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CONSENT_CHANGED_EVENT, hasAdsConsent } from "@/lib/consent";
+import { ADS_ENABLED } from "@/lib/ads";
 
 declare global {
   interface Window {
@@ -20,7 +21,7 @@ export function AdScriptLoader() {
   }, []);
 
   useEffect(() => {
-    if (!shouldLoad) return;
+    if (!ADS_ENABLED || !shouldLoad) return;
 
     const existing = document.getElementById("adsbygoogle-script");
     if (existing) return;

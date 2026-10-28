@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AdUnit } from "@/components/ads/AdUnit";
+import { ADS_ENABLED } from "@/lib/ads";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { categoriesFor } from "@/lib/categories";
 import { PostBody } from "@/components/blog/PostBody";
@@ -319,17 +320,19 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
             {post.body?.length ? (
               <>
                 <PostBody body={body} fallbackParagraphs={[]} studio={studio} />
-                <div className={styles.inlineAd}>
-                  <p className={styles.adLabel}>Sponsor</p>
-                  <AdUnit slot="1234567890" minHeight={300} />
-                </div>
+                {ADS_ENABLED ? (
+                  <div className={styles.inlineAd}>
+                    <p className={styles.adLabel}>Sponsor</p>
+                    <AdUnit slot="1234567890" minHeight={300} />
+                  </div>
+                ) : null}
               </>
             ) : (
               <div className={styles.prose}>
                 {paragraphs.map((paragraph, idx) => (
                   <div key={idx}>
                     <p>{paragraph}</p>
-                    {idx === midAdAfter ? (
+                    {ADS_ENABLED && idx === midAdAfter ? (
                       <div className={styles.inlineAd}>
                         <p className={styles.adLabel}>Sponsor</p>
                         <AdUnit slot="1234567890" minHeight={300} />
@@ -440,10 +443,12 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
           <aside className={styles.sidebar} aria-label="Article sidebar">
             <div className={styles.sidebarSticky}>
               <TableOfContents entries={toc} variant="sidebar" />
-            <div className={styles.sponsorPanel}>
-              <p className={styles.sponsorEyebrow}>Sponsor</p>
-              <AdUnit slot="1234567890" minHeight={250} />
-            </div>
+            {ADS_ENABLED ? (
+              <div className={styles.sponsorPanel}>
+                <p className={styles.sponsorEyebrow}>Sponsor</p>
+                <AdUnit slot="1234567890" minHeight={250} />
+              </div>
+            ) : null}
             </div>
           </aside>
         </div>

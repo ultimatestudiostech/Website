@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { Cobweb, HalloweenFlight, PumpkinAccent } from "@/components/blog/HalloweenDetails";
 import { AdUnit } from "@/components/ads/AdUnit";
+import { ADS_ENABLED } from "@/lib/ads";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
 import styles from "./blog.module.css";
 
@@ -280,7 +281,7 @@ export function BlogIndex({
 
                 <ul className={styles.posterGrid}>
                   {gridPosts.map((post, idx) => {
-                    const shouldInsertAd = (idx + 1) % 6 === 0;
+                    const shouldInsertAd = ADS_ENABLED && (idx + 1) % 6 === 0;
                     return (
                       <li key={post.slug} className={styles.posterCell}>
                         <PosterCard post={post} />

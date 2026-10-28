@@ -33,3 +33,10 @@ export function isAdSenseReady(kind?: "inline" | "sidebar" | "index") {
   if (kind) return Boolean(getAdSlot(kind));
   return true;
 }
+
+/**
+ * Master switch for every ad slot on the site (blog grid, in-post, sidebar, ad script).
+ * Off by default so no empty "Sponsor" boxes render before AdSense approval.
+ * Turn on by setting NEXT_PUBLIC_ADS_ENABLED=true (build-time env) and redeploying.
+ */
+export const ADS_ENABLED = process.env.NEXT_PUBLIC_ADS_ENABLED === "true";
