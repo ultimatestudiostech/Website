@@ -479,9 +479,10 @@
   min-height: 44px;
   padding: 0 1rem;
   border-radius: 1rem;
-  border: 1px solid transparent;
+  border: 1px solid var(--blog-line, rgba(255, 255, 255, 0.14));
   background: transparent;
   color: var(--blog-muted);
+  text-decoration: none;
   font-family: var(--font-ui), Arial, sans-serif;
   font-size: 0.86rem;
   font-weight: 600;
