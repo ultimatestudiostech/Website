@@ -95,6 +95,29 @@ const bodyImage = defineArrayMember({
   ]
 });
 
+const bodyTable = defineArrayMember({
+  name: "dataTable",
+  title: "Table",
+  type: "object",
+  fields: [
+    defineField({ name: "caption", title: "Caption", type: "string" }),
+    defineField({
+      name: "rows",
+      title: "Rows (first row = header)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "tableRow",
+          type: "object",
+          fields: [defineField({ name: "cells", type: "array", of: [defineArrayMember({ type: "string" })] })],
+          preview: { select: { cells: "cells" }, prepare: ({ cells }) => ({ title: (cells || []).join(" | ") }) }
+        })
+      ]
+    })
+  ],
+  preview: { select: { title: "caption" }, prepare: ({ title }) => ({ title: title || "Table" }) }
+});
+
 export const post = defineType({
   name: "post",
   title: "Blog Post",
@@ -170,7 +193,7 @@ export const post = defineType({
         "Write here, or use Import from Word below. Paste from Word keeps headings/bold/lists; for images, prefer Import .docx. First paragraph should answer the main question.",
       type: "array",
       group: "write",
-      of: [bodyBlock, bodyImage],
+      of: [bodyBlock, bodyImage, bodyTable],
       components: {
         input: BodyWithWordImport
       },
@@ -467,3 +490,4 @@ export const post = defineType({
     }
   ]
 });
+

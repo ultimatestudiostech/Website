@@ -1549,3 +1549,35 @@ details[open] > .tocSummary::after {
 .relatedMore a {
   text-decoration: underline;
 }
+
+.proseTableWrap {
+  margin: 1.75rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.proseTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.proseTable caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+.proseTable th,
+.proseTable td {
+  border: 1px solid rgba(127, 127, 127, 0.3);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.proseTable thead th {
+  background: rgba(127, 127, 127, 0.12);
+  font-weight: 700;
+}
+.proseTable tbody th {
+  font-weight: 600;
+}

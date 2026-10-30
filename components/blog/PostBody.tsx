@@ -64,6 +64,34 @@ function getComponents(ids: Map<string, { id: string; level: 2 | 3 }>, studio?: 
       }
     },
     types: {
+      dataTable: ({ value }: { value: { caption?: string; rows?: { _key?: string; cells?: string[] }[] } }) => {
+        const rows = (value?.rows || []).filter((r) => r?.cells?.length);
+        if (rows.length < 2) return null;
+        const [head, ...body] = rows;
+        return (
+          <div className={styles.proseTableWrap}>
+            <table className={styles.proseTable}>
+              {value.caption ? <caption>{value.caption}</caption> : null}
+              <thead>
+                <tr>
+                  {head.cells!.map((c, i) => (
+                    <th key={i} scope="col">{c}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {body.map((r, ri) => (
+                  <tr key={r._key || ri}>
+                    {r.cells!.map((c, i) =>
+                      i === 0 ? <th key={i} scope="row">{c}</th> : <td key={i}>{c}</td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      },
       image: ({ value }: { value: BodyImage }) => {
         const alt = value?.alt || "";
         let src: string | undefined;
