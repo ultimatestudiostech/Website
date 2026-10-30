@@ -7,9 +7,9 @@ import { Cobweb, HalloweenFlight, PumpkinAccent } from "@/components/blog/Hallow
 import { AdUnit } from "@/components/ads/AdUnit";
 import { ADS_ENABLED } from "@/lib/ads";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
+import { CATEGORIES, getCategory, primaryCategoryFor } from "@/lib/categories";
 import styles from "./blog.module.css";
 
-const FILTER_ALL = "All";
 
 function yearOf(iso: string) {
   const y = new Date(iso).getFullYear();
@@ -22,20 +22,6 @@ function posterTone(slug: string) {
   // Halloween palette: pumpkin, amber, ember, blood orange, charcoal ember
   const hue = [18, 28, 32, 12, 8, 24, 15][h % 7];
   return `linear-gradient(145deg, hsl(${hue} 62% 28%) 0%, hsl(${hue} 40% 10%) 55%, #07060a 100%)`;
-}
-
-function uniqueTags(posts: BlogPost[]) {
-  const seen = new Set<string>();
-  const out: string[] = [];
-  for (const p of posts) {
-    for (const t of p.tags) {
-      const key = t.trim();
-      if (!key || seen.has(key.toLowerCase())) continue;
-      seen.add(key.toLowerCase());
-      out.push(key);
-    }
-  }
-  return out.slice(0, 10);
 }
 
 function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
@@ -63,7 +49,7 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
       </div>
       <div className={styles.featureCopy}>
         <p className={styles.featureEyebrow}>
-          {post.tags[0] || "Halloween"} · {minutes} min
+          {primaryCategoryFor(post).name} · {minutes} min
         </p>
         <h2 className={styles.featureTitle}>{post.title}</h2>
         <p className={styles.featureDesc}>{post.description}</p>
@@ -131,28 +117,28 @@ export function BlogIndex({
   posts,
   initialQuery = "",
   heading = "Film reviews & streaming guides",
-  intro
+  intro,
+  activeCategory
 }: {
+  /** Category slug when rendered on /blog/category/[slug]. */
+  activeCategory?: string;
   intro?: ReactNode;
   posts: BlogPost[];
   initialQuery?: string;
   /** Keyword H1 for the hub (from content/site.json blogHub). */
   heading?: string;
 }) {
-  const tags = useMemo(() => uniqueTags(posts).filter((tag) => tag.toLowerCase() !== FILTER_ALL.toLowerCase()), [posts]);
-  const [filter, setFilter] = useState(FILTER_ALL);
+  const activeCat = activeCategory ? getCategory(activeCategory) : undefined;
   const [query, setQuery] = useState(initialQuery);
 
   const filtered = useMemo(() => {
-    const tagNeedle = filter === FILTER_ALL ? "" : filter.toLowerCase();
     const q = query.trim().toLowerCase();
     return posts.filter((p) => {
-      if (tagNeedle && !p.tags.some((t) => t.toLowerCase() === tagNeedle)) return false;
       if (!q) return true;
       const hay = `${p.title} ${p.description} ${p.tags.join(" ")}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [posts, filter, query]);
+  }, [posts, query]);
 
   const featured = filtered.length > 2 ? filtered.slice(0, 2) : [];
   const gridPosts = filtered.slice(featured.length);
@@ -213,20 +199,25 @@ export function BlogIndex({
           </label>
         </div>
 
-        <div id="topics" className={styles.filterRow} role="group" aria-label="Filter stories by topic">
-          {[FILTER_ALL, ...tags].map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              aria-pressed={filter === tag}
-              aria-controls="library"
-              className={`${styles.filterPill} ${filter === tag ? styles.filterPillActive : ""}`}
-              onClick={() => setFilter(tag)}
+        <nav id="topics" className={styles.filterRow} aria-label="Blog categories">
+          <Link
+            href="/blog#topics"
+            aria-current={activeCat ? undefined : "page"}
+            className={`${styles.filterPill} ${activeCat ? "" : styles.filterPillActive}`}
+          >
+            All stories
+          </Link>
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/blog/category/${c.slug}#topics`}
+              aria-current={activeCat?.slug === c.slug ? "page" : undefined}
+              className={`${styles.filterPill} ${activeCat?.slug === c.slug ? styles.filterPillActive : ""}`}
             >
-              {tag === FILTER_ALL ? "All stories" : tag}
-            </button>
+              {c.name}
+            </Link>
           ))}
-        </div>
+        </nav>
 
         {query ? (
           <p className={styles.searchNote} role="status">
@@ -253,7 +244,6 @@ export function BlogIndex({
                 className={styles.resetSearch}
                 onClick={() => {
                   setQuery("");
-                  setFilter(FILTER_ALL);
                 }}
               >
                 Show all stories
@@ -272,7 +262,7 @@ export function BlogIndex({
               <section className={styles.library} aria-labelledby="library-heading">
                 <div className={styles.libraryHead}>
                   <h2 id="library-heading" className={styles.libraryTitle}>
-                    {filter === FILTER_ALL ? "Latest Halloween reads" : `Halloween · ${filter}`}
+                    {activeCat ? activeCat.h1 : "Latest stories"}
                   </h2>
                   <p className={styles.libraryCount} role="status">
                     {filtered.length} {filtered.length === 1 ? "post" : "posts"}

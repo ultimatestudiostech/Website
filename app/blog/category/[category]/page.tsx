@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
-import { CATEGORIES, getCategory } from "@/lib/categories";
+import { CATEGORIES, getCategory, postsInCategory } from "@/lib/categories";
 import { getPostsNewestFirst } from "@/lib/blog-data";
 import { getSiteUrl } from "@/lib/cms/store";
 
@@ -32,14 +32,14 @@ export default async function CategoryPage({ params }: Props) {
   const cat = getCategory(category);
   if (!cat) notFound();
   const siteUrl = getSiteUrl();
-  const posts = (await getPostsNewestFirst()).filter(cat.match);
+  const posts = postsInCategory(await getPostsNewestFirst(), cat.slug);
   const url = `${siteUrl}/blog/category/${cat.slug}`;
 
   const ld = [
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: cat.title,
+      name: cat.h1,
       description: cat.description,
       url,
       isPartOf: { "@type": "WebSite", "@id": `${siteUrl}/#website`, url: siteUrl },
@@ -67,7 +67,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <>
       <JsonLd data={ld} />
-      <BlogIndex posts={posts} initialQuery="" heading={cat.title} intro={<HubIntro variant={cat.slug} />} />
+      <BlogIndex posts={posts} initialQuery="" heading={cat.h1} activeCategory={cat.slug} intro={<HubIntro variant={cat.slug} />} />
       <nav aria-label="Other sections" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.25rem 3rem" }}>
         <p>{cat.intro}</p>
         <p>

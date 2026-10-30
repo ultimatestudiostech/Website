@@ -118,9 +118,9 @@ export default async function AboutPage() {
         </p>
         <h2 className={h2}>Where to start</h2>
         <p className={p}>
-          New here? Our <Link className="uc-link" href="/blog/category/reviews">movie reviews</Link> cover new theatrical and
-          streaming releases, the <Link className="uc-link" href="/blog/category/horror">horror hub</Link> collects every
-          scary-movie list we publish, and the <Link className="uc-link" href="/blog/category/streaming-guides">streaming guides</Link> 
+          New here? Our <Link className="uc-link" href="/blog/category/movie-reviews">movie reviews</Link> cover new theatrical and
+          streaming releases, the <Link className="uc-link" href="/blog/category/horror-movie-lists">horror hub</Link> collects every
+          scary-movie list we publish, and the <Link className="uc-link" href="/blog/category/where-to-stream">streaming guides</Link> 
           track what is worth watching on each service. A good first read is our 
           <Link className="uc-link" href="/blog/best-psychological-horror-movies">best psychological horror movies</Link> list.
         </p>

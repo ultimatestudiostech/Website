@@ -27,6 +27,8 @@ type SanityPost = {
   authorName?: string;
   authorRefRole?: string;
   tags?: string[];
+  primaryCategory?: string;
+  secondaryCategories?: string[];
   datePublished: string;
   dateModified?: string;
   content?: string;
@@ -69,6 +71,8 @@ const postFields = `
   "authorName": authorRef->name,
   "authorRefRole": authorRef->role,
   tags,
+  primaryCategory,
+  secondaryCategories,
   datePublished,
   dateModified,
   content,
@@ -168,6 +172,8 @@ function mapPost(doc: SanityPost): BlogPost {
     author: doc.authorName || doc.author || "Ultimate Cineverse Team",
     authorRole: doc.authorRole || doc.authorRefRole,
     tags,
+    primaryCategory: doc.primaryCategory,
+    secondaryCategories: doc.secondaryCategories,
     content: plain,
     body: doc.body,
     draft: Boolean(doc.draft),

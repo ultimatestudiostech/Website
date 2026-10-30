@@ -14,11 +14,19 @@ const retiredStudioPosts = [
 
 const nextConfig = {
   async redirects() {
-    return retiredStudioPosts.map((slug) => ({
-      source: `/blog/${slug}`,
-      destination: "/studio-services",
-      statusCode: 301
-    }));
+    const categoryMoves = { horror: "horror-movie-lists", reviews: "movie-reviews", "streaming-guides": "where-to-stream" };
+    return [
+      ...retiredStudioPosts.map((slug) => ({
+        source: `/blog/${slug}`,
+        destination: "/studio-services",
+        statusCode: 301
+      })),
+      ...Object.entries(categoryMoves).map(([from, to]) => ({
+        source: `/blog/category/${from}`,
+        destination: `/blog/category/${to}`,
+        statusCode: 301
+      }))
+    ];
   },
   reactStrictMode: true,
   poweredByHeader: false,

@@ -21,7 +21,7 @@ export function HomeIntro() {
           <Link href="/blog/best-horror-movies-on-netflix">best horror movies on Netflix</Link>, our 
           <Link href="/blog/hulu-horror-movies">Hulu horror guide</Link> or the 
           <Link href="/blog/prime-video-horror-movies">Prime Video horror picks</Link>, all refreshed every month.
-          Want something newer? Our <Link href="/blog/category/reviews">latest movie reviews</Link> cover films
+          Want something newer? Our <Link href="/blog/category/movie-reviews">latest movie reviews</Link> cover films
           like <Link href="/blog/project-hail-mary-2026-review-a-journey-beyond-the-stars">Project Hail Mary</Link> 
           and <Link href="/blog/frankenstein-2025-review">Guillermo del Toro&apos;s Frankenstein</Link>.
         </p>

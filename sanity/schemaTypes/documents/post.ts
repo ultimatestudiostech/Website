@@ -218,6 +218,22 @@ export const post = defineType({
       readOnly: true
     }),
     defineField({
+      name: "primaryCategory",
+      title: "Primary category",
+      description: "Main blog section. Drives the breadcrumb, the category label and the /blog/category page.",
+      type: "string",
+      group: "write",
+      options: { list: [{title:"New Horror Movie Reviews",value:"horror-movie-reviews"},{title:"Horror Classics & Endings Explained",value:"horror-classics"},{title:"Movie Reviews",value:"movie-reviews"},{title:"Horror Movie Lists",value:"horror-movie-lists"},{title:"Where to Stream",value:"where-to-stream"},{title:"Holiday Movies",value:"holiday-movies"}], layout: "dropdown" }
+    }),
+    defineField({
+      name: "secondaryCategories",
+      title: "Secondary categories",
+      type: "array",
+      group: "write",
+      of: [{ type: "string" }],
+      options: { list: [{title:"New Horror Movie Reviews",value:"horror-movie-reviews"},{title:"Horror Classics & Endings Explained",value:"horror-classics"},{title:"Movie Reviews",value:"movie-reviews"},{title:"Horror Movie Lists",value:"horror-movie-lists"},{title:"Where to Stream",value:"where-to-stream"},{title:"Holiday Movies",value:"holiday-movies"}] }
+    }),
+    defineField({
       name: "tags",
       title: "Topics",
       type: "array",

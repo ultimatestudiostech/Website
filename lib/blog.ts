@@ -23,6 +23,8 @@ export type BlogPost = {
   author: string;
   authorRole?: string;
   tags: string[];
+  primaryCategory?: string;
+  secondaryCategories?: string[];
   /** Plain-text body (legacy or derived from Portable Text for word count). */
   content: string;
   /** Rich body from Sanity Portable Text. */
