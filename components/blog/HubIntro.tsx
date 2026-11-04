@@ -17,6 +17,9 @@ export function HubIntro({ variant }: { variant: string }) {
           <p>
             Horror fans can go straight to our <Link href="/blog/category/horror-movie-reviews">new horror movie reviews</Link> or the <Link href="/blog/category/horror-classics">horror classics</Link>. Our verdicts are our own, but we check credits on <a href="https://www.imdb.com/" {...ext}>IMDb</a> and compare our take with critic consensus on <a href="https://www.rottentomatoes.com/" {...ext}>Rotten Tomatoes</a> and <a href="https://www.metacritic.com/" {...ext}>Metacritic</a>.
           </p>
+          <p>
+            New this month: see the <Link href="/blog/movies-coming-out-in-december-2026">movies coming out in December 2026</Link>, from Avengers: Doomsday to Werwulf, and our <Link href="/blog/the-breadwinner-2026-review">Breadwinner (2026) review</Link> with the full cast.
+          </p>
         </>
       );
       break;
@@ -28,6 +31,9 @@ export function HubIntro({ variant }: { variant: string }) {
           </p>
           <p>
             Each review says how scary the film actually is, who it suits and where you can watch it. If you want a ranked starting point instead, try our <Link href="/blog/category/horror-movie-lists">horror movie lists</Link>. Release dates and credits are checked against <a href="https://www.imdb.com/" {...ext}>IMDb</a> and <a href="https://www.boxofficemojo.com/" {...ext}>Box Office Mojo</a>.
+          </p>
+          <p>
+            Just finished Hokum on Hulu? Our <Link href="/blog/hokum-2026-review">Hokum review</Link> covers where to stream it and what the title means, and our list of <Link href="/blog/movies-like-hereditary">movies like Hereditary</Link> has more slow-burn picks about grief.
           </p>
         </>
       );
@@ -41,6 +47,9 @@ export function HubIntro({ variant }: { variant: string }) {
           <p>
             Want the whole timeline? Read <Link href="/blog/conjuring-movies-in-order">The Conjuring movies in order</Link> or see where these films land among the <Link href="/blog/scariest-movies-of-all-time">scariest movies of all time</Link>. For background on the genre, the <a href="https://en.wikipedia.org/wiki/Horror_film" {...ext}>history of horror film on Wikipedia</a> and the <a href="https://www.afi.com/afis-100-years-100-thrills/" {...ext}>AFI&apos;s 100 Years…100 Thrills</a> are good places to start.
           </p>
+          <p>
+            After a classic, keep going with our <Link href="/blog/movies-like-hereditary">16 movies like Hereditary</Link>, or see the <Link href="/blog/best-psychological-horror-movies">best psychological horror movies</Link> for more films that get under your skin rather than going for gore.
+          </p>
         </>
       );
       break;
@@ -52,6 +61,9 @@ export function HubIntro({ variant }: { variant: string }) {
           </p>
           <p>
             Every list says where each film streams in the US, checked against <a href="https://www.justwatch.com/us" {...ext}>JustWatch</a>, and gives the director and year so you can find the right version. For service-by-service picks, see our <Link href="/blog/category/where-to-stream">where to stream</Link> guides.
+          </p>
+          <p>
+            New this month: <Link href="/blog/movies-like-hereditary">16 movies like Hereditary</Link>, grouped by grief, family and cults. In December, our <Link href="/blog/christmas-horror-movies">Christmas horror movies</Link> list covers Black Christmas, Gremlins and Krampus.
           </p>
         </>
       );
@@ -65,6 +77,9 @@ export function HubIntro({ variant }: { variant: string }) {
           <p>
             Streaming catalogs change every month, so each guide shows when it was last checked. We confirm availability against <a href="https://www.justwatch.com/us" {...ext}>JustWatch</a> and the services&apos; own pages, such as <a href="https://www.netflix.com/browse/genre/8711" {...ext}>Netflix&apos;s horror category</a>. Want rankings instead? Try the <Link href="/blog/category/horror-movie-lists">horror movie lists</Link>.
           </p>
+          <p>
+            Planning December? Our <Link href="/blog/christmas-movies-streaming">Christmas movies streaming guide</Link> shows what is on Netflix, Disney+, HBO Max, Hulu and Prime Video. Each horror guide above was rechecked for November 2026.
+          </p>
         </>
       );
       break;
@@ -76,6 +91,9 @@ export function HubIntro({ variant }: { variant: string }) {
           </p>
           <p>
             Every pick says where it streams, and the family-friendly titles are marked. For more scares any time of year, browse the <Link href="/blog/category/horror-movie-lists">horror movie lists</Link>. Release years and credits are checked against <a href="https://www.imdb.com/" {...ext}>IMDb</a>.
+          </p>
+          <p>
+            For the classics, see our <Link href="/blog/best-christmas-movies">20 best Christmas movies of all time</Link>, then check the <Link href="/blog/christmas-movies-streaming">Christmas movies streaming guide</Link> to see which service has Home Alone, Elf or Klaus this year.
           </p>
         </>
       );

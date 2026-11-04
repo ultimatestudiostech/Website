@@ -108,7 +108,11 @@ const DEFAULTS: Record<string, [string, ...string[]]> = {
   "best-halloween-movies": ["holiday-movies", "horror-movie-lists"],
   "best-thanksgiving-movies": ["holiday-movies", "where-to-stream"],
   "thanksgiving-horror-movies": ["holiday-movies", "horror-movie-lists"],
-  "christmas-horror-movies": ["holiday-movies", "horror-movie-lists"]
+  "christmas-horror-movies": ["holiday-movies", "horror-movie-lists"],
+  "best-christmas-movies": ["holiday-movies", "where-to-stream"],
+  "christmas-movies-streaming": ["where-to-stream", "holiday-movies"],
+  "movies-like-hereditary": ["horror-movie-lists", "where-to-stream"],
+  "movies-coming-out-in-december-2026": ["movie-reviews", "holiday-movies"]
 };
 
 /** Old category URLs → new slugs (301s live in next.config.js). */
