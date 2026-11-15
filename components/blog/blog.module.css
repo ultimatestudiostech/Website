@@ -59,7 +59,7 @@
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  min-height: 620px;
+  min-height: 680px;
   padding: clamp(1.25rem, 4vw, 3.25rem);
   box-sizing: border-box;
   overflow: hidden;
@@ -71,13 +71,17 @@
     linear-gradient(155deg, #2b1a0e 0%, #1d130b 48%, #17100b 100%);
 }
 
-.seasonArtwork {
+/* Gradient scrim over the full-bleed hero artwork — keeps copy legible on the left
+   and along the base while the scene stays bright toward the upper right. */
+.heroScrim {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
+  pointer-events: none;
   background:
-    radial-gradient(circle at 82% 22%, rgba(224, 138, 60, 0.22) 0, transparent 16rem),
-    linear-gradient(0deg, rgba(23, 16, 11, 0.55), transparent 35%);
+    linear-gradient(90deg, rgba(12, 7, 4, 0.9) 0%, rgba(12, 7, 4, 0.78) 30%, rgba(12, 7, 4, 0.42) 52%, rgba(12, 7, 4, 0.1) 72%, transparent 88%),
+    linear-gradient(0deg, rgba(12, 7, 4, 0.82) 0%, transparent 34%),
+    linear-gradient(180deg, rgba(12, 7, 4, 0.5) 0%, transparent 20%);
 }
 
 .seasonArt {
@@ -96,6 +100,8 @@
 
 .seasonMasthead,
 .seasonFoot {
+  position: relative;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -115,7 +121,12 @@
   background: rgba(11, 12, 12, 0.72);
 }
 
-.seasonIntro { padding: 3.75rem 0 3.25rem; }
+.seasonIntro {
+  position: relative;
+  z-index: 3;
+  max-width: 660px;
+  padding: 3.75rem 0 3.25rem;
+}
 
 .seasonOverline {
   display: flex;
@@ -140,6 +151,7 @@
   letter-spacing: -0.025em;
   text-transform: uppercase;
   color: #f3ecdf;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .seasonTitle span {
@@ -159,8 +171,9 @@
   font-family: var(--font-ui), Arial, sans-serif;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: #c8c0b4;
+  color: #ddd3c3;
   text-wrap: pretty;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.55);
 }
 
 .seasonCta,
@@ -197,7 +210,8 @@
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #beb5a7;
+  color: #cfc6b6;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
 }
 
 .browseBar {
@@ -1341,7 +1355,8 @@
 
 /* Keep the artwork visible above the copy on narrow screens. */
 @media (max-width: 640px) {
-  .seasonHero { min-height: 560px; padding: 1.25rem; }
+  /* Extra bottom padding keeps the foot row clear of the in-scene film strip. */
+  .seasonHero { min-height: 560px; padding: 1.25rem 1.25rem 3.1rem; }
   .seasonMasthead { align-items: start; }
   .seasonMasthead .brandKicker { max-width: 12rem; font-size: 0.65rem; line-height: 1.6; }
   .seasonIssue { font-size: 1rem; }
@@ -1380,7 +1395,7 @@
 .leafField {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   overflow: hidden;
   color: var(--blog-red);
 }
@@ -1598,7 +1613,8 @@ details[open] > .tocSummary::after {
   padding: 0.55rem 1rem;
   border: 1px solid var(--blog-line);
   border-radius: 4px;
-  background: rgba(23, 16, 11, 0.55);
+  background: rgba(23, 16, 11, 0.78);
+  backdrop-filter: blur(4px);
   font-family: var(--font-ui), Arial, sans-serif;
 }
 .countdownLabel {
@@ -1778,10 +1794,11 @@ details[open] > .tocSummary::after {
     linear-gradient(155deg, #16382a 0%, #0e2417 48%, #0c1f14 100%);
 }
 
-.page[data-season="christmas"] .seasonArtwork {
+.page[data-season="christmas"] .heroScrim {
   background:
-    radial-gradient(circle at 82% 22%, rgba(207, 68, 51, 0.20) 0, transparent 16rem),
-    linear-gradient(0deg, rgba(12, 31, 20, 0.55), transparent 35%);
+    linear-gradient(90deg, rgba(5, 15, 9, 0.9) 0%, rgba(5, 15, 9, 0.78) 30%, rgba(5, 15, 9, 0.42) 52%, rgba(5, 15, 9, 0.1) 72%, transparent 88%),
+    linear-gradient(0deg, rgba(5, 15, 9, 0.82) 0%, transparent 34%),
+    linear-gradient(180deg, rgba(5, 15, 9, 0.5) 0%, transparent 20%);
 }
 
 .page[data-season="christmas"] .seasonTitle span { color: #eec27a; }
@@ -1796,7 +1813,7 @@ details[open] > .tocSummary::after {
 .page[data-season="christmas"] .seasonCta:hover,
 .page[data-season="christmas"] .resetSearch:hover { background: #dd5a45; }
 
-.page[data-season="christmas"] .countdown { background: rgba(12, 31, 20, 0.55); }
+.page[data-season="christmas"] .countdown { background: rgba(12, 31, 20, 0.78); }
 
 /* Small seasonal ornaments never cover controls or intercept input. */
 .snowField, .cardPine, .hollyAccent { pointer-events: none; }
@@ -1812,7 +1829,7 @@ details[open] > .tocSummary::after {
 .snowField {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   overflow: hidden;
 }
 .snow {
@@ -1850,44 +1867,31 @@ details[open] > .tocSummary::after {
   .hollyAccent { width: 48px; }
 }
 
-/* —— Hero body: copy + artwork frame side by side —— */
-.seasonBody {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: clamp(1.5rem, 4vw, 3rem);
-}
-.seasonBody .seasonIntro { flex: 1 1 auto; min-width: 0; }
+/* —— Hero artwork: full-bleed cinematic backdrop behind the copy —— */
 .heroArt {
-  flex: 0 0 min(40%, 430px);
-  aspect-ratio: 4 / 3.1;
-  border: 1px solid var(--blog-line);
-  border-radius: 8px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
   background: var(--blog-night);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 .heroArt svg { display: block; width: 100%; height: 100%; }
 @media (max-width: 900px) {
-  .seasonBody { flex-direction: column; align-items: stretch; gap: 0.25rem; }
-  .seasonBody .seasonIntro { padding-bottom: 1.25rem; }
-  .heroArt { flex: none; width: 100%; aspect-ratio: 16 / 8.5; margin-bottom: 2rem; }
-}
-
-/* Film-strip divider under the hero — punched sprocket holes over a dark band. */
-.filmDivider {
-  height: 30px;
-  margin-top: clamp(1rem, 2.5vw, 1.5rem);
-  border: 1px solid var(--blog-line);
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.35);
-  background-image:
-    radial-gradient(circle 3.2px at 11px 7px, var(--blog-night) 97%, transparent),
-    radial-gradient(circle 3.2px at 11px 23px, var(--blog-night) 97%, transparent);
-  background-size: 22px 30px;
-  background-repeat: repeat-x;
-  opacity: 0.75;
+  /* Stacked copy covers most of the scene — deepen the scrim so the text stays
+     crisp while the moon and marquee (framed top-right by the SVG) still read. */
+  .heroScrim {
+    background:
+      linear-gradient(90deg, rgba(12, 7, 4, 0.94) 0%, rgba(12, 7, 4, 0.85) 45%, rgba(12, 7, 4, 0.55) 75%, rgba(12, 7, 4, 0.3) 100%),
+      linear-gradient(0deg, rgba(12, 7, 4, 0.88) 0%, transparent 40%),
+      linear-gradient(180deg, rgba(12, 7, 4, 0.55) 0%, transparent 22%);
+  }
+  .page[data-season="christmas"] .heroScrim {
+    background:
+      linear-gradient(90deg, rgba(5, 15, 9, 0.94) 0%, rgba(5, 15, 9, 0.85) 45%, rgba(5, 15, 9, 0.55) 75%, rgba(5, 15, 9, 0.3) 100%),
+      linear-gradient(0deg, rgba(5, 15, 9, 0.88) 0%, transparent 40%),
+      linear-gradient(180deg, rgba(5, 15, 9, 0.55) 0%, transparent 22%);
+  }
+  .seasonIntro { max-width: 600px; }
 }
 
 /* —— HeroArtwork scene (fills follow the --blog-* season variables) —— */
@@ -1925,6 +1929,17 @@ details[open] > .tocSummary::after {
 .artStrip { fill: rgba(0, 0, 0, 0.6); }
 .artHole { fill: var(--blog-panel); }
 .artFrame { fill: color-mix(in srgb, var(--blog-amber) 16%, transparent); stroke: rgba(255, 255, 255, 0.16); stroke-width: 0.75; }
+.artHaloStopA { stop-color: var(--blog-amber); stop-opacity: 0.5; }
+.artHaloStopB { stop-color: var(--blog-amber); stop-opacity: 0; }
+.page[data-season="christmas"] .artHaloStopA { stop-color: #b9d4ea; }
+.page[data-season="christmas"] .artHaloStopB { stop-color: #b9d4ea; }
+.artVinStopA { stop-color: #000000; stop-opacity: 0; }
+.artVinStopB { stop-color: #000000; stop-opacity: 0.4; }
+.artGround { fill: color-mix(in srgb, var(--blog-night) 40%, #000000); }
+.artTree { stroke: color-mix(in srgb, var(--blog-night) 42%, #000000); }
+.artShadow { fill: #000000; opacity: 0.32; }
+.artPath { fill: var(--blog-amber); opacity: 0.07; }
+.page[data-season="christmas"] .artPath { fill: #ffffff; opacity: 0.1; }
 
 @media (prefers-reduced-motion: no-preference) {
   .artTwinkle { animation: artTwinkle 3.4s ease-in-out infinite; }

@@ -29,6 +29,8 @@ export type BlogPost = {
   content: string;
   /** Rich body from Sanity Portable Text. */
   body?: PortableTextBlock[];
+  /** Precomputed reading time for card/list views that don't ship the body. */
+  readingMinutes?: number;
   draft?: boolean;
   coverImage?: string;
   ogImage?: string;

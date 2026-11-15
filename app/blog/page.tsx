@@ -3,7 +3,7 @@ import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { getBlogFaqs } from "@/lib/blog-faqs";
-import { getPostsNewestFirst } from "@/lib/blog-data";
+import { getCardPostsNewestFirst } from "@/lib/blog-data";
 import { getBlogHubCopy, getSite, getSiteUrl } from "@/lib/cms/store";
 
 export async function generateMetadata() {
@@ -33,16 +33,17 @@ export async function generateMetadata() {
   };
 }
 
-/** Re-evaluate the seasonal hub copy daily. */
-export const revalidate = 86400;
+/**
+ * ISR: regenerated at most hourly so Cloudflare can edge-cache the HTML
+ * (s-maxage + stale-while-revalidate). Sanity edits and the seasonal hub
+ * copy stay fresh within the hour — the window category pages already use.
+ * No searchParams here: reading them would force dynamic rendering; the
+ * ?q= term is applied client-side by BlogIndex instead.
+ */
+export const revalidate = 3600;
 
-type Props = {
-  searchParams: Promise<{ q?: string }>;
-};
-
-export default async function BlogIndexPage({ searchParams }: Props) {
-  const { q } = await searchParams;
-  const [posts, site] = await Promise.all([getPostsNewestFirst(), getSite()]);
+export default async function BlogIndexPage() {
+  const [posts, site] = await Promise.all([getCardPostsNewestFirst(), getSite()]);
   const siteUrl = getSiteUrl();
   const hub = getBlogHubCopy(site);
   const faqs = getBlogFaqs(hub.season);
@@ -90,7 +91,7 @@ export default async function BlogIndexPage({ searchParams }: Props) {
   return (
     <>
       <JsonLd data={collectionLd} />
-      <BlogIndex posts={posts} initialQuery={q?.trim() ?? ""} heading={hub.heading} intro={<HubIntro variant="blog" />} hubExtras season={hub.season} faqs={faqs} />
+      <BlogIndex posts={posts} heading={hub.heading} intro={<HubIntro variant="blog" />} hubExtras season={hub.season} faqs={faqs} />
     </>
   );
 }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { FallingLeaves, LeafSprig, WheatAccent } from "@/components/blog/ThanksgivingDetails";
 import { ThanksgivingCountdown } from "@/components/blog/ThanksgivingCountdown";
 import { HollyAccent, PineSprig, Snowfall } from "@/components/blog/ChristmasDetails";
@@ -32,7 +32,7 @@ function posterTone(slug: string) {
 }
 
 function FeaturedCard({ post, accent, season }: { post: BlogPost; accent?: boolean; season: SeasonKey }) {
-  const minutes = getReadingMinutes(post.content);
+  const minutes = post.readingMinutes ?? getReadingMinutes(post.content);
   const imageSrc = post.coverImage || post.ogImage;
   return (
     <Link
@@ -76,7 +76,7 @@ function FeaturedCard({ post, accent, season }: { post: BlogPost; accent?: boole
 }
 
 function PosterCard({ post }: { post: BlogPost }) {
-  const minutes = getReadingMinutes(post.content);
+  const minutes = post.readingMinutes ?? getReadingMinutes(post.content);
   const year = yearOf(post.datePublished);
   const imageSrc = post.coverImage || post.ogImage;
 
@@ -260,6 +260,14 @@ export function BlogIndex({
   const [query, setQuery] = useState(initialQuery);
   const [mood, setMood] = useState<Mood | null>(null);
 
+  // Listing pages are statically rendered (ISR), so a ?q= search term is
+  // applied client-side on mount instead of via server searchParams.
+  useEffect(() => {
+    if (initialQuery) return;
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q?.trim()) setQuery(q.trim());
+  }, [initialQuery]);
+
   const pickMood = (m: Mood) => {
     setMood(m);
     setQuery(m.query);
@@ -286,7 +294,8 @@ export function BlogIndex({
       <div className={styles.atmosphere} aria-hidden="true" />
       <main className={styles.shell}>
         <header className={styles.seasonHero}>
-          <div className={styles.seasonArtwork} aria-hidden="true" />
+          <HeroArtwork season={season} />
+          <div className={styles.heroScrim} aria-hidden="true" />
           {season === "thanksgiving" ? (
             <FallingLeaves />
           ) : season === "christmas" ? (
@@ -298,30 +307,26 @@ export function BlogIndex({
               <span className={styles.seasonIssue} aria-hidden="true">{hero.issue}</span>
             ) : null}
           </div>
-          <div className={styles.seasonBody}>
-            <div className={styles.seasonIntro}>
-              <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
-              <p className={styles.seasonTitle} aria-hidden="true">{hero.sloganTop}<br /><span>{hero.sloganSpan}</span></p>
-              <p className={styles.seasonDescription}>{hero.description}</p>
-              <div className={styles.heroActions}>
-                <a href={hubExtras ? "#picker" : "#library"} className={styles.seasonCta}>
-                  Find tonight&rsquo;s film <span aria-hidden="true">↓</span>
-                </a>
-                {season === "thanksgiving" ? (
-                  <ThanksgivingCountdown />
-                ) : season === "christmas" ? (
-                  <ChristmasCountdown />
-                ) : null}
-              </div>
+          <div className={styles.seasonIntro}>
+            <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
+            <p className={styles.seasonTitle} aria-hidden="true">{hero.sloganTop}<br /><span>{hero.sloganSpan}</span></p>
+            <p className={styles.seasonDescription}>{hero.description}</p>
+            <div className={styles.heroActions}>
+              <a href={hubExtras ? "#picker" : "#library"} className={styles.seasonCta}>
+                Find tonight&rsquo;s film <span aria-hidden="true">↓</span>
+              </a>
+              {season === "thanksgiving" ? (
+                <ThanksgivingCountdown />
+              ) : season === "christmas" ? (
+                <ChristmasCountdown />
+              ) : null}
             </div>
-            <HeroArtwork season={season} />
           </div>
           <div className={styles.seasonFoot}>
             <span>{hero.foot}</span>
             <span>{posts.length} {blogLabel}</span>
           </div>
         </header>
-        <div className={styles.filmDivider} aria-hidden="true" />
         {intro}
 
         {hubExtras ? (

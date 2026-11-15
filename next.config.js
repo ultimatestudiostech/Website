@@ -15,15 +15,18 @@ const retiredStudioPosts = [
 const nextConfig = {
   async redirects() {
     const categoryMoves = { horror: "horror-movie-lists", reviews: "movie-reviews", "streaming-guides": "where-to-stream" };
+    // Absolute https destinations: config redirects run before the HTTPS
+    // upgrade in middleware.ts, so a relative destination inherits the
+    // visitor's http scheme and costs a second redirect hop to reach https.
     return [
       ...retiredStudioPosts.map((slug) => ({
         source: `/blog/${slug}`,
-        destination: "/studio-services",
+        destination: "https://ultimatecineverse.com/studio-services",
         statusCode: 301
       })),
       ...Object.entries(categoryMoves).map(([from, to]) => ({
         source: `/blog/category/${from}`,
-        destination: `/blog/category/${to}`,
+        destination: `https://ultimatecineverse.com/blog/category/${to}`,
         statusCode: 301
       }))
     ];

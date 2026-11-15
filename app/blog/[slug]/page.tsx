@@ -6,9 +6,12 @@ import { getPostBySlug, getRelatedPosts, getBlogPosts } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { fetchApprovedComments } from "@/lib/sanity/posts";
 
-// Render on request so Sanity edits (links, fixes) show immediately; the build-time
-// prerender was serving stale post bodies from a restored fetch cache.
-export const dynamic = "force-dynamic";
+// ISR: prerendered and regenerated at most hourly so Cloudflare can
+// edge-cache post HTML (s-maxage + stale-while-revalidate) instead of every
+// visit re-downloading an uncacheable document. Sanity edits and newly
+// approved comments appear within the hour — the freshness window the
+// category and author pages already use.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts(false);

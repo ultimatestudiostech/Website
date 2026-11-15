@@ -1,5 +1,5 @@
 import localPostsJson from "@/content/posts.json";
-import type { BlogPost } from "@/lib/blog";
+import { getReadingMinutes, type BlogPost } from "@/lib/blog";
 import { categoriesFor } from "@/lib/categories";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { fetchSanityPostBySlug, fetchSanityPosts } from "@/lib/sanity/posts";
@@ -50,6 +50,40 @@ export async function getPostBySlug(slug: string, includeDrafts = false) {
 export async function getPostsNewestFirst(includeDrafts = false) {
   const posts = await getBlogPosts(includeDrafts);
   return [...posts].sort((a, b) => b.datePublished.localeCompare(a.datePublished));
+}
+
+/**
+ * Card-weight view of a post for the listing pages (hub, category, author):
+ * everything BlogIndex renders — slug, title, description, tags, categories,
+ * dates, author, cover/OG image — without the Portable Text body or the
+ * derived full text, which otherwise inline ~2 MB of RSC payload into /blog.
+ * Reading time is precomputed here, while the full text is still available.
+ */
+export function toCardPost(post: BlogPost): BlogPost {
+  return {
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    datePublished: post.datePublished,
+    dateModified: post.dateModified,
+    author: post.author,
+    authorRole: post.authorRole,
+    authorBio: post.authorBio,
+    tags: post.tags,
+    primaryCategory: post.primaryCategory,
+    secondaryCategories: post.secondaryCategories,
+    content: "",
+    readingMinutes: getReadingMinutes(post),
+    coverImage: post.coverImage,
+    ogImage: post.ogImage,
+    draft: post.draft,
+    noIndex: post.noIndex
+  };
+}
+
+export async function getCardPostsNewestFirst(includeDrafts = false) {
+  const posts = await getPostsNewestFirst(includeDrafts);
+  return posts.map(toCardPost);
 }
 
 export async function getRelatedPosts(slug: string, limit = 3) {

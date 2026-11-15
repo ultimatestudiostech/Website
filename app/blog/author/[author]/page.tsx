@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
-import { getPostsNewestFirst } from "@/lib/blog-data";
+import { getCardPostsNewestFirst } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { getActiveSeason } from "@/lib/season";
 import type { BlogPost } from "@/lib/blog";
@@ -13,7 +13,7 @@ export const revalidate = 3600;
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 async function getAuthor(slug: string) {
-  const posts = (await getPostsNewestFirst()).filter((p: BlogPost) => p.authorRole && slugify(p.author) === slug);
+  const posts = (await getCardPostsNewestFirst()).filter((p: BlogPost) => p.authorRole && slugify(p.author) === slug);
   if (!posts.length) return null;
   const first = posts[0];
   return { name: first.author, role: first.authorRole || "", bio: posts.find((p) => p.authorBio)?.authorBio?.trim() || "", posts };
@@ -22,7 +22,7 @@ async function getAuthor(slug: string) {
 type Props = { params: Promise<{ author: string }> };
 
 export async function generateStaticParams() {
-  const posts = await getPostsNewestFirst();
+  const posts = await getCardPostsNewestFirst();
   return Array.from(new Set(posts.filter((p) => p.authorRole).map((p) => slugify(p.author)))).map((author) => ({ author }));
 }
 

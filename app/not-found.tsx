@@ -2,11 +2,16 @@ import { buildMetadata } from "@/lib/seo";
 import "./tailwind.css";
 
 export async function generateMetadata() {
-  return buildMetadata({
+  const meta = await buildMetadata({
     title: "Page Not Found",
     description: "The page you’re looking for doesn’t exist. Go back to the homepage.",
     pathname: "/404"
   });
+  // Next.js adds its own <meta name="robots" content="noindex"> to 404
+  // responses; buildMetadata's index/follow tag would be a second,
+  // conflicting robots meta, so drop it and keep only the framework's.
+  delete meta.robots;
+  return meta;
 }
 
 export default function NotFound() {

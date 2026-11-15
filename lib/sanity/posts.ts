@@ -1,7 +1,7 @@
 import type { PortableTextBlock } from "@portabletext/types";
 import type { BlogComment, BlogPost } from "@/lib/blog";
 import { portableTextToPlain } from "@/lib/blog";
-import { isSanityConfigured, sanityClient, sanityLiveClient } from "./client";
+import { isSanityConfigured, sanityClient } from "./client";
 import { urlForImage } from "./image";
 
 type SanityImage = {
@@ -226,7 +226,9 @@ export async function fetchSanityPosts(includeDrafts = false): Promise<BlogPost[
     const docs = await sanityClient.fetch<SanityPost[]>(
       `*[${filter}] | order(datePublished desc) { ${postFields} }`,
       {},
-      { next: { revalidate: 60, tags: ["sanity-posts"] } }
+      // Hourly, matching the ISR window of the pages that render this list;
+      // a shorter fetch revalidate would cap those pages' s-maxage at it.
+      { next: { revalidate: 3600, tags: ["sanity-posts"] } }
     );
     return docs.map(mapPost);
   } catch (err) {
@@ -246,10 +248,12 @@ export async function fetchSanityPostBySlug(
     : `_type == "post" && slug.current == $slug && draft != true`;
 
   try {
-    const doc = await sanityLiveClient.fetch<SanityPost | null>(
+    // Cached read (CDN client + Data Cache) so post pages can be ISR instead
+    // of force-dynamic/no-store; edits surface within the hourly window.
+    const doc = await sanityClient.fetch<SanityPost | null>(
       `*[${filter}][0]{ ${postFields} }`,
       { slug },
-      { cache: "no-store" }
+      { next: { revalidate: 3600, tags: ["sanity-posts", `sanity-post:${slug}`] } }
     );
     return doc?.slug ? mapPost(doc) : null;
   } catch (err) {
@@ -266,7 +270,9 @@ export async function fetchApprovedComments(postId: string): Promise<BlogComment
         _id, name, body, createdAt
       }`,
       { postId },
-      { next: { revalidate: 30, tags: ["blog-comments", `comments:${postId}`] } }
+      // Hourly like the post page itself; comments are approval-gated, so a
+      // shorter window here would only cap the page's s-maxage at 30s.
+      { next: { revalidate: 3600, tags: ["blog-comments", `comments:${postId}`] } }
     );
   } catch (err) {
     console.error("[sanity] fetchApprovedComments failed", err);

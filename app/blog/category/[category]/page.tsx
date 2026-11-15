@@ -5,7 +5,7 @@ import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { CATEGORIES, getCategory, postsInCategory } from "@/lib/categories";
-import { getPostsNewestFirst } from "@/lib/blog-data";
+import { getCardPostsNewestFirst } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { getActiveSeason } from "@/lib/season";
 
@@ -34,7 +34,7 @@ export default async function CategoryPage({ params }: Props) {
   if (!cat) notFound();
   const siteUrl = getSiteUrl();
   const season = getActiveSeason(await getSite());
-  const posts = postsInCategory(await getPostsNewestFirst(), cat.slug);
+  const posts = postsInCategory(await getCardPostsNewestFirst(), cat.slug);
   const url = `${siteUrl}/blog/category/${cat.slug}`;
 
   const ld = [
