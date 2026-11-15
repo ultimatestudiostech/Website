@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Anton, Barlow_Condensed } from "next/font/google";
+import { AdSenseVerification } from "@/components/ads/AdSenseVerification";
 import { ConsentDefaults } from "@/components/consent/ConsentDefaults";
 import { SiteChrome } from "@/components/shell/SiteChrome";
 import { ThemeScript } from "@/components/theme/ThemeScript";
@@ -85,6 +86,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <ThemeScript />
         <ConsentDefaults />
+        <AdSenseVerification />
       </head>
       <body className={barlowCondensed.className}>
         <SiteChrome email={site.contact.email}>

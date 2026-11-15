@@ -1,12 +1,16 @@
 /**
- * AdSense config from env. Never hardcode publisher IDs in components.
- * Set NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX
- * and slot IDs from the AdSense dashboard.
+ * AdSense config. NEXT_PUBLIC_ADSENSE_CLIENT overrides the client ID;
+ * the fallback is the site's own publisher ID, which is public by design
+ * (it is printed in ads.txt and in every page's source). Never hardcode
+ * publisher IDs in components — read them through here.
+ * Slot IDs come from the AdSense dashboard via env.
  */
+
+const FALLBACK_ADSENSE_CLIENT = "ca-pub-6943355596909598";
 
 export function getAdSenseClientId(): string | null {
   const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim();
-  if (!raw) return null;
+  if (!raw) return FALLBACK_ADSENSE_CLIENT;
   if (!/^ca-pub-\d{10,20}$/.test(raw)) return null;
   return raw;
 }

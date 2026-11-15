@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CONSENT_CHANGED_EVENT, hasAdsConsent } from "@/lib/consent";
-import { ADS_ENABLED } from "@/lib/ads";
+import { ADS_ENABLED, getAdSenseClientId } from "@/lib/ads";
 
 declare global {
   interface Window {
@@ -21,7 +21,8 @@ export function AdScriptLoader() {
   }, []);
 
   useEffect(() => {
-    if (!ADS_ENABLED || !shouldLoad) return;
+    const client = getAdSenseClientId();
+    if (!ADS_ENABLED || !shouldLoad || !client) return;
 
     const existing = document.getElementById("adsbygoogle-script");
     if (existing) return;
@@ -30,8 +31,7 @@ export function AdScriptLoader() {
     script.id = "adsbygoogle-script";
     script.async = true;
     script.crossOrigin = "anonymous";
-    script.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX";
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
     document.head.appendChild(script);
 
     window.adsbygoogle = window.adsbygoogle || [];

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getAdSenseClientId } from "@/lib/ads";
 import { CONSENT_CHANGED_EVENT, hasAdsConsent } from "@/lib/consent";
 
 declare global {
@@ -77,7 +78,7 @@ export function AdUnit({ slot, format = "auto", className, minHeight = 250 }: Pr
         <ins
           style={{ display: "block", width: "100%", height: minHeight }}
           className="adsbygoogle"
-          data-ad-client="ca-pub-XXXXXXXXXXXX"
+          data-ad-client={getAdSenseClientId() ?? undefined}
           data-ad-slot={slot}
           data-ad-format={format}
         />
