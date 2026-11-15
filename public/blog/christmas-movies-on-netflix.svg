@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="A cinema screen showing a Christmas tree under falling snow, framed by red curtains and string lights">
+  <defs>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1409"/>
+      <stop offset="0.55" stop-color="#1c0e06"/>
+      <stop offset="1" stop-color="#100704"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf3d8"/>
+      <stop offset="0.6" stop-color="#f7dfae"/>
+      <stop offset="1" stop-color="#eec27f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#ffdf9e" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffdf9e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="curtain" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5d130f"/>
+      <stop offset="0.5" stop-color="#8e1f16"/>
+      <stop offset="1" stop-color="#4a0f0c"/>
+    </linearGradient>
+    <linearGradient id="tree" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e6b3e"/>
+      <stop offset="1" stop-color="#17401f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#room)"/>
+  <ellipse cx="800" cy="390" rx="620" ry="360" fill="url(#glow)"/>
+
+  <!-- screen -->
+  <rect x="330" y="130" width="940" height="520" rx="18" fill="#0a0603"/>
+  <rect x="348" y="148" width="904" height="484" rx="12" fill="url(#screen)"/>
+
+  <!-- inside the screen: night hill, moon, tree, snow -->
+  <circle cx="1085" cy="245" r="46" fill="#fff6dd"/>
+  <circle cx="1085" cy="245" r="66" fill="#fff6dd" opacity="0.25"/>
+  <path d="M348 520 Q 560 430 800 500 T 1252 500 V 632 H 348 Z" fill="#f3e3bd"/>
+  <path d="M348 560 Q 620 480 900 545 T 1252 540 V 632 H 348 Z" fill="#e9d3a0"/>
+  <g fill="url(#tree)">
+    <path d="M800 218 L872 348 H728 Z"/>
+    <path d="M800 288 L892 438 H708 Z"/>
+    <path d="M800 366 L916 540 H684 Z"/>
+  </g>
+  <rect x="786" y="540" width="28" height="42" rx="4" fill="#6b4423"/>
+  <path d="M800 176 l11.8 24 26.5 3.9 -19.2 18.7 4.6 26.4 -23.7 -12.5 -23.7 12.5 4.6 -26.4 -19.2 -18.7 26.5 -3.9 Z" fill="#f5b921"/>
+  <g fill="#c62f22">
+    <circle cx="762" cy="392" r="9"/><circle cx="838" cy="392" r="9"/>
+    <circle cx="742" cy="470" r="10"/><circle cx="858" cy="470" r="10"/>
+    <circle cx="800" cy="500" r="9"/>
+  </g>
+  <g fill="#f5b921">
+    <circle cx="790" cy="330" r="7"/><circle cx="822" cy="428" r="7"/><circle cx="768" cy="512" r="7"/><circle cx="845" cy="330" r="7"/>
+  </g>
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="430" cy="230" r="5"/><circle cx="520" cy="330" r="4"/><circle cx="470" cy="450" r="5"/>
+    <circle cx="610" cy="240" r="4"/><circle cx="660" cy="380" r="5"/><circle cx="950" cy="330" r="4"/>
+    <circle cx="1010" cy="430" r="5"/><circle cx="1140" cy="360" r="4"/><circle cx="1180" cy="480" r="5"/>
+    <circle cx="560" cy="540" r="4"/><circle cx="1060" cy="560" r="4"/><circle cx="700" cy="270" r="3"/>
+  </g>
+  <g>
+    <rect x="700" y="582" width="34" height="26" rx="3" fill="#c62f22"/>
+    <rect x="752" y="590" width="30" height="22" rx="3" fill="#2e6b3e"/>
+    <rect x="824" y="582" width="34" height="26" rx="3" fill="#2b5ea7"/>
+    <rect x="872" y="592" width="28" height="20" rx="3" fill="#c62f22"/>
+  </g>
+
+  <!-- curtains -->
+  <path d="M0 0 H330 C 280 220 300 480 250 700 C 230 790 240 850 250 900 H0 Z" fill="url(#curtain)"/>
+  <path d="M1600 0 H1270 C 1320 220 1300 480 1350 700 C 1370 790 1360 850 1350 900 H1600 Z" fill="url(#curtain)"/>
+  <g stroke="#2f0906" stroke-width="10" opacity="0.35">
+    <path d="M70 0 C 50 300 60 620 70 900"/>
+    <path d="M160 0 C 140 300 150 620 160 900"/>
+    <path d="M1530 0 C 1550 300 1540 620 1530 900"/>
+    <path d="M1440 0 C 1460 300 1450 620 1440 900"/>
+  </g>
+  <rect x="0" y="0" width="1600" height="46" fill="#3d0d09"/>
+  <rect x="0" y="46" width="1600" height="10" fill="#f5b921" opacity="0.55"/>
+
+  <!-- string lights -->
+  <path d="M120 60 Q 800 190 1480 60" fill="none" stroke="#0d0503" stroke-width="5"/>
+  <g>
+    <circle cx="300" cy="92" r="11" fill="#c62f22"/><circle cx="470" cy="118" r="11" fill="#f5b921"/>
+    <circle cx="640" cy="132" r="11" fill="#2e9e57"/><circle cx="800" cy="138" r="11" fill="#fdf3d8"/>
+    <circle cx="960" cy="132" r="11" fill="#c62f22"/><circle cx="1130" cy="118" r="11" fill="#f5b921"/>
+    <circle cx="1300" cy="92" r="11" fill="#2e9e57"/>
+    <circle cx="300" cy="92" r="22" fill="#c62f22" opacity="0.18"/><circle cx="640" cy="132" r="22" fill="#2e9e57" opacity="0.18"/>
+    <circle cx="1130" cy="118" r="22" fill="#f5b921" opacity="0.18"/>
+  </g>
+
+  <!-- seats -->
+  <g fill="#160a05">
+    <rect x="330" y="712" width="130" height="88" rx="26"/>
+    <rect x="500" y="712" width="130" height="88" rx="26"/>
+    <rect x="670" y="712" width="130" height="88" rx="26"/>
+    <rect x="840" y="712" width="130" height="88" rx="26"/>
+    <rect x="1010" y="712" width="130" height="88" rx="26"/>
+    <rect x="240" y="796" width="150" height="104" rx="30"/>
+    <rect x="440" y="796" width="150" height="104" rx="30"/>
+    <rect x="640" y="796" width="150" height="104" rx="30"/>
+    <rect x="840" y="796" width="150" height="104" rx="30"/>
+    <rect x="1040" y="796" width="150" height="104" rx="30"/>
+    <rect x="1240" y="796" width="150" height="104" rx="30"/>
+  </g>
+  <g fill="#241108">
+    <circle cx="395" cy="700" r="24"/><circle cx="565" cy="700" r="24"/><circle cx="905" cy="700" r="24"/><circle cx="1075" cy="700" r="24"/>
+  </g>
+</svg>

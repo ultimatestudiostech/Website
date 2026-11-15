@@ -37,6 +37,11 @@ const nextConfig = {
     optimizeCss: true
   },
   images: {
+    // Allow first-party SVG covers (original artwork in public/blog) through the
+    // image optimizer, sandboxed per Next.js guidance. Added 2026-11-15.
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     formats: ["image/avif", "image/webp"],
     deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536],
     minimumCacheTTL: 60,
