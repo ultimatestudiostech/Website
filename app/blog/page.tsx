@@ -2,6 +2,7 @@ import { HubIntro } from "@/components/blog/HubIntro";
 import { BlogIndex } from "@/components/blog/BlogIndex";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
+import { BLOG_FAQS } from "@/lib/blog-faqs";
 import { getPostsNewestFirst } from "@/lib/blog-data";
 import { getBlogHubCopy, getSite, getSiteUrl } from "@/lib/cms/store";
 
@@ -71,13 +72,24 @@ export default async function BlogIndexPage({ searchParams }: Props) {
         { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
         { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` }
       ]
+    },
+    {
+      // Mirrors the visible FAQ section in BlogIndex 1:1 (same source array).
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/blog#faq`,
+      mainEntity: BLOG_FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: { "@type": "Answer", text: f.answer }
+      }))
     }
   ];
 
   return (
     <>
       <JsonLd data={collectionLd} />
-      <BlogIndex posts={posts} initialQuery={q?.trim() ?? ""} heading={hub.heading} intro={<HubIntro variant="blog" />} />
+      <BlogIndex posts={posts} initialQuery={q?.trim() ?? ""} heading={hub.heading} intro={<HubIntro variant="blog" />} hubExtras />
     </>
   );
 }

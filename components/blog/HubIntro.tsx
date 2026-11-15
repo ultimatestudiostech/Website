@@ -87,7 +87,7 @@ export function HubIntro({ variant }: { variant: string }) {
       body = (
         <>
           <p>
-            Seasonal watchlists for the whole holiday stretch. In October, start with the <Link href="/blog/best-halloween-movies">best Halloween movies</Link> for every age, then see <Link href="/blog/halloween-movies-streaming">where to stream Halloween movies</Link>. For November, we have the <Link href="/blog/best-thanksgiving-movies">best Thanksgiving movies</Link> for the whole family and a darker list of <Link href="/blog/thanksgiving-horror-movies">Thanksgiving horror movies</Link>. December brings our <Link href="/blog/christmas-horror-movies">Christmas horror movies</Link>, from Black Christmas to Krampus.
+            Seasonal watchlists for the whole holiday stretch. For November, start with the <Link href="/blog/best-thanksgiving-movies">best Thanksgiving movies</Link> for the whole family and a darker list of <Link href="/blog/thanksgiving-horror-movies">Thanksgiving horror movies</Link>. December brings our <Link href="/blog/christmas-horror-movies">Christmas horror movies</Link>, from Black Christmas to Krampus. And in October, start with the <Link href="/blog/best-halloween-movies">best Halloween movies</Link> for every age, then see <Link href="/blog/halloween-movies-streaming">where to stream Halloween movies</Link>.
           </p>
           <p>
             Every pick says where it streams, and the family-friendly titles are marked. For more scares any time of year, browse the <Link href="/blog/category/horror-movie-lists">horror movie lists</Link>. Release years and credits are checked against <a href="https://www.imdb.com/" {...ext}>IMDb</a>.
@@ -124,6 +124,7 @@ export function HubIntro({ variant }: { variant: string }) {
             The Ultimate Cineverse blog mixes <Link href="/blog/category/movie-reviews">new movie reviews</Link>,{" "}
             <Link href="/blog/category/horror-movie-lists">horror rankings</Link> and{" "}
             <Link href="/blog/category/where-to-stream">streaming guides</Link>. Popular right now: the{" "}
+            <Link href="/blog/best-thanksgiving-movies">best Thanksgiving movies</Link>, the{" "}
             <Link href="/blog/best-halloween-movies">best Halloween movies</Link>,{" "}
             <Link href="/blog/new-horror-movies-streaming">new horror movies streaming</Link> and our{" "}
             <Link href="/blog/frankenstein-2025-review">Frankenstein (2025) review</Link>.

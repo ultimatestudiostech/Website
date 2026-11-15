@@ -6,7 +6,7 @@ import { CATEGORIES } from "@/lib/categories";
 /** Update when the page content meaningfully changes (avoid `new Date()` on every request). */
 const STATIC_ROUTES: Array<{ path: string; lastModified: string }> = [
   { path: "/", lastModified: "2026-10-28" },
-  { path: "/blog", lastModified: "2026-10-28" },
+  { path: "/blog", lastModified: "2026-11-15" },
   { path: "/studio-services", lastModified: "2026-10-28" },
   { path: "/about", lastModified: "2026-10-28" },
   { path: "/contact", lastModified: "2026-10-28" },

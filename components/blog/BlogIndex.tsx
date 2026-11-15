@@ -3,9 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
-import { Cobweb, HalloweenFlight, PumpkinAccent } from "@/components/blog/HalloweenDetails";
+import { FallingLeaves, LeafSprig, WheatAccent } from "@/components/blog/ThanksgivingDetails";
+import { ThanksgivingCountdown } from "@/components/blog/ThanksgivingCountdown";
+import { GratitudeWall } from "@/components/blog/GratitudeWall";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { ADS_ENABLED } from "@/lib/ads";
+import { BLOG_FAQS } from "@/lib/blog-faqs";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
 import { CATEGORIES, getCategory, primaryCategoryFor } from "@/lib/categories";
 import styles from "./blog.module.css";
@@ -19,9 +22,9 @@ function yearOf(iso: string) {
 function posterTone(slug: string) {
   let h = 0;
   for (let i = 0; i < slug.length; i++) h = (h + slug.charCodeAt(i) * (i + 1)) % 360;
-  // Halloween palette: pumpkin, amber, ember, blood orange, charcoal ember
-  const hue = [18, 28, 32, 12, 8, 24, 15][h % 7];
-  return `linear-gradient(145deg, hsl(${hue} 62% 28%) 0%, hsl(${hue} 40% 10%) 55%, #07060a 100%)`;
+  // Harvest palette: pumpkin, cranberry, gold, sage, warm bark
+  const hue = [26, 12, 38, 74, 18, 32, 8][h % 7];
+  return `linear-gradient(145deg, hsl(${hue} 52% 30%) 0%, hsl(${hue} 42% 13%) 55%, #17100b 100%)`;
 }
 
 function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
@@ -45,7 +48,7 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
           <div className={styles.featureFallback} style={{ background: posterTone(post.slug) }} />
         )}
         <div className={styles.featureScrim} />
-        <Cobweb className={styles.cardWeb} />
+        <LeafSprig className={styles.cardLeaf} />
       </div>
       <div className={styles.featureCopy}>
         <p className={styles.featureEyebrow}>
@@ -113,12 +116,25 @@ function PosterCard({ post }: { post: BlogPost }) {
   );
 }
 
+/** Thanksgiving watch moods — each one runs a real search over the library. */
+const MOODS = [
+  { id: "family", label: "Whole family, one screen", query: "family", hint: "All-ages picks everyone can share" },
+  { id: "classic", label: "Cozy & classic", query: "classic", hint: "Comfort films and beloved re-watches" },
+  { id: "comedy", label: "Make us laugh", query: "comedy", hint: "Big laughs for after the feast" },
+  { id: "food", label: "Food, glorious food", query: "food", hint: "Films to cook and feast along with" },
+  { id: "drama", label: "A grateful heart", query: "drama", hint: "Warm, moving stories about family" },
+  { id: "thanksgiving", label: "Set on Thanksgiving", query: "thanksgiving", hint: "Stories that unfold over the holiday" }
+] as const;
+
+type Mood = (typeof MOODS)[number];
+
 export function BlogIndex({
   posts,
   initialQuery = "",
   heading = "Film reviews & streaming guides",
   intro,
-  activeCategory
+  activeCategory,
+  hubExtras = false
 }: {
   /** Category slug when rendered on /blog/category/[slug]. */
   activeCategory?: string;
@@ -127,9 +143,18 @@ export function BlogIndex({
   initialQuery?: string;
   /** Keyword H1 for the hub (from content/site.json blogHub). */
   heading?: string;
+  /** Seasonal hub-only sections (watch picker, gratitude wall, FAQ) — set only on /blog. */
+  hubExtras?: boolean;
 }) {
   const activeCat = activeCategory ? getCategory(activeCategory) : undefined;
   const [query, setQuery] = useState(initialQuery);
+  const [mood, setMood] = useState<Mood | null>(null);
+
+  const pickMood = (m: Mood) => {
+    setMood(m);
+    setQuery(m.query);
+    document.getElementById("library")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -142,57 +167,82 @@ export function BlogIndex({
 
   const featured = filtered.length > 2 ? filtered.slice(0, 2) : [];
   const gridPosts = filtered.slice(featured.length);
-  const blogLabel = posts.length === 1 ? "story to explore" : "stories to explore";
+  const blogLabel = posts.length === 1 ? "story to gather around" : "stories to gather around";
 
   return (
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
       <main className={styles.shell}>
         <header className={styles.seasonHero}>
-          <Image
-            src="/images/blog/halloween-after-dark.webp"
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 1280px) 100vw, 1240px"
-            className={styles.seasonArt}
-          />
-          <div className={styles.seasonVeil} aria-hidden="true" />
-          <HalloweenFlight />
-          <Cobweb className={styles.heroWeb} />
+          <div className={styles.seasonArtwork} aria-hidden="true" />
+          <FallingLeaves />
           <div className={styles.seasonMasthead}>
-            <p className={styles.brandKicker}>Ultimate Cineverse / The Halloween edit</p>
-            <span className={styles.seasonIssue} aria-hidden="true">Oct. 31</span>
+            <p className={styles.brandKicker}>Ultimate Cineverse / The Thanksgiving edit</p>
+            <span className={styles.seasonIssue} aria-hidden="true">Thu · Nov 26, 2026</span>
           </div>
           <div className={styles.seasonIntro}>
             <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
-            <p className={styles.seasonTitle} aria-hidden="true">Halloween<br /><span>After dark.</span></p>
+            <p className={styles.seasonTitle} aria-hidden="true">Gather. Watch.<br /><span>Give thanks.</span></p>
             <p className={styles.seasonDescription}>
-              Films that haunt you. Stories that stay with you. Explore horror movie guides,
-              streaming picks, and the craft behind the chills.
+              Thanksgiving movie guides, family film picks, and stories worth passing
+              around the table — plus the reviews and streaming guides to plan your
+              whole holiday weekend.
             </p>
-            <a href="#library" className={styles.seasonCta}>
-              Find your next read <span aria-hidden="true">↗</span>
-            </a>
+            <div className={styles.heroActions}>
+              <a href={hubExtras ? "#picker" : "#library"} className={styles.seasonCta}>
+                Find tonight&rsquo;s film <span aria-hidden="true">↓</span>
+              </a>
+              <ThanksgivingCountdown />
+            </div>
           </div>
           <div className={styles.seasonFoot}>
-            <span>Horror. Cinema. A little darkness.</span>
+            <span>Family. Feasts. Films we return to.</span>
             <span>{posts.length} {blogLabel}</span>
           </div>
         </header>
         {intro}
 
+        {hubExtras ? (
+          <section id="picker" className={styles.picker} aria-labelledby="picker-heading">
+            <p className={styles.brandKicker}>The Thanksgiving watch picker</p>
+            <h2 id="picker-heading" className={styles.pickerTitle}>Who&rsquo;s at your table tonight?</h2>
+            <p className={styles.pickerCopy}>Pick a mood — we&rsquo;ll set the table with matching stories from the library.</p>
+            <div className={styles.pickerGrid} role="group" aria-label="Choose a Thanksgiving watch mood">
+              {MOODS.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  className={`${styles.moodCard} ${mood?.id === m.id ? styles.moodCardActive : ""}`}
+                  aria-pressed={mood?.id === m.id}
+                  onClick={() => pickMood(m)}
+                >
+                  <span className={styles.moodLabel}>{m.label}</span>
+                  <span className={styles.moodHint}>{m.hint}</span>
+                </button>
+              ))}
+            </div>
+            {mood ? (
+              <p className={styles.pickerNote} role="status">
+                Showing <strong>{mood.label.toLowerCase()}</strong> picks below —{" "}
+                <button type="button" className={styles.clearSearch} onClick={() => { setMood(null); setQuery(""); }}>
+                  clear the picker
+                </button>
+              </p>
+            ) : null}
+          </section>
+        ) : null}
+
         <div className={styles.browseBar}>
           <div>
             <p className={styles.brandKicker}>The reading room</p>
-            <h2 className={styles.browseTitle}>Good stories. Dark corners.</h2>
+            <h2 className={styles.browseTitle}>Stories to pass around.</h2>
           </div>
           <label className={styles.blogSearch}>
             <span>Search the stories</span>
             <input
               type="search"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => { setQuery(event.target.value); setMood(null); }}
               placeholder="A film, a mood, a story…"
               aria-controls="library"
             />
@@ -223,7 +273,7 @@ export function BlogIndex({
           <p className={styles.searchNote} role="status">
             Showing results for <strong>“{query}”</strong>
             {" · "}
-            <button type="button" className={styles.clearSearch} onClick={() => setQuery("")}>
+            <button type="button" className={styles.clearSearch} onClick={() => { setQuery(""); setMood(null); }}>
               Clear
             </button>
           </p>
@@ -232,18 +282,19 @@ export function BlogIndex({
         <div id="library" className={styles.storyResults}>
           {posts.length === 0 ? (
             <div className={styles.empty} role="status">
-              <h2>The next story is in the shadows</h2>
-              <p>Check back for new film stories and Halloween reads.</p>
+              <h2>The next story is on its way home</h2>
+              <p>Check back for new film stories and Thanksgiving reads.</p>
             </div>
           ) : filtered.length === 0 ? (
             <div className={styles.empty} role="status">
-              <h2>No matches</h2>
-              <p>Try another search or clear the filter.</p>
+              <h2>No matches at this table</h2>
+              <p>Try another search or clear the filter — there is always room for one more story.</p>
               <button
                 type="button"
                 className={styles.resetSearch}
                 onClick={() => {
                   setQuery("");
+                  setMood(null);
                 }}
               >
                 Show all stories
@@ -252,7 +303,7 @@ export function BlogIndex({
           ) : (
             <>
               {featured.length > 0 ? (
-                <section id="featured" className={styles.featured} aria-label="Featured Halloween reads">
+                <section id="featured" className={styles.featured} aria-label="Featured Thanksgiving reads">
                   {featured.map((post, i) => (
                     <FeaturedCard key={post.slug} post={post} accent={i === 1} />
                   ))}
@@ -289,9 +340,35 @@ export function BlogIndex({
             </>
           )}
         </div>
+
+        {hubExtras ? (
+          <>
+            <GratitudeWall />
+
+            <section className={styles.faqSection} aria-labelledby="faq-heading">
+              <p className={styles.brandKicker}>Thanksgiving watching, answered</p>
+              <h2 id="faq-heading" className={styles.faqTitle}>Questions every table asks</h2>
+              <div className={styles.faqGrid}>
+                {BLOG_FAQS.map((faq) => (
+                  <details key={faq.question} className={styles.faqCard}>
+                    <summary>{faq.question}</summary>
+                    <p>{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
+              <p className={styles.faqMore}>
+                Planning the whole weekend? Start with our{" "}
+                <Link href="/blog?q=thanksgiving">Thanksgiving stories</Link>, browse{" "}
+                <Link href="/blog#topics">all topics</Link>, or learn more{" "}
+                <Link href="/about">about Ultimate Cineverse</Link>.
+              </p>
+            </section>
+          </>
+        ) : null}
+
         <footer className={styles.journalFooter}>
-          <PumpkinAccent />
-          <p>Keep the lights low. <span>Keep the curiosity alive.</span></p>
+          <WheatAccent />
+          <p>Come hungry. <span>Leave grateful.</span></p>
           <Link href="/">Back to Ultimate Cineverse <span aria-hidden="true">↗</span></Link>
         </footer>
       </main>
