@@ -44,6 +44,7 @@
     },
     "seasonal": [
       {
+        "season": "halloween",
         "from": "10-01",
         "until": "11-01",
         "title": "Halloween Horror Movie Guides & Reviews",
@@ -61,6 +62,7 @@
         "ogImageAlt": "A candlelit Halloween pumpkin outside a moonlit cinema"
       },
       {
+        "season": "thanksgiving",
         "from": "11-01",
         "until": "12-01",
         "title": "Thanksgiving Movies, Family Films & What to Watch",
@@ -69,6 +71,20 @@
         "about": [
           "Thanksgiving movies",
           "Family films",
+          "Streaming guides",
+          "Film reviews"
+        ]
+      },
+      {
+        "season": "christmas",
+        "from": "12-01",
+        "until": "01-01",
+        "title": "Christmas Movies, Holiday Classics & What to Stream",
+        "heading": "Christmas movies, holiday classics & what to stream",
+        "description": "Best Christmas movies and family classics for Friday, Dec 25, 2026 — cozy picks, Christmas horror and streaming guides for Netflix, Hulu and Prime Video.",
+        "about": [
+          "Christmas movies",
+          "Holiday classics",
           "Streaming guides",
           "Film reviews"
         ]

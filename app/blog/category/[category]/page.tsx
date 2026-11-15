@@ -6,7 +6,8 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { CATEGORIES, getCategory, postsInCategory } from "@/lib/categories";
 import { getPostsNewestFirst } from "@/lib/blog-data";
-import { getSiteUrl } from "@/lib/cms/store";
+import { getSite, getSiteUrl } from "@/lib/cms/store";
+import { getActiveSeason } from "@/lib/season";
 
 export const revalidate = 3600;
 
@@ -32,6 +33,7 @@ export default async function CategoryPage({ params }: Props) {
   const cat = getCategory(category);
   if (!cat) notFound();
   const siteUrl = getSiteUrl();
+  const season = getActiveSeason(await getSite());
   const posts = postsInCategory(await getPostsNewestFirst(), cat.slug);
   const url = `${siteUrl}/blog/category/${cat.slug}`;
 
@@ -67,7 +69,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <>
       <JsonLd data={ld} />
-      <BlogIndex posts={posts} initialQuery="" heading={cat.h1} activeCategory={cat.slug} intro={<HubIntro variant={cat.slug} />} />
+      <BlogIndex posts={posts} initialQuery="" heading={cat.h1} activeCategory={cat.slug} season={season} intro={<HubIntro variant={cat.slug} season={season} />} />
       <nav aria-label="Other sections" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.25rem 3rem" }}>
         <p>{cat.intro}</p>
         <p>

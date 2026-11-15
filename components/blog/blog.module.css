@@ -1753,3 +1753,193 @@ details[open] > .tocSummary::after {
   .moodCard, .gratitudeBtn { transition: none; }
   .moodCard:hover { transform: none; }
 }
+
+/* —— Christmas season — deep pine / cranberry / gold / cream, scoped by data-season —— */
+.page[data-season="christmas"] {
+  --blog-ink: #f7f2e7;
+  --blog-muted: #c6bfa9;
+  --blog-faint: rgba(207, 68, 51, 0.16);
+  --blog-line: rgba(240, 230, 205, 0.18);
+  --blog-red: #cf4433;
+  --blog-cranberry: #9e2b25;
+  --blog-amber: #d9a441;
+  --blog-sage: #8fbc94;
+  --blog-bone: #f2e8d5;
+  --blog-night: #0c1f14;
+  --blog-glass: rgba(217, 164, 65, 0.07);
+  --blog-glass-strong: rgba(217, 164, 65, 0.15);
+  --blog-panel: rgba(10, 26, 17, 0.88);
+}
+
+.page[data-season="christmas"] .seasonHero {
+  background:
+    radial-gradient(ellipse 60% 45% at 88% 12%, rgba(217, 164, 65, 0.18), transparent 65%),
+    radial-gradient(ellipse 50% 60% at 100% 90%, rgba(207, 68, 51, 0.16), transparent 60%),
+    linear-gradient(155deg, #16382a 0%, #0e2417 48%, #0c1f14 100%);
+}
+
+.page[data-season="christmas"] .seasonArtwork {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(207, 68, 51, 0.20) 0, transparent 16rem),
+    linear-gradient(0deg, rgba(12, 31, 20, 0.55), transparent 35%);
+}
+
+.page[data-season="christmas"] .seasonTitle span { color: #eec27a; }
+
+.page[data-season="christmas"] .seasonCta,
+.page[data-season="christmas"] .resetSearch {
+  border-color: #cf4433;
+  background: #cf4433;
+  color: #fdf6ec;
+}
+
+.page[data-season="christmas"] .seasonCta:hover,
+.page[data-season="christmas"] .resetSearch:hover { background: #dd5a45; }
+
+.page[data-season="christmas"] .countdown { background: rgba(12, 31, 20, 0.55); }
+
+/* Small seasonal ornaments never cover controls or intercept input. */
+.snowField, .cardPine, .hollyAccent { pointer-events: none; }
+.cardPine {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 84px;
+  transform: scaleX(-1);
+  color: #dce8d8;
+  opacity: 0.35;
+}
+.snowField {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.snow {
+  position: absolute;
+  top: -4%;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0;
+}
+.snowOne { width: 7px; height: 7px; left: 62%; animation-delay: 0s; }
+.snowTwo { width: 5px; height: 5px; left: 74%; animation-delay: 2.2s; filter: blur(0.5px); }
+.snowThree { width: 9px; height: 9px; left: 85%; animation-delay: 4.6s; }
+.snowFour { width: 4px; height: 4px; left: 55%; animation-delay: 6.8s; filter: blur(1px); }
+.snowFive { width: 6px; height: 6px; left: 92%; animation-delay: 8.9s; }
+.snowSix { width: 5px; height: 5px; left: 68%; animation-delay: 3.7s; }
+.snowSeven { width: 8px; height: 8px; left: 80%; animation-delay: 10.4s; filter: blur(0.5px); }
+.snowEight { width: 4px; height: 4px; left: 97%; animation-delay: 5.9s; }
+.hollyAccent { width: 62px; color: var(--blog-red); opacity: 0.9; flex: 0 0 auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .snow { animation: snowFall 11s linear infinite; }
+}
+@keyframes snowFall {
+  0% { transform: translate3d(0, -4vh, 0); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translate3d(1.4rem, 48vh, 0); }
+  90% { opacity: 0.75; }
+  100% { transform: translate3d(-0.9rem, 98vh, 0); opacity: 0.1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snow { animation: none; opacity: 0; }
+}
+@media (max-width: 640px) {
+  .cardPine { width: 60px; }
+  .hollyAccent { width: 48px; }
+}
+
+/* —— Hero body: copy + artwork frame side by side —— */
+.seasonBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+.seasonBody .seasonIntro { flex: 1 1 auto; min-width: 0; }
+.heroArt {
+  flex: 0 0 min(40%, 430px);
+  aspect-ratio: 4 / 3.1;
+  border: 1px solid var(--blog-line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--blog-night);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+.heroArt svg { display: block; width: 100%; height: 100%; }
+@media (max-width: 900px) {
+  .seasonBody { flex-direction: column; align-items: stretch; gap: 0.25rem; }
+  .seasonBody .seasonIntro { padding-bottom: 1.25rem; }
+  .heroArt { flex: none; width: 100%; aspect-ratio: 16 / 8.5; margin-bottom: 2rem; }
+}
+
+/* Film-strip divider under the hero — punched sprocket holes over a dark band. */
+.filmDivider {
+  height: 30px;
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--blog-line);
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.35);
+  background-image:
+    radial-gradient(circle 3.2px at 11px 7px, var(--blog-night) 97%, transparent),
+    radial-gradient(circle 3.2px at 11px 23px, var(--blog-night) 97%, transparent);
+  background-size: 22px 30px;
+  background-repeat: repeat-x;
+  opacity: 0.75;
+}
+
+/* —— HeroArtwork scene (fills follow the --blog-* season variables) —— */
+.artSkyStopA { stop-color: var(--blog-night); }
+.artSkyStopB { stop-color: color-mix(in srgb, var(--blog-red) 30%, var(--blog-night)); }
+.artSkyStopC { stop-color: color-mix(in srgb, var(--blog-amber) 20%, var(--blog-night)); }
+.artMoonGlow { fill: var(--blog-amber); opacity: 0.16; }
+.artMoon { fill: #f5c86e; }
+.artMoonCrater { fill: rgba(120, 72, 10, 0.14); }
+.page[data-season="christmas"] .artMoon { fill: #e6eef6; }
+.page[data-season="christmas"] .artMoonCrater { fill: rgba(70, 95, 120, 0.16); }
+.artSparkle { fill: var(--blog-bone); opacity: 0.65; }
+.artHillBack { fill: color-mix(in srgb, var(--blog-red) 15%, var(--blog-night)); }
+.artHillMid { fill: color-mix(in srgb, var(--blog-night) 74%, #000000); }
+.artHillFront { fill: color-mix(in srgb, var(--blog-night) 56%, #000000); }
+.artSnowCap { fill: #f4f7f5; opacity: 0.92; }
+.artPine { fill: #07160d; }
+.artScreenGlow { fill: var(--blog-amber); opacity: 0.22; }
+.artScreen { fill: color-mix(in srgb, var(--blog-amber) 72%, #fff3d6); }
+.artScreenInner { fill: #fff8e7; opacity: 0.5; }
+.artMarquee { fill: color-mix(in srgb, var(--blog-night) 55%, #000000); }
+.artMarqueeBar { fill: color-mix(in srgb, var(--blog-cranberry) 52%, var(--blog-night)); }
+.artBulb { fill: var(--blog-amber); }
+.artBulbAlt { fill: var(--blog-cranberry); }
+.artBulbCool { fill: #7fb2d9; }
+.artLightWire { stroke: rgba(255, 255, 255, 0.35); stroke-width: 1.2; fill: none; }
+.artWreath { stroke: var(--blog-sage); stroke-width: 3.2; fill: none; }
+.artBerry { fill: var(--blog-cranberry); }
+.artPumpkin { fill: var(--blog-red); }
+.artPumpkinShade { fill: color-mix(in srgb, var(--blog-red) 68%, #000000); opacity: 0.55; }
+.artStem { fill: #4a2f16; }
+.artWheat { stroke: var(--blog-amber); opacity: 0.85; }
+.artLeafFloat { fill: var(--blog-red); opacity: 0.8; }
+.artSnowDot { fill: #ffffff; opacity: 0.8; }
+.artStrip { fill: rgba(0, 0, 0, 0.6); }
+.artHole { fill: var(--blog-panel); }
+.artFrame { fill: color-mix(in srgb, var(--blog-amber) 16%, transparent); stroke: rgba(255, 255, 255, 0.16); stroke-width: 0.75; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .artTwinkle { animation: artTwinkle 3.4s ease-in-out infinite; }
+  .artFloatA { animation: artFloat 7s ease-in-out infinite; }
+  .artFloatB { animation: artFloat 9s ease-in-out infinite reverse; }
+  .artFloatC { animation: artFloat 8s ease-in-out infinite; }
+}
+@keyframes artTwinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+}
+@keyframes artFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0.35rem, -0.55rem, 0) rotate(14deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .artTwinkle, .artFloatA, .artFloatB, .artFloatC { animation: none; }
+}

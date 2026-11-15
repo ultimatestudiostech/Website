@@ -17,6 +17,9 @@ export type BlogHubCopy = {
   ogImageAlt?: string;
 };
 
+/** Seasonal theme key for the blog hub — see lib/season.ts. */
+export type SeasonKey = "halloween" | "thanksgiving" | "christmas" | "evergreen";
+
 export type SiteContent = {
   brandName: string;
   tagline: string;
@@ -35,7 +38,7 @@ export type SiteContent = {
   socials: SocialLink[];
   blogHub: {
     evergreen: BlogHubCopy;
-    seasonal?: Array<BlogHubCopy & { from: string; until: string }>;
+    seasonal?: Array<BlogHubCopy & { from: string; until: string; season?: SeasonKey }>;
   };
   about: {
     title: string;
@@ -64,9 +67,41 @@ export function getSiteUrl() {
   return "https://ultimatecineverse.com";
 }
 
-/** Blog hub copy: a seasonal window (MM-DD, `until` exclusive) wins, else evergreen. */
-export function getBlogHubCopy(site: SiteContent, now = new Date()): BlogHubCopy & { seasonal: boolean } {
+const SEASON_KEYS: readonly SeasonKey[] = ["halloween", "thanksgiving", "christmas", "evergreen"];
+
+/**
+ * SEASON_OVERRIDE (server-only env, never NEXT_PUBLIC) forces a season so a
+ * future season's hub can be previewed and smoke-tested out of season —
+ * e.g. SEASON_OVERRIDE=christmas in November. Leave it unset in production.
+ */
+export function getSeasonOverride(): SeasonKey | null {
+  const raw = process.env.SEASON_OVERRIDE?.trim().toLowerCase();
+  return SEASON_KEYS.includes(raw as SeasonKey) ? (raw as SeasonKey) : null;
+}
+
+/** MM-DD window match, `until` exclusive; `from` after `until` wraps the year end (12-01 → 01-01). */
+function inSeasonWindow(md: string, from: string, until: string) {
+  return from <= until ? md >= from && md < until : md >= from || md < until;
+}
+
+/**
+ * Blog hub copy + the active season key: a seasonal window wins, else
+ * evergreen. The season key comes from the same windows, so copy, theme,
+ * countdown and FAQs can never disagree (see lib/season.ts).
+ */
+export function getBlogHubCopy(
+  site: SiteContent,
+  now = new Date()
+): BlogHubCopy & { seasonal: boolean; season: SeasonKey } {
+  const override = getSeasonOverride();
+  if (override === "evergreen") return { ...site.blogHub.evergreen, seasonal: false, season: "evergreen" };
+  if (override) {
+    const forced = site.blogHub.seasonal?.find((s) => s.season === override);
+    if (forced) return { ...forced, seasonal: true, season: override };
+  }
   const md = now.toISOString().slice(5, 10);
-  const hit = site.blogHub.seasonal?.find((s) => md >= s.from && md < s.until);
-  return hit ? { ...hit, seasonal: true } : { ...site.blogHub.evergreen, seasonal: false };
+  const hit = site.blogHub.seasonal?.find((s) => inSeasonWindow(md, s.from, s.until));
+  return hit
+    ? { ...hit, seasonal: true, season: hit.season ?? "evergreen" }
+    : { ...site.blogHub.evergreen, seasonal: false, season: "evergreen" };
 }

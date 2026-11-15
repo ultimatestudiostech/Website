@@ -5,10 +5,14 @@ import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { FallingLeaves, LeafSprig, WheatAccent } from "@/components/blog/ThanksgivingDetails";
 import { ThanksgivingCountdown } from "@/components/blog/ThanksgivingCountdown";
+import { HollyAccent, PineSprig, Snowfall } from "@/components/blog/ChristmasDetails";
+import { ChristmasCountdown } from "@/components/blog/ChristmasCountdown";
+import { HeroArtwork } from "@/components/blog/HeroArtwork";
 import { GratitudeWall } from "@/components/blog/GratitudeWall";
 import { AdUnit } from "@/components/ads/AdUnit";
 import { ADS_ENABLED } from "@/lib/ads";
-import { BLOG_FAQS } from "@/lib/blog-faqs";
+import { BLOG_FAQS, type BlogFaqItem } from "@/lib/blog-faqs";
+import type { SeasonKey } from "@/lib/season";
 import { getReadingMinutes, type BlogPost } from "@/lib/blog";
 import { CATEGORIES, getCategory, primaryCategoryFor } from "@/lib/categories";
 import styles from "./blog.module.css";
@@ -27,7 +31,7 @@ function posterTone(slug: string) {
   return `linear-gradient(145deg, hsl(${hue} 52% 30%) 0%, hsl(${hue} 42% 13%) 55%, #17100b 100%)`;
 }
 
-function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
+function FeaturedCard({ post, accent, season }: { post: BlogPost; accent?: boolean; season: SeasonKey }) {
   const minutes = getReadingMinutes(post.content);
   const imageSrc = post.coverImage || post.ogImage;
   return (
@@ -48,7 +52,11 @@ function FeaturedCard({ post, accent }: { post: BlogPost; accent?: boolean }) {
           <div className={styles.featureFallback} style={{ background: posterTone(post.slug) }} />
         )}
         <div className={styles.featureScrim} />
-        <LeafSprig className={styles.cardLeaf} />
+        {season === "thanksgiving" ? (
+          <LeafSprig className={styles.cardLeaf} />
+        ) : season === "christmas" ? (
+          <PineSprig className={styles.cardPine} />
+        ) : null}
       </div>
       <div className={styles.featureCopy}>
         <p className={styles.featureEyebrow}>
@@ -116,17 +124,113 @@ function PosterCard({ post }: { post: BlogPost }) {
   );
 }
 
-/** Thanksgiving watch moods — each one runs a real search over the library. */
-const MOODS = [
+type Mood = { id: string; label: string; query: string; hint: string };
+
+/** Watch moods per season — each one runs a real search over the library. */
+const THANKSGIVING_MOODS: Mood[] = [
   { id: "family", label: "Whole family, one screen", query: "family", hint: "All-ages picks everyone can share" },
   { id: "classic", label: "Cozy & classic", query: "classic", hint: "Comfort films and beloved re-watches" },
   { id: "comedy", label: "Make us laugh", query: "comedy", hint: "Big laughs for after the feast" },
   { id: "food", label: "Food, glorious food", query: "food", hint: "Films to cook and feast along with" },
   { id: "drama", label: "A grateful heart", query: "drama", hint: "Warm, moving stories about family" },
   { id: "thanksgiving", label: "Set on Thanksgiving", query: "thanksgiving", hint: "Stories that unfold over the holiday" }
-] as const;
+];
 
-type Mood = (typeof MOODS)[number];
+const CHRISTMAS_MOODS: Mood[] = [
+  { id: "christmas", label: "Pure Christmas", query: "christmas", hint: "Stories set over the holiday itself" },
+  { id: "family", label: "Whole family, one screen", query: "family", hint: "All-ages picks everyone can share" },
+  { id: "classic", label: "Cozy & classic", query: "classic", hint: "Beloved re-watches and comfort films" },
+  { id: "comedy", label: "Make us laugh", query: "comedy", hint: "Big laughs for the sofa" },
+  { id: "horror", label: "A darker Christmas", query: "horror", hint: "Christmas horror, from Krampus to Black Christmas" },
+  { id: "kids", label: "For the kids", query: "animation", hint: "Animated favourites for little viewers" }
+];
+
+const NEUTRAL_MOODS: Mood[] = [
+  { id: "family", label: "Whole family, one screen", query: "family", hint: "All-ages picks everyone can share" },
+  { id: "classic", label: "Cozy & classic", query: "classic", hint: "Comfort films and beloved re-watches" },
+  { id: "comedy", label: "Make us laugh", query: "comedy", hint: "Big laughs for any night" },
+  { id: "horror", label: "Something scarier", query: "horror", hint: "Horror picks and modern classics" },
+  { id: "drama", label: "A moving story", query: "drama", hint: "Warm, moving stories about family" },
+  { id: "reviews", label: "Latest reviews", query: "review", hint: "New verdicts from the review desk" }
+];
+
+/** Decorative hero copy per season — the keyword H1 itself comes from content/site.json. */
+const HERO_COPY: Record<SeasonKey, { kicker: string; issue: string | null; sloganTop: string; sloganSpan: string; description: string; foot: string }> = {
+  thanksgiving: {
+    kicker: "The Thanksgiving edit",
+    issue: "Thu · Nov 26, 2026",
+    sloganTop: "Gather. Watch.",
+    sloganSpan: "Give thanks.",
+    description:
+      "Thanksgiving movie guides, family film picks, and stories worth passing around the table — plus the reviews and streaming guides to plan your whole holiday weekend.",
+    foot: "Family. Feasts. Films we return to."
+  },
+  christmas: {
+    kicker: "The Christmas edit",
+    issue: "Fri · Dec 25, 2026",
+    sloganTop: "Gather. Watch.",
+    sloganSpan: "Be merry.",
+    description:
+      "Christmas movie guides, family classics and holiday horror — plus the reviews and streaming guides to plan your whole festive season, from tree-trimming night to Christmas Day.",
+    foot: "Classics. Cocoa. Films we return to."
+  },
+  halloween: {
+    kicker: "The Halloween edit",
+    issue: null,
+    sloganTop: "Good films.",
+    sloganSpan: "Honest guides.",
+    description:
+      "Film reviews, ending explainers, horror picks and streaming guides for Netflix, Prime Video and Hulu — fresh stories from the Ultimate Cineverse newsroom.",
+    foot: "Reviews. Explainers. Films we return to."
+  },
+  evergreen: {
+    kicker: "The blog edit",
+    issue: null,
+    sloganTop: "Good films.",
+    sloganSpan: "Honest guides.",
+    description:
+      "Film reviews, ending explainers, horror picks and streaming guides for Netflix, Prime Video and Hulu — fresh stories from the Ultimate Cineverse newsroom.",
+    foot: "Reviews. Explainers. Films we return to."
+  }
+};
+
+/** Watch-picker copy per season (halloween/evergreen share the neutral set). */
+const PICKER_COPY: Record<SeasonKey, { kicker: string; title: string; copy: string; groupLabel: string; moods: Mood[] }> = {
+  thanksgiving: {
+    kicker: "The Thanksgiving watch picker",
+    title: "Who’s at your table tonight?",
+    copy: "Pick a mood — we’ll set the table with matching stories from the library.",
+    groupLabel: "Choose a Thanksgiving watch mood",
+    moods: THANKSGIVING_MOODS
+  },
+  christmas: {
+    kicker: "The Christmas watch picker",
+    title: "Who’s on your sofa tonight?",
+    copy: "Pick a mood — we’ll wrap up matching stories from the library.",
+    groupLabel: "Choose a Christmas watch mood",
+    moods: CHRISTMAS_MOODS
+  },
+  halloween: {
+    kicker: "The watch picker",
+    title: "Who’s watching tonight?",
+    copy: "Pick a mood — we’ll find matching stories from the library.",
+    groupLabel: "Choose a watch mood",
+    moods: NEUTRAL_MOODS
+  },
+  evergreen: {
+    kicker: "The watch picker",
+    title: "Who’s watching tonight?",
+    copy: "Pick a mood — we’ll find matching stories from the library.",
+    groupLabel: "Choose a watch mood",
+    moods: NEUTRAL_MOODS
+  }
+};
+
+const CHRISTMAS_SEED_NOTES = [
+  "Grateful for the same films, every December.",
+  "Thankful for one more movie night with family.",
+  "Grateful for warm rooms and cold nights outside."
+];
 
 export function BlogIndex({
   posts,
@@ -134,7 +238,9 @@ export function BlogIndex({
   heading = "Film reviews & streaming guides",
   intro,
   activeCategory,
-  hubExtras = false
+  hubExtras = false,
+  season = "thanksgiving",
+  faqs = BLOG_FAQS
 }: {
   /** Category slug when rendered on /blog/category/[slug]. */
   activeCategory?: string;
@@ -145,6 +251,10 @@ export function BlogIndex({
   heading?: string;
   /** Seasonal hub-only sections (watch picker, gratitude wall, FAQ) — set only on /blog. */
   hubExtras?: boolean;
+  /** Active season (lib/season.ts) — drives the hero theme, picker, wall and FAQ copy. */
+  season?: SeasonKey;
+  /** FAQ set for the active season (lib/blog-faqs.ts) — same array as the page's FAQPage schema. */
+  faqs?: BlogFaqItem[];
 }) {
   const activeCat = activeCategory ? getCategory(activeCategory) : undefined;
   const [query, setQuery] = useState(initialQuery);
@@ -168,47 +278,59 @@ export function BlogIndex({
   const featured = filtered.length > 2 ? filtered.slice(0, 2) : [];
   const gridPosts = filtered.slice(featured.length);
   const blogLabel = posts.length === 1 ? "story to gather around" : "stories to gather around";
+  const hero = HERO_COPY[season];
+  const pickerCopy = PICKER_COPY[season];
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-season={season}>
       <div className={styles.atmosphere} aria-hidden="true" />
       <main className={styles.shell}>
         <header className={styles.seasonHero}>
           <div className={styles.seasonArtwork} aria-hidden="true" />
-          <FallingLeaves />
+          {season === "thanksgiving" ? (
+            <FallingLeaves />
+          ) : season === "christmas" ? (
+            <Snowfall />
+          ) : null}
           <div className={styles.seasonMasthead}>
-            <p className={styles.brandKicker}>Ultimate Cineverse / The Thanksgiving edit</p>
-            <span className={styles.seasonIssue} aria-hidden="true">Thu · Nov 26, 2026</span>
+            <p className={styles.brandKicker}>Ultimate Cineverse / {hero.kicker}</p>
+            {hero.issue ? (
+              <span className={styles.seasonIssue} aria-hidden="true">{hero.issue}</span>
+            ) : null}
           </div>
-          <div className={styles.seasonIntro}>
-            <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
-            <p className={styles.seasonTitle} aria-hidden="true">Gather. Watch.<br /><span>Give thanks.</span></p>
-            <p className={styles.seasonDescription}>
-              Thanksgiving movie guides, family film picks, and stories worth passing
-              around the table — plus the reviews and streaming guides to plan your
-              whole holiday weekend.
-            </p>
-            <div className={styles.heroActions}>
-              <a href={hubExtras ? "#picker" : "#library"} className={styles.seasonCta}>
-                Find tonight&rsquo;s film <span aria-hidden="true">↓</span>
-              </a>
-              <ThanksgivingCountdown />
+          <div className={styles.seasonBody}>
+            <div className={styles.seasonIntro}>
+              <h1 className={styles.seasonOverline}><span aria-hidden="true">✦</span> {heading}</h1>
+              <p className={styles.seasonTitle} aria-hidden="true">{hero.sloganTop}<br /><span>{hero.sloganSpan}</span></p>
+              <p className={styles.seasonDescription}>{hero.description}</p>
+              <div className={styles.heroActions}>
+                <a href={hubExtras ? "#picker" : "#library"} className={styles.seasonCta}>
+                  Find tonight&rsquo;s film <span aria-hidden="true">↓</span>
+                </a>
+                {season === "thanksgiving" ? (
+                  <ThanksgivingCountdown />
+                ) : season === "christmas" ? (
+                  <ChristmasCountdown />
+                ) : null}
+              </div>
             </div>
+            <HeroArtwork season={season} />
           </div>
           <div className={styles.seasonFoot}>
-            <span>Family. Feasts. Films we return to.</span>
+            <span>{hero.foot}</span>
             <span>{posts.length} {blogLabel}</span>
           </div>
         </header>
+        <div className={styles.filmDivider} aria-hidden="true" />
         {intro}
 
         {hubExtras ? (
           <section id="picker" className={styles.picker} aria-labelledby="picker-heading">
-            <p className={styles.brandKicker}>The Thanksgiving watch picker</p>
-            <h2 id="picker-heading" className={styles.pickerTitle}>Who&rsquo;s at your table tonight?</h2>
-            <p className={styles.pickerCopy}>Pick a mood — we&rsquo;ll set the table with matching stories from the library.</p>
-            <div className={styles.pickerGrid} role="group" aria-label="Choose a Thanksgiving watch mood">
-              {MOODS.map((m) => (
+            <p className={styles.brandKicker}>{pickerCopy.kicker}</p>
+            <h2 id="picker-heading" className={styles.pickerTitle}>{pickerCopy.title}</h2>
+            <p className={styles.pickerCopy}>{pickerCopy.copy}</p>
+            <div className={styles.pickerGrid} role="group" aria-label={pickerCopy.groupLabel}>
+              {pickerCopy.moods.map((m) => (
                 <button
                   key={m.id}
                   type="button"
@@ -283,11 +405,23 @@ export function BlogIndex({
           {posts.length === 0 ? (
             <div className={styles.empty} role="status">
               <h2>The next story is on its way home</h2>
-              <p>Check back for new film stories and Thanksgiving reads.</p>
+              <p>
+                {season === "christmas"
+                  ? "Check back for new film stories and Christmas reads."
+                  : season === "thanksgiving"
+                    ? "Check back for new film stories and Thanksgiving reads."
+                    : "Check back for new film stories and fresh reads."}
+              </p>
             </div>
           ) : filtered.length === 0 ? (
             <div className={styles.empty} role="status">
-              <h2>No matches at this table</h2>
+              <h2>
+                {season === "christmas"
+                  ? "No matches under this tree"
+                  : season === "thanksgiving"
+                    ? "No matches at this table"
+                    : "No matches in the library"}
+              </h2>
               <p>Try another search or clear the filter — there is always room for one more story.</p>
               <button
                 type="button"
@@ -303,9 +437,19 @@ export function BlogIndex({
           ) : (
             <>
               {featured.length > 0 ? (
-                <section id="featured" className={styles.featured} aria-label="Featured Thanksgiving reads">
+                <section
+                  id="featured"
+                  className={styles.featured}
+                  aria-label={
+                    season === "christmas"
+                      ? "Featured Christmas reads"
+                      : season === "thanksgiving"
+                        ? "Featured Thanksgiving reads"
+                        : "Featured reads"
+                  }
+                >
                   {featured.map((post, i) => (
-                    <FeaturedCard key={post.slug} post={post} accent={i === 1} />
+                    <FeaturedCard key={post.slug} post={post} accent={i === 1} season={season} />
                   ))}
                 </section>
               ) : null}
@@ -343,32 +487,84 @@ export function BlogIndex({
 
         {hubExtras ? (
           <>
-            <GratitudeWall />
+            {season === "christmas" ? (
+              <GratitudeWall
+                kicker="The Christmas wall"
+                title="One good wish, before the film starts."
+                label="This Christmas, I am grateful for…"
+                placeholder="a film, a person, a quiet night in…"
+                savedMessage="Pinned. Merry Christmas."
+                storageKey="uc-gratitude-note-christmas"
+                seedNotes={CHRISTMAS_SEED_NOTES}
+              />
+            ) : season === "thanksgiving" ? (
+              <GratitudeWall />
+            ) : (
+              <GratitudeWall savedMessage="Pinned. Thank you." />
+            )}
 
             <section className={styles.faqSection} aria-labelledby="faq-heading">
-              <p className={styles.brandKicker}>Thanksgiving watching, answered</p>
-              <h2 id="faq-heading" className={styles.faqTitle}>Questions every table asks</h2>
+              <p className={styles.brandKicker}>
+                {season === "christmas"
+                  ? "Christmas watching, answered"
+                  : season === "thanksgiving"
+                    ? "Thanksgiving watching, answered"
+                    : "Watching, answered"}
+              </p>
+              <h2 id="faq-heading" className={styles.faqTitle}>
+                {season === "christmas"
+                  ? "Questions every sofa asks"
+                  : season === "thanksgiving"
+                    ? "Questions every table asks"
+                    : "Questions readers ask"}
+              </h2>
               <div className={styles.faqGrid}>
-                {BLOG_FAQS.map((faq) => (
+                {faqs.map((faq) => (
                   <details key={faq.question} className={styles.faqCard}>
                     <summary>{faq.question}</summary>
                     <p>{faq.answer}</p>
                   </details>
                 ))}
               </div>
-              <p className={styles.faqMore}>
-                Planning the whole weekend? Start with our{" "}
-                <Link href="/blog?q=thanksgiving">Thanksgiving stories</Link>, browse{" "}
-                <Link href="/blog#topics">all topics</Link>, or learn more{" "}
-                <Link href="/about">about Ultimate Cineverse</Link>.
-              </p>
+              {season === "christmas" ? (
+                <p className={styles.faqMore}>
+                  Planning the whole season? Start with our{" "}
+                  <Link href="/blog/best-christmas-movies">best Christmas movies</Link>, check{" "}
+                  <Link href="/blog/christmas-movies-streaming">where they stream</Link>, browse{" "}
+                  <Link href="/blog#topics">all topics</Link>, or learn more{" "}
+                  <Link href="/about">about Ultimate Cineverse</Link>.
+                </p>
+              ) : season === "thanksgiving" ? (
+                <p className={styles.faqMore}>
+                  Planning the whole weekend? Start with our{" "}
+                  <Link href="/blog?q=thanksgiving">Thanksgiving stories</Link>, browse{" "}
+                  <Link href="/blog#topics">all topics</Link>, or learn more{" "}
+                  <Link href="/about">about Ultimate Cineverse</Link>.
+                </p>
+              ) : (
+                <p className={styles.faqMore}>
+                  Looking for more? Browse <Link href="/blog#topics">all topics</Link>, search the
+                  library above, or learn more <Link href="/about">about Ultimate Cineverse</Link>.
+                </p>
+              )}
             </section>
           </>
         ) : null}
 
         <footer className={styles.journalFooter}>
-          <WheatAccent />
-          <p>Come hungry. <span>Leave grateful.</span></p>
+          {season === "christmas" ? (
+            <>
+              <HollyAccent />
+              <p>Come cozy. <span>Leave merry.</span></p>
+            </>
+          ) : season === "thanksgiving" ? (
+            <>
+              <WheatAccent />
+              <p>Come hungry. <span>Leave grateful.</span></p>
+            </>
+          ) : (
+            <p>Good films. <span>Honest guides.</span></p>
+          )}
           <Link href="/">Back to Ultimate Cineverse <span aria-hidden="true">↗</span></Link>
         </footer>
       </main>
