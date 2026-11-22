@@ -4,6 +4,10 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { buildMetadata } from "@/lib/seo";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 
+// ISR like the blog pages: without a revalidate window the platform serves
+// static HTML with a one-year s-maxage, so content edits could go stale.
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   const site = await getSite();
   return buildMetadata({

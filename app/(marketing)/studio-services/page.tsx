@@ -3,6 +3,10 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 
+// ISR like the blog pages: without a revalidate window the platform serves
+// static HTML with a one-year s-maxage, so content edits could go stale.
+export const revalidate = 3600;
+
 const TITLE = "Video Production & Motion Design Studio";
 const DESCRIPTION =
   "Ultimate Cineverse is a video production and motion design studio offering editing, motion graphics and audio post-production for creators and brands.";

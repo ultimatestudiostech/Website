@@ -1,8 +1,13 @@
 import { LegalDoc } from "@/components/legal/LegalDoc";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
-import { getSite } from "@/lib/cms/store";
+import { getSite, getSiteUrl } from "@/lib/cms/store";
 
 const UPDATED = "September 12, 2026";
+
+// ISR like the blog pages: without a revalidate window the platform serves
+// static HTML with a one-year s-maxage, so legal edits could go stale.
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   return buildMetadata({
@@ -16,8 +21,20 @@ export async function generateMetadata() {
 export default async function PrivacyPage() {
   const site = await getSite();
   const email = site.contact.email;
+  const siteUrl = getSiteUrl();
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Privacy Policy", item: `${siteUrl}/privacy` }
+    ]
+  };
 
   return (
+    <>
+      <JsonLd data={breadcrumb} />
     <LegalDoc title="Privacy Policy" updated={UPDATED}>
       <p>
         This Privacy Policy explains how <strong>{site.brandName}</strong> (“we”, “us”) handles
@@ -190,5 +207,6 @@ export default async function PrivacyPage() {
         <a href="/terms">Terms of Service</a>.
       </p>
     </LegalDoc>
+    </>
   );
 }

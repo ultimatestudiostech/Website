@@ -11,6 +11,8 @@ export async function generateMetadata() {
   // responses; buildMetadata's index/follow tag would be a second,
   // conflicting robots meta, so drop it and keep only the framework's.
   delete meta.robots;
+  // A 404 must not carry a canonical (buildMetadata points it at /404).
+  delete meta.alternates;
   return meta;
 }
 

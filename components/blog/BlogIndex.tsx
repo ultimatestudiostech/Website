@@ -39,11 +39,11 @@ function FeaturedCard({ post, accent, season }: { post: BlogPost; accent?: boole
       href={`/blog/${post.slug}`}
       className={`${styles.featureCard} ${accent ? styles.featureCardAlt : ""}`}
     >
-      <div className={styles.featureMedia} aria-hidden="true">
+      <div className={styles.featureMedia}>
         {imageSrc ? (
           <Image
             src={imageSrc}
-            alt=""
+            alt={post.coverAlt || post.title}
             fill
             sizes="(max-width: 900px) 100vw, 50vw"
             className={styles.featureImg}
@@ -95,7 +95,7 @@ function PosterCard({ post }: { post: BlogPost }) {
             />
             <Image
               src={imageSrc}
-              alt=""
+              alt={post.coverAlt || post.title}
               fill
               sizes="(max-width: 640px) 45vw, (max-width: 1100px) 30vw, 220px"
               className={styles.posterImg}
@@ -259,6 +259,12 @@ export function BlogIndex({
   const activeCat = activeCategory ? getCategory(activeCategory) : undefined;
   const [query, setQuery] = useState(initialQuery);
   const [mood, setMood] = useState<Mood | null>(null);
+  // Windowed grid: only the first batch is server-rendered / hydrated up
+  // front; more cards are revealed in batches so listing pages don't render
+  // the whole catalogue (and its images) at once. Searching, filtering or
+  // the watch picker reveals every matching card instead.
+  const GRID_PAGE_SIZE = 12;
+  const [visibleCount, setVisibleCount] = useState(GRID_PAGE_SIZE);
 
   // Listing pages are statically rendered (ISR), so a ?q= search term is
   // applied client-side on mount instead of via server searchParams.
@@ -285,6 +291,9 @@ export function BlogIndex({
 
   const featured = filtered.length > 2 ? filtered.slice(0, 2) : [];
   const gridPosts = filtered.slice(featured.length);
+  const isFiltering = query.trim().length > 0;
+  const visibleGridPosts = isFiltering ? gridPosts : gridPosts.slice(0, visibleCount);
+  const hasMore = !isFiltering && visibleCount < gridPosts.length;
   const blogLabel = posts.length === 1 ? "story to gather around" : "stories to gather around";
   const hero = HERO_COPY[season];
   const pickerCopy = PICKER_COPY[season];
@@ -470,7 +479,7 @@ export function BlogIndex({
                 </div>
 
                 <ul className={styles.posterGrid}>
-                  {gridPosts.map((post, idx) => {
+                  {visibleGridPosts.map((post, idx) => {
                     const shouldInsertAd = ADS_ENABLED && (idx + 1) % 6 === 0;
                     return (
                       <li key={post.slug} className={styles.posterCell}>
@@ -485,6 +494,19 @@ export function BlogIndex({
                     );
                   })}
                 </ul>
+
+                {hasMore ? (
+                  <div className={styles.showMoreRow}>
+                    <button
+                      type="button"
+                      className={styles.showMore}
+                      onClick={() => setVisibleCount((c) => c + GRID_PAGE_SIZE)}
+                    >
+                      Show more stories
+                      <span aria-hidden="true"> · {gridPosts.length - visibleCount} more</span>
+                    </button>
+                  </div>
+                ) : null}
               </section>
             </>
           )}

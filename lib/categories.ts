@@ -62,7 +62,7 @@ export const CATEGORIES: Category[] = [
     slug: "holiday-movies",
     name: "Holiday Movies",
     h1: "Holiday Movies: Halloween, Thanksgiving & Christmas",
-    title: "Holiday Movies: Best Halloween, Thanksgiving & Christmas Films",
+    title: "Holiday Movies: Best Halloween, Thanksgiving & Christmas",
     description:
       "The best holiday movies by season: Halloween classics, Thanksgiving comedies and horror, and Christmas horror movies, with where to stream each one.",
     intro: "Seasonal watchlists for Halloween, Thanksgiving and Christmas."

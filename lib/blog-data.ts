@@ -75,6 +75,7 @@ export function toCardPost(post: BlogPost): BlogPost {
     content: "",
     readingMinutes: getReadingMinutes(post),
     coverImage: post.coverImage,
+    coverAlt: post.coverAlt,
     ogImage: post.ogImage,
     draft: post.draft,
     noIndex: post.noIndex

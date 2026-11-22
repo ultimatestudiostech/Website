@@ -33,7 +33,7 @@ export async function generateMetadata({
     type: "article",
     publishedTime: post.datePublished,
     modifiedTime: post.dateModified,
-    openGraphImageUrl: post.ogImage
+    openGraphImageUrl: post.socialImage || post.ogImage
   });
   if (post.noIndex) {
     return { ...meta, robots: { index: false, follow: false } };

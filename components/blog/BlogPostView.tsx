@@ -39,6 +39,15 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
   const paragraphs = splitPostParagraphs(post.content || plain);
   const minutes = getReadingMinutes(post);
   const postUrl = `${siteUrl}/blog/${post.slug}`;
+  // Schema/social image: the 1200×630 social crop when available, made
+  // absolute — local posts carry a relative path, which schema validators
+  // and social crawlers reject.
+  const socialImageRaw = post.socialImage || post.ogImage;
+  const socialImage = socialImageRaw
+    ? socialImageRaw.startsWith("http")
+      ? socialImageRaw
+      : `${siteUrl}${socialImageRaw}`
+    : undefined;
   const body = stripWordToc(post.body);
   const toc = getTocEntries(body);
   const studio = post.studio || POST_STUDIOS[post.slug];
@@ -86,7 +95,7 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
     ...(post.geoFocus
       ? { contentLocation: { "@type": "Place", name: post.geoFocus } }
       : {}),
-    ...(post.ogImage ? { image: [post.ogImage] } : {})
+    ...(socialImage ? { image: [socialImage] } : {})
   };
 
   const faqLd =
@@ -141,8 +150,8 @@ export function BlogPostView({ post, related, comments, siteUrl, brandName }: Pr
           ...(post.movie?.directors?.length
             ? { director: post.movie.directors.map((d) => ({ "@type": "Person", name: d })) }
             : {}),
-          ...(post.coverImage || post.ogImage
-            ? { image: post.coverImage || post.ogImage }
+          ...(socialImage || post.coverImage
+            ? { image: socialImage || post.coverImage }
             : {})
         },
         author: authorLd,

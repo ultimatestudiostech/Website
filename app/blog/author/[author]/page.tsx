@@ -26,13 +26,34 @@ export async function generateStaticParams() {
   return Array.from(new Set(posts.filter((p) => p.authorRole).map((p) => slugify(p.author)))).map((author) => ({ author }));
 }
 
+/** Normalise whitespace (incl. stray spaces before commas) from CMS text. */
+const cleanText = (s: string) => s.replace(/\s+/g, " ").replace(/\s+,/g, ",").trim();
+
+/** Trim to at most `max` chars at a word boundary, with an ellipsis. */
+function trimTo(max: number, s: string) {
+  if (s.length <= max) return s;
+  return `${s.slice(0, max - 1).replace(/\s+\S*$/, "")}…`;
+}
+
 export async function generateMetadata({ params }: Props) {
   const { author } = await params;
   const a = await getAuthor(author);
   if (!a) return {};
+  const role = cleanText(a.role);
+  const bio = cleanText(a.bio);
+  // Sanity's authorRole can hold a whole bio sentence; only a short role
+  // belongs in the title — otherwise the name alone carries it (buildMetadata
+  // adds the brand suffix) and the sentence moves to the description.
+  const shortRole = role.length <= 40 ? role : "";
+  const title = shortRole ? `${a.name}, ${shortRole}` : a.name;
+  const description = trimTo(
+    155,
+    bio ||
+      `Movie reviews, horror guides and streaming picks by ${a.name}${shortRole ? `, ${shortRole}` : ""} at Ultimate Cineverse.`
+  );
   return buildMetadata({
-    title: `${a.name}, ${a.role.trim()}`,
-    description: `Movie reviews, horror guides and streaming picks by ${a.name}${a.role ? `, ${a.role.trim()}` : ""} at Ultimate Cineverse.`,
+    title,
+    description,
     pathname: `/blog/author/${author}`
   });
 }

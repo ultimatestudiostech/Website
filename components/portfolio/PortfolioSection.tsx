@@ -208,7 +208,7 @@ export function PortfolioSection({ posts }: Props) {
                   className={styles.swiper}
                 >
                   {slides.map((post) => {
-                    const minutes = getReadingMinutes(post.content);
+                    const minutes = post.readingMinutes ?? getReadingMinutes(post.content);
                     return (
                       <SwiperSlide key={post.slug} className={styles.slide}>
                         <Link className={styles.card} href={`/blog/${post.slug}`}>

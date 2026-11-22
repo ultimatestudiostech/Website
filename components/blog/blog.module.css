@@ -593,6 +593,31 @@
   min-width: 0;
 }
 
+.showMoreRow {
+  display: flex;
+  justify-content: center;
+}
+
+.showMore {
+  min-height: 46px;
+  padding: 0.35rem 1.4rem;
+  box-sizing: border-box;
+  border: 1px solid var(--blog-accent, #e08a3c);
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-ui), Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.showMore:hover {
+  background: var(--blog-accent, #e08a3c);
+  color: #1c120c;
+}
+
 .poster {
   display: grid;
   gap: 0.55rem;

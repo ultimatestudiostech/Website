@@ -1,7 +1,7 @@
 import { HomeExperience } from "@/components/home/HomeExperience";
 import { HomeIntro } from "@/components/home/HomeIntro";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getPostsNewestFirst } from "@/lib/blog-data";
+import { getCardPostsNewestFirst } from "@/lib/blog-data";
 import { getSite, getSiteUrl } from "@/lib/cms/store";
 import { buildMetadata } from "@/lib/seo";
 
@@ -18,7 +18,9 @@ export async function generateMetadata() {
 export default async function HomePage() {
   const site = await getSite();
   const siteUrl = getSiteUrl();
-  const posts = (await getPostsNewestFirst()).slice(0, 12);
+  // Card-weight posts only: the slider renders slug/title/tags/dates/
+  // readingMinutes/ogImage — full bodies would inline ~350 KB of RSC payload.
+  const posts = (await getCardPostsNewestFirst()).slice(0, 12);
 
   const jsonLd = [
     {

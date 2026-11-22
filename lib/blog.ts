@@ -34,6 +34,8 @@ export type BlogPost = {
   draft?: boolean;
   coverImage?: string;
   ogImage?: string;
+  /** 1200×630 cropped image for og:/twitter:/schema use; covers stay natural. */
+  socialImage?: string;
   coverAlt?: string;
   coverWidth?: number;
   coverHeight?: number;

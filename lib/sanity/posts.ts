@@ -180,6 +180,7 @@ function mapPost(doc: SanityPost): BlogPost {
     noIndex: Boolean(doc.noIndex),
     coverImage: naturalCover,
     ogImage: displayImage,
+    socialImage: socialOg || naturalCover,
     coverAlt: doc.mainImage?.alt,
     coverWidth: doc.mainImage?.dims?.width,
     coverHeight: doc.mainImage?.dims?.height,
