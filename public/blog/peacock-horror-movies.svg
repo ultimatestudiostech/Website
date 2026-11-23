@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="A dark night scene with a full moon, a peacock feather silhouette and drifting mist">
+  <defs>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#04121a"/>
+      <stop offset="0.55" stop-color="#07222b"/>
+      <stop offset="1" stop-color="#0a2e2a"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f5efdc"/>
+      <stop offset="0.8" stop-color="#e6dcc0"/>
+      <stop offset="1" stop-color="#d9cda6"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e9e2c8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#e9e2c8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="feather" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#0b3d5c"/>
+      <stop offset="0.55" stop-color="#0e6e5c"/>
+      <stop offset="1" stop-color="#17a398"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#night)"/>
+  <circle cx="800" cy="330" r="330" fill="url(#halo)"/>
+  <circle cx="800" cy="330" r="168" fill="url(#moon)"/>
+  <circle cx="745" cy="290" r="26" fill="#cbbd97" opacity="0.5"/>
+  <circle cx="850" cy="370" r="18" fill="#cbbd97" opacity="0.45"/>
+  <circle cx="792" cy="410" r="12" fill="#cbbd97" opacity="0.4"/>
+  <g fill="#ffffff" opacity="0.7">
+    <circle cx="120" cy="90" r="3"/><circle cx="300" cy="170" r="2"/><circle cx="480" cy="80" r="3"/><circle cx="1150" cy="90" r="3"/><circle cx="1330" cy="180" r="2"/><circle cx="1490" cy="100" r="3"/><circle cx="200" cy="300" r="2"/><circle cx="1400" cy="320" r="2"/>
+  </g>
+  <g transform="translate(800 760)">
+    <path d="M0 60 C -14 -120 -20 -300 0 -470 C 20 -300 14 -120 0 60 Z" fill="url(#feather)" opacity="0.95"/>
+    <path d="M0 -60 C -90 -160 -150 -300 -140 -430 C -70 -330 -30 -190 0 -60 Z" fill="url(#feather)" opacity="0.55"/>
+    <path d="M0 -60 C 90 -160 150 -300 140 -430 C 70 -330 30 -190 0 -60 Z" fill="url(#feather)" opacity="0.55"/>
+    <path d="M0 -20 C -130 -90 -230 -200 -250 -320 C -150 -250 -70 -130 0 -20 Z" fill="url(#feather)" opacity="0.35"/>
+    <path d="M0 -20 C 130 -90 230 -200 250 -320 C 150 -250 70 -130 0 -20 Z" fill="url(#feather)" opacity="0.35"/>
+    <ellipse cx="0" cy="-330" rx="66" ry="92" fill="#0b3d5c"/>
+    <ellipse cx="0" cy="-330" rx="46" ry="66" fill="#c99700"/>
+    <ellipse cx="0" cy="-330" rx="28" ry="42" fill="#0e6e5c"/>
+    <ellipse cx="0" cy="-336" rx="13" ry="20" fill="#101d42"/>
+  </g>
+  <g stroke="#020a0e" stroke-width="10" fill="none" stroke-linecap="round">
+    <path d="M60 900 C 120 700 90 560 30 430"/>
+    <path d="M90 640 C 150 600 210 600 260 560"/>
+    <path d="M1540 900 C 1480 700 1510 560 1570 430"/>
+    <path d="M1510 640 C 1450 600 1390 600 1340 560"/>
+  </g>
+  <g fill="#9fb8ad" opacity="0.16">
+    <ellipse cx="300" cy="720" rx="420" ry="46"/>
+    <ellipse cx="1250" cy="790" rx="520" ry="54"/>
+    <ellipse cx="700" cy="850" rx="640" ry="50"/>
+  </g>
+  <g fill="#020a0e">
+    <path d="M118 210 l 26 -14 l -6 16 l 20 -6 l -14 14 l 8 10 l -16 -4 l -6 12 l -4 -14 l -16 2 l 12 -10 z"/>
+    <path d="M1410 150 l 22 -12 l -5 13 l 17 -5 l -12 12 l 7 8 l -13 -3 l -5 10 l -3 -12 l -13 2 l 10 -8 z"/>
+  </g>
+</svg>
