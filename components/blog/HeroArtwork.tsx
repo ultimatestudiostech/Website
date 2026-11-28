@@ -257,6 +257,9 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
             <stop offset="60%" className={styles.artVinStopA} />
             <stop offset="100%" className={styles.artVinStopB} />
           </radialGradient>
+          <clipPath id="heroScreenClip">
+            <rect x="858" y="350" width="314" height="110" rx="6" />
+          </clipPath>
         </defs>
 
         <rect x="0" y="0" width="1440" height="810" fill="url(#heroSkyGrad)" />
@@ -322,6 +325,46 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
         ))}
         {christmas ? (
           <>
+            {/* The film playing on the marquee screen: a tiny Christmas scene */}
+            <g clipPath="url(#heroScreenClip)">
+              <rect x="858" y="350" width="314" height="110" className={styles.artScreenScene} />
+              <circle cx="886" cy="368" r="1.6" className={styles.artSparkle} />
+              <circle cx="952" cy="360" r="1.3" className={styles.artSparkle} />
+              <circle cx="1030" cy="366" r="1.5" className={styles.artSparkle} />
+              <circle cx="1096" cy="356" r="1.2" className={styles.artSparkle} />
+              <circle cx="1122" cy="380" r="15" className={styles.artMoon} />
+              <g transform="translate(1116 376) scale(0.42)" className={styles.artSleigh}>
+                <ellipse cx="34" cy="-4" rx="17" ry="7.5" />
+                <path d="M44 -9 L56 -19 L61 -15 L51 -2 L44 -3 Z" />
+                <path d="M54 -20 C53 -26 50 -29 46 -32 M54 -20 C57 -25 60 -27 64 -28" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+                <path d="M40 2 L48 9 M24 2 L30 10 M22 1 L14 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+                <path d="M-34 2 C-36 -6 -28 -10 -18 -9 L6 -7 C13 -6 15 -1 12 4 L8 8 L-28 8 Z" />
+                <path d="M-38 13 L16 13" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+                <circle cx="-14" cy="-14" r="4.6" />
+                <path d="M-18 -16 L-8 -17 L-11 -11 Z" />
+                <path d="M8 -4 C18 -6 26 -7 34 -7" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.8" />
+              </g>
+              <path d="M858 428 C940 414 1020 424 1090 418 C1130 415 1155 420 1172 416 L1172 460 L858 460 Z" className={styles.artScreenHill} />
+              <ChristmasTree x={940} y={446} s={1.35} />
+              <g transform="translate(1012 446)">
+                <rect x="-16" y="-20" width="32" height="20" className={styles.artHouse} />
+                <path d="M-20 -20 L0 -32 L20 -20 Z" className={styles.artHouseRoof} />
+                <rect x="-9" y="-13" width="7" height="8" className={styles.artBulb} />
+                <rect x="4" y="-11" width="7" height="11" className={styles.artHouseRoof} />
+              </g>
+              <g transform="translate(1150 448) scale(0.8)">
+                <rect x="-16" y="-20" width="32" height="20" className={styles.artHouse} />
+                <path d="M-20 -20 L0 -32 L20 -20 Z" className={styles.artHouseRoof} />
+                <rect x="-3" y="-13" width="7" height="8" className={styles.artBulb} />
+              </g>
+              <Snowman x={1072} y={450} s={0.5} />
+              <circle cx="905" cy="392" r="1.8" className={styles.artSnowDot} />
+              <circle cx="985" cy="382" r="1.5" className={styles.artSnowDot} />
+              <circle cx="1052" cy="398" r="1.7" className={styles.artSnowDot} />
+              <circle cx="1108" cy="416" r="1.5" className={styles.artSnowDot} />
+              <circle cx="880" cy="420" r="1.5" className={styles.artSnowDot} />
+              <circle cx="1140" cy="392" r="1.6" className={styles.artSnowDot} />
+            </g>
             <path d="M846 494 Q1015 552 1184 494" className={styles.artLightWire} />
             {[872, 920, 968, 1015, 1062, 1110, 1158].map((cx, i) => (
               <circle
@@ -332,13 +375,13 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
                 className={i % 3 === 0 ? styles.artBulb : i % 3 === 1 ? styles.artBulbAlt : styles.artBulbCool}
               />
             ))}
-            <circle cx="1015" cy="405" r="25" className={styles.artWreath} />
-            <circle cx="1015" cy="386" r="5" className={styles.artBerry} />
-            <circle cx="998" cy="416" r="5" className={styles.artBerry} />
-            <circle cx="1032" cy="416" r="5" className={styles.artBerry} />
-            <path d="M1015 430 L1003 421 L1004 437 Z" className={styles.artBerry} />
-            <path d="M1015 430 L1027 421 L1026 437 Z" className={styles.artBerry} />
-            <circle cx="1015" cy="429" r="3.6" className={styles.artBerry} />
+            <circle cx="1015" cy="532" r="21" className={styles.artWreath} />
+            <circle cx="1015" cy="515" r="4.4" className={styles.artBerry} />
+            <circle cx="1001" cy="541" r="4.4" className={styles.artBerry} />
+            <circle cx="1029" cy="541" r="4.4" className={styles.artBerry} />
+            <path d="M1015 553 L1004 545 L1005 560 Z" className={styles.artBerry} />
+            <path d="M1015 553 L1026 545 L1025 560 Z" className={styles.artBerry} />
+            <circle cx="1015" cy="552" r="3.2" className={styles.artBerry} />
           </>
         ) : null}
 

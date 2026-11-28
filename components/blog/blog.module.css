@@ -1968,6 +1968,10 @@ details[open] > .tocSummary::after {
 .artRibbonLight { fill: #f4f7f5; opacity: 0.9; }
 .artRibbonDark { fill: #14202b; opacity: 0.55; }
 .artGarland { stroke: var(--blog-amber); stroke-width: 1.1; opacity: 0.75; fill: none; }
+.artScreenScene { fill: #14334d; }
+.artScreenHill { fill: #eef4f2; }
+.artHouse { fill: #0d1b29; }
+.artHouseRoof { fill: #060f18; }
 .artStrip { fill: rgba(0, 0, 0, 0.6); }
 .artHole { fill: var(--blog-panel); }
 .artFrame { fill: color-mix(in srgb, var(--blog-amber) 16%, transparent); stroke: rgba(255, 255, 255, 0.16); stroke-width: 0.75; }
