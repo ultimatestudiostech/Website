@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="A delivery van carrying a Christmas tree through snow at night">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1b2e"/><stop offset="0.6" stop-color="#16324a"/><stop offset="1" stop-color="#1d4258"/></linearGradient>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf6ec"/><stop offset="1" stop-color="#dfe9ec"/></linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.2" r="0.4"><stop offset="0" stop-color="#e8f1f8" stop-opacity="0.5"/><stop offset="1" stop-color="#e8f1f8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <circle cx="1250" cy="170" r="92" fill="#e8f1f8"/><circle cx="1218" cy="146" r="15" fill="#c9d8e2"/><circle cx="1278" cy="196" r="11" fill="#c9d8e2"/>
+  <g fill="#ffffff" opacity="0.85"><circle cx="90" cy="70" r="4"/><circle cx="260" cy="140" r="3"/><circle cx="420" cy="60" r="5"/><circle cx="590" cy="120" r="3"/><circle cx="760" cy="50" r="4"/><circle cx="930" cy="130" r="3"/><circle cx="1090" cy="70" r="5"/><circle cx="1420" cy="80" r="4"/><circle cx="150" cy="240" r="3"/><circle cx="520" cy="300" r="3"/><circle cx="1480" cy="300" r="4"/></g>
+  <g fill="#0a1a14"><path d="M120 640 l26 -52 10 0 -14 -30 8 0 -22 -44 -22 44 8 0 -14 30 10 0 Z"/><path d="M1420 650 l30 -60 12 0 -16 -34 10 0 -26 -50 -26 50 10 0 -16 34 12 0 Z"/></g>
+  <rect y="680" width="1600" height="220" fill="url(#snow)"/>
+  <path d="M0 700 Q 800 660 1600 700 L1600 736 Q 800 700 0 736 Z" fill="#b9cdd6" opacity="0.6"/>
+  <g transform="translate(800 520)">
+    <g transform="translate(-30 -168) rotate(88)">
+      <path d="M0 -120 L34 -30 L18 -30 L44 40 L-44 40 L-18 -30 L-34 -30 Z" fill="#1e5631"/>
+      <rect x="-7" y="40" width="14" height="22" fill="#8a6b46"/>
+      <circle cx="-16" cy="-6" r="7" fill="#e2492f"/><circle cx="14" cy="14" r="7" fill="#f4a93c"/><circle cx="-6" cy="-44" r="7" fill="#7fb2d9"/>
+    </g>
+    <path d="M-330 40 L150 40 L150 190 L-330 190 Z" fill="#2456a6"/>
+    <path d="M150 84 L286 84 C330 84 372 130 388 190 L150 190 Z" fill="#2456a6"/>
+    <path d="M186 100 L272 100 C300 100 326 128 340 162 L186 162 Z" fill="#bcd8ea"/>
+    <rect x="-330" y="150" width="480" height="40" fill="#1a3f7c"/>
+    <path d="M-300 96 q60 -34 130 -8 q70 24 128 -4" stroke="#fdf6ec" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <path d="M-58 78 l14 16 l-14 16" stroke="#fdf6ec" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-356" y="66" width="26" height="46" rx="6" fill="#ffca7a"/>
+    <circle cx="-180" cy="196" r="46" fill="#14202b"/><circle cx="-180" cy="196" r="20" fill="#c8ccd4"/>
+    <circle cx="250" cy="196" r="46" fill="#14202b"/><circle cx="250" cy="196" r="20" fill="#c8ccd4"/>
+    <g><rect x="-430" y="96" width="74" height="60" rx="5" fill="#b07a3f"/><rect x="-396" y="96" width="8" height="60" fill="#e2492f"/><rect x="-430" y="118" width="74" height="8" fill="#e2492f"/></g>
+  </g>
+</svg>
