@@ -1951,6 +1951,23 @@ details[open] > .tocSummary::after {
 .artWheat { stroke: var(--blog-amber); opacity: 0.85; }
 .artLeafFloat { fill: var(--blog-red); opacity: 0.8; }
 .artSnowDot { fill: #ffffff; opacity: 0.8; }
+.artSleigh { fill: #0b1220; color: #0b1220; }
+.artSnowman { fill: #f7faf8; }
+.artCoal { fill: #14202b; }
+.artCarrot { fill: #e8873a; }
+.artScarf { fill: var(--blog-cranberry); }
+.artStickArm { stroke: #4a3423; stroke-width: 3; stroke-linecap: round; fill: none; }
+.artDeer { fill: #7a4a2b; }
+.artDeerDark { fill: #54331c; color: #54331c; }
+.artDeerBelly { fill: #dcbd92; }
+.artNose { fill: var(--blog-cranberry); }
+.artNoseGlow { fill: var(--blog-cranberry); opacity: 0.3; }
+.artGiftRed { fill: var(--blog-cranberry); }
+.artGiftGold { fill: var(--blog-amber); }
+.artGiftGreen { fill: var(--blog-sage); }
+.artRibbonLight { fill: #f4f7f5; opacity: 0.9; }
+.artRibbonDark { fill: #14202b; opacity: 0.55; }
+.artGarland { stroke: var(--blog-amber); stroke-width: 1.1; opacity: 0.75; fill: none; }
 .artStrip { fill: rgba(0, 0, 0, 0.6); }
 .artHole { fill: var(--blog-panel); }
 .artFrame { fill: color-mix(in srgb, var(--blog-amber) 16%, transparent); stroke: rgba(255, 255, 255, 0.16); stroke-width: 0.75; }

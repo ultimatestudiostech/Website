@@ -52,7 +52,17 @@ const SNOW_DOTS = [
   { cx: 1400, cy: 420, r: 1.9 },
   { cx: 180, cy: 470, r: 1.7 },
   { cx: 520, cy: 430, r: 1.6 },
-  { cx: 1180, cy: 470, r: 1.6 }
+  { cx: 1180, cy: 470, r: 1.6 },
+  { cx: 150, cy: 200, r: 2.2 },
+  { cx: 420, cy: 330, r: 1.8 },
+  { cx: 560, cy: 60, r: 2.1 },
+  { cx: 760, cy: 380, r: 1.7 },
+  { cx: 880, cy: 60, r: 2 },
+  { cx: 1040, cy: 350, r: 1.8 },
+  { cx: 1260, cy: 120, r: 2.2 },
+  { cx: 1360, cy: 520, r: 1.7 },
+  { cx: 260, cy: 560, r: 1.9 },
+  { cx: 640, cy: 540, r: 1.6 }
 ];
 
 function Pine({ x, y, s }: { x: number; y: number; s: number }) {
@@ -112,6 +122,121 @@ function WheatStalk({ x, y, s, flip = false }: { x: number; y: number; s: number
   );
 }
 
+function SleighRide() {
+  return (
+    <g transform="translate(1155 172) rotate(-4)" className={styles.artSleigh} opacity="0.92">
+      {/* Reins */}
+      <path d="M-58 -12 C0 -20 44 -26 84 -30" stroke="currentColor" strokeWidth="1.6" fill="none" opacity="0.75" />
+      <path d="M112 -32 C128 -34 140 -35 152 -36" stroke="currentColor" strokeWidth="1.4" fill="none" opacity="0.75" />
+      {/* Lead reindeer */}
+      <g transform="translate(196 -38) scale(0.82)">
+        <ellipse cx="0" cy="0" rx="27" ry="12.5" />
+        <path d="M15 -7 L33 -21 L41 -16 L27 3 L16 2 Z" />
+        <ellipse cx="40" cy="-19" rx="10.5" ry="5.8" transform="rotate(-18 40 -19)" />
+        <path d="M35 -24 C33 -33 29 -38 24 -43 M35 -24 C39 -32 44 -35 50 -38 M28 -34 C25 -36 22 -36 19 -35 M43 -30 C46 -32 49 -32 52 -31" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+        <path d="M14 8 L27 18 L36 15 M7 10 L15 22 L24 21 M-15 8 L-28 15 L-37 10 M-9 10 L-17 22 L-26 19" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M-26 -8 L-34 -13 L-30 -3 Z" />
+      </g>
+      {/* Second reindeer */}
+      <g transform="translate(128 -30)">
+        <ellipse cx="0" cy="0" rx="27" ry="12.5" />
+        <path d="M15 -7 L33 -21 L41 -16 L27 3 L16 2 Z" />
+        <ellipse cx="40" cy="-19" rx="10.5" ry="5.8" transform="rotate(-18 40 -19)" />
+        <path d="M35 -24 C33 -33 29 -38 24 -43 M35 -24 C39 -32 44 -35 50 -38 M28 -34 C25 -36 22 -36 19 -35 M43 -30 C46 -32 49 -32 52 -31" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+        <path d="M14 8 L27 18 L36 15 M7 10 L15 22 L24 21 M-15 8 L-28 15 L-37 10 M-9 10 L-17 22 L-26 19" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M-26 -8 L-34 -13 L-30 -3 Z" />
+      </g>
+      {/* Sleigh + Santa + toy sack */}
+      <g transform="translate(-88 0)">
+        <ellipse cx="-32" cy="-16" rx="11" ry="13" transform="rotate(-14 -32 -16)" />
+        <path d="M-42 8 C-47 -8 -32 -18 -12 -17 L30 -13 C43 -12 48 -4 43 5 L36 14 L-32 14 Z" />
+        <path d="M43 5 C54 1 56 -9 49 -16" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M-48 22 L52 22 M52 22 C63 22 65 13 58 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
+        <path d="M-24 -16 C-25 -26 -16 -31 -9 -29 L4 -25 C10 -23 11 -17 7 -13 L4 2 L-20 2 Z" />
+        <circle cx="-8" cy="-36" r="7.5" />
+        <path d="M-16 -39 L1 -41 L-4 -30 Z" />
+        <rect x="-16.5" y="-40.5" width="17" height="3.4" rx="1.7" transform="rotate(-4 -8 -38)" />
+        <circle cx="1.5" cy="-41" r="2.6" />
+      </g>
+    </g>
+  );
+}
+
+function Snowman({ x, y, s }: { x: number; y: number; s: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <ellipse cx="0" cy="2" rx="21" ry="4.5" className={styles.artShadow} />
+      <circle cx="0" cy="-15" r="17" className={styles.artSnowman} />
+      <circle cx="0" cy="-42" r="12.5" className={styles.artSnowman} />
+      <circle cx="0" cy="-63" r="9.5" className={styles.artSnowman} />
+      <path d="M-11 -44 C-20 -52 -27 -54 -34 -60 M11 -44 C19 -50 25 -51 31 -57" className={styles.artStickArm} />
+      <path d="M-10 -52 C-4 -49 4 -49 10 -52 L9 -45 C3 -43 -3 -43 -9 -45 Z" className={styles.artScarf} />
+      <path d="M5 -46 L11 -46 L10 -32 L4 -33 Z" className={styles.artScarf} />
+      <circle cx="-3.2" cy="-65" r="1.5" className={styles.artCoal} />
+      <circle cx="3.2" cy="-65" r="1.5" className={styles.artCoal} />
+      <path d="M0 -62 L11 -59.5 L0 -57.5 Z" className={styles.artCarrot} />
+      <circle cx="0" cy="-44" r="1.7" className={styles.artCoal} />
+      <circle cx="0" cy="-36" r="1.7" className={styles.artCoal} />
+      <circle cx="0" cy="-24" r="1.7" className={styles.artCoal} />
+      <path d="M-9.5 -68 L9 -70.5 L3 -79 L-4 -79.5 Z" className={styles.artScarf} />
+      <rect x="-10.5" y="-69.5" width="20" height="3.6" rx="1.8" className={styles.artSnowman} />
+      <circle cx="3.5" cy="-80" r="2.8" className={styles.artSnowman} />
+    </g>
+  );
+}
+
+function Rudolph({ x, y, s }: { x: number; y: number; s: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <ellipse cx="0" cy="2" rx="30" ry="4.5" className={styles.artShadow} />
+      <path d="M-14 -34 L-16 -2 M14 -34 L13 -2 M-20 -32 L-24 -2 M20 -32 L24 -2" stroke="#54331c" strokeWidth="4.6" strokeLinecap="round" fill="none" />
+      <ellipse cx="0" cy="-38" rx="27" ry="14.5" className={styles.artDeer} />
+      <ellipse cx="2" cy="-33" rx="17" ry="8.5" className={styles.artDeerBelly} opacity="0.65" />
+      <path d="M24 -6 L31 -2 L25 -1 Z" transform="translate(-52 -38)" className={styles.artDeerDark} />
+      <path d="M-20 -46 L-33 -62 L-25 -66 L-14 -52 Z" className={styles.artDeer} />
+      <ellipse cx="-33" cy="-64" rx="11" ry="6.4" transform="rotate(24 -33 -64)" className={styles.artDeer} />
+      <ellipse cx="-40" cy="-59" rx="5.4" ry="4" transform="rotate(24 -40 -59)" className={styles.artDeerBelly} />
+      <circle cx="-44" cy="-57" r="8" className={styles.artNoseGlow} />
+      <circle cx="-44" cy="-57" r="3.4" className={styles.artNose} />
+      <circle cx="-30" cy="-67" r="1.7" className={styles.artCoal} />
+      <path d="M-26 -70 C-27 -78 -31 -83 -36 -87 M-26 -70 C-22 -77 -17 -80 -11 -82 M-31 -78 C-34 -79 -37 -79 -39 -78 M-18 -76 C-15 -78 -12 -78 -9 -77" className={styles.artDeerDark} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+      <path d="M-24 -52 C-18 -49 -13 -48 -8 -49 L-9 -43 C-15 -42 -20 -44 -25 -47 Z" className={styles.artScarf} />
+      <circle cx="-11" cy="-41" r="2.6" className={styles.artBulb} />
+    </g>
+  );
+}
+
+function ChristmasTree({ x, y, s }: { x: number; y: number; s: number }) {
+  const ornaments: Array<[number, number, string]> = [
+    [-5, -22, styles.artBulbAlt], [4, -17, styles.artBulbCool], [-2, -11, styles.artBulb],
+    [7, -25, styles.artBulb], [-8, -15, styles.artBulbCool], [3, -4, styles.artBulbAlt],
+    [-6, -3, styles.artBulb], [0, -28, styles.artBulbAlt], [9, -8, styles.artBulbCool]
+  ];
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <path d="M0 -34 L9 -14 L4 -14 L12 2 L-12 2 L-4 -14 L-9 -14 Z" className={styles.artPine} />
+      <rect x="-1.6" y="2" width="3.2" height="5" className={styles.artPine} />
+      <path d="M-8 -19 C-3 -16 3 -16 8 -20 M-10 -8 C-4 -5 4 -5 10 -9" className={styles.artGarland} />
+      {ornaments.map(([cx, cy, cls], i) => (
+        <circle key={i} cx={cx} cy={cy} r="1.7" className={cls} />
+      ))}
+      <path d="M0 -41 l1.9 4 4.3 0.6 -3.1 3 0.7 4.3 -3.8 -2 -3.8 2 0.7 -4.3 -3.1 -3 4.3 -0.6 Z" className={styles.artBulb} />
+    </g>
+  );
+}
+
+function Gift({ x, y, s, box, ribbon }: { x: number; y: number; s: number; box: string; ribbon: string }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <rect x="-11" y="-12" width="22" height="12" rx="1.5" className={box} />
+      <rect x="-12.5" y="-15.5" width="25" height="4" rx="1.5" className={box} />
+      <rect x="-2" y="-15.5" width="4" height="15.5" className={ribbon} />
+      <circle cx="-3.4" cy="-17.6" r="2.3" className={ribbon} />
+      <circle cx="3.4" cy="-17.6" r="2.3" className={ribbon} />
+    </g>
+  );
+}
+
 export function HeroArtwork({ season }: { season: SeasonKey }) {
   const christmas = season === "christmas";
   const thanksgiving = season === "thanksgiving";
@@ -152,6 +277,7 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
         <circle cx="1184" cy="212" r="11" className={styles.artMoonCrater} />
         <circle cx="1162" cy="140" r="8" className={styles.artMoonCrater} />
         <circle cx="1196" cy="168" r="6" className={styles.artMoonCrater} />
+        {christmas ? <SleighRide /> : null}
 
         {/* Back hill */}
         <path d="M0 470 C240 420 480 452 760 428 C1040 404 1240 438 1440 412 L1440 810 L0 810 Z" className={styles.artHillBack} />
@@ -210,6 +336,9 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
             <circle cx="1015" cy="386" r="5" className={styles.artBerry} />
             <circle cx="998" cy="416" r="5" className={styles.artBerry} />
             <circle cx="1032" cy="416" r="5" className={styles.artBerry} />
+            <path d="M1015 430 L1003 421 L1004 437 Z" className={styles.artBerry} />
+            <path d="M1015 430 L1027 421 L1026 437 Z" className={styles.artBerry} />
+            <circle cx="1015" cy="429" r="3.6" className={styles.artBerry} />
           </>
         ) : null}
 
@@ -238,11 +367,17 @@ export function HeroArtwork({ season }: { season: SeasonKey }) {
         {christmas ? (
           <>
             <ellipse cx="96" cy="748" rx="86" ry="12" className={styles.artSnowCap} />
-            <Pine x={96} y={742} s={2} />
+            <ChristmasTree x={96} y={742} s={2} />
             <ellipse cx="1318" cy="750" rx="150" ry="14" className={styles.artSnowCap} />
             <Pine x={1246} y={744} s={2.4} />
-            <Pine x={1340} y={750} s={3.2} />
+            <ChristmasTree x={1340} y={750} s={3.2} />
             <Pine x={1412} y={752} s={2} />
+            <Snowman x={688} y={664} s={1.15} />
+            <Rudolph x={1150} y={694} s={1.45} />
+            <Gift x={872} y={604} s={1.1} box={styles.artGiftRed} ribbon={styles.artRibbonLight} />
+            <Gift x={1130} y={606} s={0.9} box={styles.artGiftGold} ribbon={styles.artRibbonDark} />
+            <Gift x={722} y={676} s={0.85} box={styles.artGiftGreen} ribbon={styles.artRibbonLight} />
+            <Gift x={1304} y={766} s={1} box={styles.artGiftRed} ribbon={styles.artRibbonLight} />
           </>
         ) : null}
 
